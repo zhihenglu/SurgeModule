@@ -3,6 +3,8 @@
 #!system=ios
 #搬运自@ConnersHua
 [Rule]
+# 热点
+DOMAIN-SUFFIX,api.tophub.today,DIRECT
 DOMAIN-SUFFIX,17gouwuba.com,REJECT-TINYGIF
 DOMAIN-SUFFIX,186078.com,REJECT-TINYGIF
 DOMAIN-SUFFIX,189zj.cn,REJECT-TINYGIF

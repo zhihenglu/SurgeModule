@@ -5,6 +5,13 @@
 [Rule]
 # 热点
 DOMAIN-SUFFIX,api.tophub.today,DIRECT
+DOMAIN-SUFFIX,content-storage-upload.googleapis.com,DIRECT // iCloud上传
+DOMAIN-SUFFIX,content-storage-download.googleapis.com,DIRECT // iCloud下载
+DOMAIN-SUFFIX,s3.dualstack.ap-southeast-1.amazonaws.com,DIRECT // iCloud 亚马逊
+DOMAIN-SUFFIX,icloud-content.com,DIRECT // iCloud
+DOMAIN,iosapps.itunes.apple.com,DIRECT // AppStore
+DOMAIN-SUFFIX,ctyunapi.cn,REJECT-TINYGIF // 天翼云
+DOMAIN-SUFFIX,convection.cn,REJECT-TINYGIF // 联通云
 DOMAIN-SUFFIX,17gouwuba.com,REJECT-TINYGIF
 DOMAIN-SUFFIX,186078.com,REJECT-TINYGIF
 DOMAIN-SUFFIX,189zj.cn,REJECT-TINYGIF

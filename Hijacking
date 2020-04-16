@@ -2,10 +2,7 @@
 #!desc=Remove Hijacking's regional restrictions.restrictions.
 #!system=ios
 #搬运自@ConnersHua
-[Rule]
-RULE-SET,https://raw.githubusercontent.com/ConnersHua/Profiles/master/Surge/Ruleset/Unbreak.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/ConnersHua/Profiles/master/Surge/Ruleset/Advertising.list,REJECT-TINYGIF
-RULE-SET,https://raw.githubusercontent.com/NobyDa/Script/master/Surge/Download.list,DIRECT  
+[Rule] 
 # 热点
 DOMAIN-SUFFIX,api.tophub.today,DIRECT
 # 淘宝

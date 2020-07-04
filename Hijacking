@@ -5,6 +5,7 @@
 [Rule] 
 # > 京东  去启动广告
 URL-REGEX,^https?:\/\/api\.m\.jd\.com\/client\.action\?functionId=start$,REJECT-TINYGIF
+IP-CIDR,8.8.8.8/32,🌏 𝑮𝒍𝒐𝒃𝒂𝒍,no-resolve
 #淘宝
 IP-CIDR, 203.119.144.0/23, REJECT, no-resolve
 IP-CIDR, 203.119.175.0/24, REJECT, no-resolve

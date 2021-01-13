@@ -1,9 +1,0 @@
- #name=AQI-US
- #!desc=AQI-US PM2.5监测
- #!system=ios	
-
-[Script]
-AQI-US = type=http-response, pattern=https://weather-data.apple.com/v1/weather/[\w-]+/[0-9]+\.[0-9]+/[0-9]+\.[0-9]+\?include=, requires-body=true, script-path=https://github.com/zhihenglu/SurgeModule/raw/master/AQI-US/AQI-US
-
-[MITM]
-hostname = %APPEND% weather-data.apple.com

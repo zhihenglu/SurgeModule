@@ -1,5 +1,7 @@
-"name": "Quanx task gallery"
-
+{
+    "name":"Quanx task gallery",
+    "description":"JD",
+    "task":[
 #彩云天气
 0 6-23/1 * * * https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, tag=彩云天气, img-url=https://raw.githubusercontent.com/Orz-3/task/master/caiyun.png, enabled=true
 
@@ -11,3 +13,5 @@
 
 #获取互助码
 20 13 * * 6 https://gitee.com/lxk0301/jd_scripts/raw/master/jd_get_share_code.js, tag=获取互助码,, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png, enabled=true
+  ]
+}   

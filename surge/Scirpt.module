@@ -1,6 +1,6 @@
-#name=JavaScript		
-#!desc=JavaScript扩展Surge		
-#!system=ios		
+#!name=JavaScript
+#!desc=JavaScript扩展Surge 
+#!system=ios
 
 [Script]
 #SSID

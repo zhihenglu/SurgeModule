@@ -24,6 +24,9 @@ tb_price.js = requires-body=1,script-path=https://raw.githubusercontent.com/yich
 #彩云VIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
 
+#Emby
+embyPremiere.js = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js
+
 #AQI-US
 AQI-US = type=http-response, pattern=https://weather-data.apple.com/v1/weather/[\w-]+/[0-9]+\.[0-9]+/[0-9]+\.[0-9]+\?include=, requires-body=true, script-path=https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/iOS_Weather_AQI_Standard/index.js
 
@@ -35,4 +38,4 @@ AQI-US = type=http-response, pattern=https://weather-data.apple.com/v1/weather/[
 一言 = script-path=https://github.com/dompling/Script/raw/master/oneSay/oneSay.js,type=cron,cronexp=0 8 * * * 
 
  [MITM]		
- hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com,api. m.jd.com,e.189.cn
+ hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com,api. m.jd.com,e.189.cn,mb3admin.com

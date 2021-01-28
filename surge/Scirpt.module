@@ -22,7 +22,7 @@ tb_price.js = requires-body=1,script-path=https://raw.githubusercontent.com/yich
  All_pro.js = requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/All_pro.js,type=http-response,pattern=^https://m-api.nexon.com/sdk/enterToy.nx	
 
 #彩云VIP
-彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
+彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
 
 #Emby
 embyPremiere.js = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js

@@ -1,9 +1,9 @@
 /* 转自TG脚本群（原库删库）
  * hostname = biz.caiyunapp.com
  * surge/Loon
- * 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
+ * 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
  * QuantumultX    
- * https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
+ * https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
  */
 
 const SCRIPT_NAME = '彩云天气';

@@ -6,12 +6,6 @@
  *  更新地址: https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/nCov.js
  */
 
-[task_local]
-
-0 10 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/COVID_19.js, tag=疫情日报, img-url=plus.bubble.fill.system, enabled=true
-
-[Script]
-疫情日报 = type=cron,cronexp=0 9 * * *,wake-system=1,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/COVID_19.js,script-update-interval=0
 
 const $ = API("nCov");
 

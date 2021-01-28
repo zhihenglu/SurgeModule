@@ -7,7 +7,7 @@
  */
 
 [task_local]
-#疫情日报
+
 0 10 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/COVID_19.js, tag=疫情日报, img-url=plus.bubble.fill.system, enabled=true
 
 [Script]

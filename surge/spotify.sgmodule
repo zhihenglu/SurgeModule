@@ -1,0 +1,10 @@
+#!name=Spotify
+#!desc=去除Spotify非会员插播广告
+
+[URL Rewrite]
+^https?://spclient.wg.spotify.com/ad-logic/* - reject
+^https?://spclient.wg.spotify.com/ads/* - reject
+^https?://spclient.wg.spotify.com/.+ad_slot - reject
+
+[MITM]
+hostname = %APPEND% spclient.wg.spotify.com

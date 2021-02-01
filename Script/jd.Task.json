@@ -78,6 +78,6 @@
         "0 9-21/12 * * * https://github.com/yichahucha/surge/raw/master/clock_in.js, tag=一言, img-url=https://raw.githubusercontent.com/Orz-3/task/master/calendar.png, enabled=true",
         "0 10 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/COVID_19.js, tag=疫情, img-url=plus.bubble.fill.system, enabled=true",    
         "30 7 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/jd_xgyl.js, tag=小鸽有礼2,img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_xg.png, enabled=true",
-        "10 10 * * * https://raw.githubusercontent.com/i-chenzhe/qx/main/jd_newYearMoney.js, tag=京东新年压岁钱, enabled=true",
+        "10 10 * * * https://raw.githubusercontent.com/i-chenzhe/qx/main/jd_newYearMoney.js, tag=京东新年压岁钱, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png,enabled=true",
     ]
 }

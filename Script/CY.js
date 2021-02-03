@@ -1,600 +1,706 @@
-/**
-* Author:LSP
-* Date:2021-01-29
-*/
-// @导入引用开发环境
-if (typeof require === 'undefined') require = importModule
-const { Base } = require("./lsp环境")
+// Author:Pih
+// 该小组件为在作者Pih的基础上进行的UI界面修改及相关代码调整Telegram @anker1209
+// Update time:2021/01/09
 
-// @小组件配置
-const widgetConfigs = {
-    // 打开更新，直接同步脚本
-    openDownload: true,
+// ###########初始化设定##############
+const files = FileManager.local()  //文件存储位置
+const currentDate = new Date()
+const apiKey = "FDyAMqSjPK5sIK24"  //彩云天气apiKey，自行申请
+const lockLocation = false  //是否锁定定位信息
+const locale = "zh_cn" //时间显示语言
+const newBG = false  //是否设置或者使用新的背景图片
+const removeBG = false //是否需要清空背景图片
+const numberOfEvents = 3 //显示事件数量
+const targetDate = 360 //显示未来多少天内的日历事件
+const ignoreCal = "" //添加你需要不显示的事件的日历名称，多个日历用逗号分割，例如："中国节假日", "工作", "生日"
+const showYY = true //是否只显示一言，否则优先显示日历事件
 
-    // 彩云key
-    apiKey: "",
+// ######颜色设置#######
+const gColor = "003366" //全局颜色，如果想调整各部分颜色，修改下方相应颜色即可 天蓝色3691be 黑灰色1b2026
+const dayColor = "3691be"
+const nightColor = "1b2026"
+const bgcolor = new Color("808080", 1) //背景颜色
+const timecolor = new Color("000000", 1) //时间颜色
+const ctcolor = new Color("239676", 1) //实时温度颜色
+const ctbgcolor = new Color("003366", 0.2) //实时温度条背景颜色
+const ctfgcolor = new Color(gColor, 1) //实时温度条前景颜色
+const todaycolor = new Color(gColor, 1) //今日最低最高温度颜色
+const aircolor = new Color(gColor, 0.8) //AQI空气质量颜色
+const dotcolor = new Color("FF0000", 0.3) //虚线颜色
+const etitlecolor = new Color(gColor, 1) //事件标题颜色
+const etimecolor = new Color(gColor, 0.6) //事件时间颜色
+const hourlycolor = new Color("003366", 1) //小时预报文字颜色
+const hourlybgcolor = new Color("FF3B30", 0.2) //小时预报温度条背景颜色
+const hourlyfgcolor = new Color(gColor, 1) //小时预报温度条前景颜色
+const daybarcolor = new Color("EB4310", 0.6) //星期预报分割条颜色
+const daycolor = new Color("333399", 1) //星期预报文字颜色
+const rainycolor = new Color("0283d3", 1) //下雨天温度字体颜色
+const yycolor = new Color("003366", 1) //一言颜色
+const btcolor = new Color(gColor, 1) //下雨天温度字体颜色
 
-    // 是否是iPhone12mini
-    isIphone12Mini: false,
-    // 缓存刷新时间--估算(单位：分钟)
-    refreshInterval: 0,
+const scale = Device.screenScale()
+const widgetHeight = getWidgetSize().h
+const widgetWidth = getWidgetSize().w
+// 背景调整
+const firstRibbonPosition = 10
+const secondRibbonPosition = 71
+const defaultfontsize = 20
+const slipPosition = 370
+const daystoShow = 6 
 
-    // 组件样式：1、2(选择样式2推荐打开透明背景开关【selectPicBg:true】)
-    widgetStyle: 1,
-    // 组件背景样式：1、2、3、4、5、6
-    widgetUIBg: 6,
-    // 组件天气icon样式：1、2、3、4、5（开启useSF的话则此选项无效）
-    widgetUIIcon: 5,
-    // 是否使用SF系统天气图标
-    useSF: false,
-    // 是否显示农历
-    showLunar: false,
-    // 是否显示更新时间
-    showUpdateTime: false,
+const providepoetry = await poetry()
+// ######数据设定#######
+const caiyun = await getCaiyunData()
+const alertInfo =caiyun.dataToday.result.alert.content[0]
+// log ("预警信息"+alertInfo)
+const dailyTemperature = caiyun.dataToday.result.daily.temperature
+const rainIndex = caiyun.dataToday.result.hourly.precipitation
+const comfortindex = caiyun.dataToday.result.realtime.life_index.comfort.index
+const feelslikeT = Math.round( caiyun.dataToday.result.realtime.temperature)
+const currentTemperature = feelslikeT+"º"
+const feeling = caiyun.dataToday.result.realtime.life_index.comfort.desc
+const realtimeweather = caiyun.dataToday.result.realtime.skycon
+const todaysunrise = caiyun.dataToday.result.daily.astro[0].sunrise.time.slice(0, 5)
+const todaysunset = caiyun.dataToday.result.daily.astro[0].sunset.time.slice(0, 5)
+const data = caiyun.dataToday.result.hourly.temperature
+const dailydata = caiyun.dataToday.result.daily.temperature
+const Mainweather = caiyun.dataToday.result.daily.skycon
+const CHNAQI = caiyun.dataToday.result.realtime.air_quality.aqi.chn.toString()
+const CHNAQIDes = caiyun.dataToday.result.realtime.air_quality.description.chn
+// log(CHNAQI)
+const USAQI = caiyun.dataToday.result.realtime.air_quality.aqi.usa.toString()
+// log(USAQI)
 
-    selectPicBg: false, // 透明背景图片
-    colorBgMode: false,  // 纯色背景模式
-    bgColor: Color.black(), // 背景色
+const weatherDesc = caiyun.dataToday.result.forecast_keypoint
 
-    // 位置，可以不进行定位，或者定位为出错的时候使用
-    location: {
-        "latitude": undefined,
-        "longitude": undefined,
-        "locality": undefined,
-        "subLocality": undefined
-    },
-    // 锁定地区，直接使用上述填写的地址信息不进行定位
-    lockLocation: false,
-    // 地区
-    locale: "zh-cn",
+const probabilityOfRain = caiyun.dataToday.result.minutely.probability
+// log(probabilityOfRain)
+const maxProbability = (Math.max(probabilityOfRain[0],probabilityOfRain[1],probabilityOfRain[2],probabilityOfRain[3])*100).toString().slice(0, 2)+"%"
 
-    padding: {
-        top: 0, // 上边距
-        left: 0, // 左边距
-        bottom: 0, // 底边距
-        right: 0, // 右边距
-    },
 
-    // 英文字体
-    enFontUrl: "https://mashangkaifa.coding.net/p/coding-code-guide/d/coding-code-guide/git/raw/master/HelveticaNeue-Thin.otf",
+// ######字体设置#######
 
-    // 预览模式：0：小尺寸，1：中等尺寸，2：大尺寸，负数：不预览
-    previewMode: 1,
+const widget = new ListWidget()
+widget.setPadding(0, 0, 0, 0)
+widget.backgroundColor = bgcolor
 
-    //**********************************************************************
-    // 天气描述
-    weatherDesc: {
-        CLEAR_DAY: "Sunny",
-        CLEAR_NIGHT: "Sunny",
-        PARTLY_CLOUDY_DAY: "Cloudy",
-        PARTLY_CLOUDY_NIGHT: "Cloudy",
-        CLOUDY: "Cloudy",
-        CLOUDY_NIGHT: "Cloudy",
-        LIGHT_HAZE: "Haze",
-        LIGHT_HAZE_NIGHT: "Haze",
-        MODERATE_HAZE: "Haze",
-        MODERATE_HAZE_NIGHT: "Haze",
-        HEAVY_HAZE: "Haze",
-        HEAVY_HAZE_NIGHT: "Haze",
-        LIGHT_RAIN: "Rain",
-        MODERATE_RAIN: "Rain",
-        HEAVY_RAIN: "Rain",
-        STORM_RAIN: "Rain",
-        FOG: "Fog",
-        LIGHT_SNOW: "Snow",
-        MODERATE_SNOW: "Snow",
-        HEAVY_SNOW: "Snow",
-        STORM_SNOW: "Snow",
-        DUST: "Dust",
-        SAND: "Sand",
-        WIND: "Wind",
-    },
-    // 自定义天气对应的icon-->1
-    weatherOneIcos: {
-        CLEAR_DAY: "https://s3.ax1x.com/2020/12/08/rpVVhD.png", // 晴（白天） CLEAR_DAY
-        CLEAR_NIGHT: "https://s1.ax1x.com/2020/10/26/BukPhR.png", // 晴（夜间） CLEAR_NIGHT
-        PARTLY_CLOUDY_DAY: "https://s1.ax1x.com/2020/10/26/BuQHN6.png", // 多云（白天）  PARTLY_CLOUDY_DAY
-        PARTLY_CLOUDY_NIGHT: "https://s1.ax1x.com/2020/10/26/BukcbF.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT
-        CLOUDY: "https://s3.ax1x.com/2020/12/10/ripz8J.png", // 阴（白天）  CLOUDY
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2020/12/10/ripz8J.png", // 阴（夜间）  CLOUDY
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/15/s009Mj.png", // 轻度雾霾   LIGHT_HAZE
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/15/s00dOA.png", // 轻度雾霾   LIGHT_HAZE
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/15/s009Mj.png", // 中度雾霾  MODERATE_HAZE
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/15/s00dOA.png", // 中度雾霾  MODERATE_HAZE
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/15/s009Mj.png", // 重度雾霾   HEAVY_HAZE
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/15/s00dOA.png", // 重度雾霾   HEAVY_HAZE
-        LIGHT_RAIN: "https://s3.ax1x.com/2020/12/15/rMkQVx.png", // 小雨 LIGHT_RAIN
-        MODERATE_RAIN: "https://s3.ax1x.com/2020/12/15/rMkBIf.png", // 中雨 MODERATE_RAIN
-        HEAVY_RAIN: "https://s3.ax1x.com/2020/12/15/rMk6zQ.png", // 大雨  HEAVY_RAIN
-        STORM_RAIN: "https://s3.ax1x.com/2020/12/15/rMk6zQ.png", // 暴雨 STORM_RAIN
-        FOG: "https://s3.ax1x.com/2020/12/15/rMAYkV.png", // 雾 FOG
-        LIGHT_SNOW: "https://s3.ax1x.com/2020/12/15/rMActK.png", // 小雪  LIGHT_SNOW
-        MODERATE_SNOW: "https://s3.ax1x.com/2020/12/15/rMActK.png", // 中雪 MODERATE_SNOW
-        HEAVY_SNOW: "https://s3.ax1x.com/2020/12/15/rMActK.png", // 大雪  HEAVY_SNOW
-        STORM_SNOW: "https://s3.ax1x.com/2020/12/15/rMActK.png", // 暴雪 STORM_SNOW
-        DUST: "https://s3.ax1x.com/2020/12/08/rpupes.png", // 浮尘  DUST
-        SAND: "https://s3.ax1x.com/2020/12/08/rpupes.png", // 沙尘  SAND
-        WIND: "https://s3.ax1x.com/2020/12/15/rMEeBR.png", // 大风  WIND
-    },
-    // 自定义天气对应的icon-->2
-    weatherTwoIcos: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s7tKd1.png", // 晴（白天） CLEAR_DAY
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s7tli6.png", // 晴（夜间） CLEAR_NIGHT
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s7t3RO.png", // 多云（白天）  PARTLY_CLOUDY_DAY
-        PARTLY_CLOUDY_NIGHT: "hhttps://s3.ax1x.com/2021/01/23/s7tJQe.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s7tdot.png", // 阴（白天）  CLOUDY
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7tdot.png", // 阴（夜间）  CLOUDY
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 轻度雾霾   LIGHT_HAZE
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 轻度雾霾   LIGHT_HAZE
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 中度雾霾  MODERATE_HAZE
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 中度雾霾  MODERATE_HAZE
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 重度雾霾   HEAVY_HAZE
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 重度雾霾   HEAVY_HAZE
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s7NCOH.png", // 小雨 LIGHT_RAIN
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s7NCOH.png", // 中雨 MODERATE_RAIN
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s7NCOH.png", // 大雨  HEAVY_RAIN
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s7NCOH.png", // 暴雨 STORM_RAIN
-        FOG: "https://s3.ax1x.com/2021/01/23/s7tDW8.png", // 雾 FOG
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s7Nmp8.png", // 小雪  LIGHT_SNOW
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s7Nmp8.png", // 中雪 MODERATE_SNOW
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s7Nmp8.png", // 大雪  HEAVY_SNOW
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s7Nmp8.png", // 暴雪 STORM_SNOW
-        DUST: "https://s3.ax1x.com/2021/01/23/s7txfK.png", // 浮尘  DUST
-        SAND: "https://s3.ax1x.com/2021/01/23/s7txfK.png", // 沙尘  SAND
-        WIND: "https://s3.ax1x.com/2021/01/23/s7txfK.png", // 大风  WIND
-    },
-    // 自定义天气对应的icon-->3
-    weatherThreeIcos: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/24/sHAD1K.png", // 晴（白天） CLEAR_DAY
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/24/sHABp6.png", // 晴（夜间） CLEAR_NIGHT
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/24/sHAwfx.png", // 多云（白天）  PARTLY_CLOUDY_DAY
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/24/sHAdt1.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT
-        CLOUDY: "https://s3.ax1x.com/2021/01/24/sHAakR.png", // 阴（白天）  CLOUDY
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/24/sHAr6O.png", // 阴（夜间）  CLOUDY
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 轻度雾霾   LIGHT_HAZE
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 轻度雾霾   LIGHT_HAZE
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 中度雾霾  MODERATE_HAZE
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 中度雾霾  MODERATE_HAZE
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 重度雾霾   HEAVY_HAZE
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 重度雾霾   HEAVY_HAZE
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/24/sHA6ne.png", // 小雨 LIGHT_RAIN
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/24/sHAc0H.png", // 中雨 MODERATE_RAIN
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/24/sHARAA.png", // 大雨  HEAVY_RAIN
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/24/sHARAA.png", // 暴雨 STORM_RAIN
-        FOG: "https://s3.ax1x.com/2021/01/24/sHAsXD.png", // 雾 FOG
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/24/sHAg7d.png", // 小雪  LIGHT_SNOW
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/24/sHAg7d.png", // 中雪 MODERATE_SNOW
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/24/sHAWtI.png", // 大雪  HEAVY_SNOW
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/24/sHAWtI.png", // 暴雪 STORM_SNOW
-        DUST: "https://s3.ax1x.com/2021/01/24/sHVnGq.png", // 浮尘  DUST
-        SAND: "https://s3.ax1x.com/2021/01/24/sHVnGq.png", // 沙尘  SAND
-        WIND: "https://s3.ax1x.com/2021/01/24/sHVuR0.png", // 大风  WIND
-    },
-    // 自定义天气对应的icon-->4
-    weatherFourIcos: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/26/svnyF0.png", // 晴（白天） CLEAR_DAY
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/26/svnfOJ.png", // 晴（夜间） CLEAR_NIGHT
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/26/svn2SU.png", // 多云（白天）  PARTLY_CLOUDY_DAY
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/26/svnRlF.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT
-        CLOUDY: "https://s3.ax1x.com/2021/01/26/svnroq.png", // 阴（白天）  CLOUDY
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/26/svnroq.png", // 阴（夜间）  CLOUDY
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/26/svnWy4.png", // 轻度雾霾   LIGHT_HAZE
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/26/svncWT.png", // 轻度雾霾   LIGHT_HAZE
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/26/svnWy4.png", // 中度雾霾  MODERATE_HAZE
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/26/svncWT.png", // 中度雾霾  MODERATE_HAZE
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/26/svnWy4.png", // 重度雾霾   HEAVY_HAZE
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/26/svncWT.png", // 重度雾霾   HEAVY_HAZE
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/26/svnBes.png", // 小雨 LIGHT_RAIN
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/26/svn5wR.png", // 中雨 MODERATE_RAIN
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/26/svn4m9.png", // 大雨  HEAVY_RAIN
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/26/svnDwn.png", // 暴雨 STORM_RAIN
-        FOG: "https://s3.ax1x.com/2021/01/26/svn6YV.png", // 雾 FOG
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/26/svnwLj.png", // 小雪  LIGHT_SNOW
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/26/svnwLj.png", // 中雪 MODERATE_SNOW
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/26/svnwLj.png", // 大雪  HEAVY_SNOW
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/26/svnwLj.png", // 暴雪 STORM_SNOW
-        DUST: "https://s3.ax1x.com/2021/01/26/svuh38.png", // 浮尘  DUST
-        SAND: "https://s3.ax1x.com/2021/01/26/svuh38.png", // 沙尘  SAND
-        WIND: "https://s3.ax1x.com/2021/01/26/svndyQ.png", // 大风  WIND
-    },
-    // 自定义天气对应的icon-->5
-    weatherFiveIcos: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/26/svubEn.png", // 晴（白天） CLEAR_DAY
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/26/svuqNq.png", // 晴（夜间） CLEAR_NIGHT
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/26/svu5jg.png", // 多云（白天）  PARTLY_CLOUDY_DAY
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/26/svuTBj.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT
-        CLOUDY: "https://s3.ax1x.com/2021/01/26/svu4gS.png", // 阴（白天）  CLOUDY
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/26/svu4gS.png", // 阴（夜间）  CLOUDY
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/26/svu7Hs.png", // 轻度雾霾   LIGHT_HAZE
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/26/svu7Hs.png", // 轻度雾霾   LIGHT_HAZE
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/26/svu7Hs.png", // 中度雾霾  MODERATE_HAZE
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/26/svu7Hs.png", // 中度雾霾  MODERATE_HAZE
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/26/svu7Hs.png", // 重度雾霾   HEAVY_HAZE
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/26/svu7Hs.png", // 重度雾霾   HEAVY_HAZE
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/26/svuR4P.png", // 小雨 LIGHT_RAIN
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/26/svuR4P.png", // 中雨 MODERATE_RAIN
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/26/svuR4P.png", // 大雨  HEAVY_RAIN
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/26/svuR4P.png", // 暴雨 STORM_RAIN
-        FOG: "https://s3.ax1x.com/2021/01/26/svu2Nt.png", // 雾 FOG
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/26/svuouQ.png", // 小雪  LIGHT_SNOW
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/26/svuouQ.png", // 中雪 MODERATE_SNOW
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/26/svuouQ.png", // 大雪  HEAVY_SNOW
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/26/svuouQ.png", // 暴雪 STORM_SNOW
-        DUST: "https://s3.ax1x.com/2021/01/26/svuh38.png", // 浮尘  DUST
-        SAND: "https://s3.ax1x.com/2021/01/26/svuh38.png", // 沙尘  SAND
-        WIND: "https://s3.ax1x.com/2021/01/26/svuL40.png", // 大风  WIND
-    },
-    // SF对应的天气icon
-    weatherSFIcos: {
-        CLEAR_DAY: "sun.max.fill", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "moon.stars.fill", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "cloud.sun.fill", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "cloud.moon.fill", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "cloud.fill", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "cloud.fill", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "sun.haze.fill", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "sun.haze.fill", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "sun.haze.fill", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "sun.haze.fill", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "sun.haze.fill", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "sun.haze.fill", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "cloud.drizzle.fill", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "cloud.drizzle.fill", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "cloud.rain.fill", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "cloud.heavyrain.fill", // 暴雨 STORM_RAIN 
-        FOG: "cloud.fog.fill", // 雾 FOG 
-        LIGHT_SNOW: "cloud.snow.fill", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "cloud.snow.fill", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "cloud.snow.fill", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "cloud.snow.fill", // 暴雪 STORM_SNOW 
-        DUST: "sun.dust.fill", // 浮尘  DUST 
-        SAND: "smoke.fill", // 沙尘  SAND 
-        WIND: "wind", // 大风  WIND 
-    },
-    //**********************************************************************
-    // 天气对应的背景->1
-    weatherBgOneUrls: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s78p4S.png", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s73zAf.jpg", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s73vHP.png", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s73zAf.jpg", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s73jBt.png", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s73zAf.jpg", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s78SN8.png", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s73zAf.jpg", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s78SN8.png", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s73zAf.jpg", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s78SN8.png", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s73zAf.jpg", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s78C9g.png", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s78C9g.png", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s78C9g.png", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s78C9g.png", // 暴雨 STORM_RAIN 
-        FOG: "https://s3.ax1x.com/2021/01/23/s78SN8.png", // 雾 FOG 
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s78P3Q.png", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s78P3Q.png", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s78P3Q.png", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s78P3Q.png", // 暴雪 STORM_SNOW 
-        DUST: "https://s3.ax1x.com/2021/01/23/s78SN8.png", // 浮尘  DUST 
-        SAND: "https://s3.ax1x.com/2021/01/23/s78SN8.png", // 沙尘  SAND 
-        WIND: "https://s3.ax1x.com/2021/01/23/s78icj.jpg", // 大风  WIND 
-    },
-    // 天气对应的背景->2
-    weatherBgTwoUrls: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s74MGT.png", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s74maq.png", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s74nI0.png", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s74KiV.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s74QRU.png", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s74KiV.png", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s74eZn.jpg", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s74KiV.png", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s74eZn.jpg", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s74KiV.png", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s74eZn.jpg", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s74KiV.png", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s74lzF.jpg", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s74lzF.jpg", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s74lzF.jpg", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s74lzF.jpg", // 暴雨 STORM_RAIN 
-        FOG: "https://s3.ax1x.com/2021/01/23/s74eZn.jpg", // 雾 FOG 
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 暴雪 STORM_SNOW 
-        DUST: "https://s3.ax1x.com/2021/01/23/s74eZn.jpg", // 浮尘  DUST 
-        SAND: "https://s3.ax1x.com/2021/01/23/s74eZn.jpg", // 沙尘  SAND 
-        WIND: "https://s3.ax1x.com/2021/01/23/s743M4.jpg", // 大风  WIND 
-    },
-    // 天气对应的背景->3
-    weatherBgThreeUrls: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s75PT1.png", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s75PT1.png", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s75VSO.png", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s75VSO.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s75FFx.png", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s75FFx.png", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s75AfK.png", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s75AfK.png", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s75AfK.png", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s75AfK.png", // 暴雨 STORM_RAIN 
-        FOG: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 雾 FOG 
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s75e6e.png", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s75e6e.png", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s75e6e.png", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s75e6e.png", // 暴雪 STORM_SNOW 
-        DUST: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 浮尘  DUST 
-        SAND: "https://s3.ax1x.com/2021/01/23/s75kY6.png", // 沙尘  SAND 
-        WIND: "https://s3.ax1x.com/2021/01/23/s75ZlD.png", // 大风  WIND 
-    },
-    // 天气对应的背景->4
-    weatherBgFourUrls: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s7Iy5t.jpg", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s7I0DH.jpg", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s7IBbd.jpg", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7IsUI.jpg", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s7IBbd.jpg", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7IsUI.jpg", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s7IcPP.jpg", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s7IcPP.jpg", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s7IcPP.jpg", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s7IcPP.jpg", // 暴雨 STORM_RAIN 
-        FOG: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 雾 FOG 
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s748sJ.jpg", // 暴雪 STORM_SNOW 
-        DUST: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 浮尘  DUST 
-        SAND: "https://s3.ax1x.com/2021/01/23/s7IwKe.jpg", // 沙尘  SAND 
-        WIND: "https://s3.ax1x.com/2021/01/23/s743M4.jpg", // 大风  WIND 
-    },
-    // 天气对应的背景->5
-    weatherBgFiveUrls: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s7o5QO.png", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s7ofW6.png", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s7oIyD.png", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7oIyD.png", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s7oIyD.png", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7oIyD.png", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s7oHwd.png", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s7oHwd.png", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s7oHwd.png", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s7oHwd.png", // 暴雨 STORM_RAIN 
-        FOG: "https://s3.ax1x.com/2021/01/23/s7ooOe.png", // 雾 FOG 
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s7obTA.png", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s7obTA.png", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s7obTA.png", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s7obTA.png", // 暴雪 STORM_SNOW 
-        DUST: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 浮尘  DUST 
-        SAND: "https://s3.ax1x.com/2021/01/23/s7o4SK.png", // 沙尘  SAND 
-        WIND: "https://s3.ax1x.com/2021/01/23/s7ooOe.png", // 大风  WIND 
-    },
-    // 天气对应的背景->6
-    weatherBgSixUrls: {
-        CLEAR_DAY: "https://s3.ax1x.com/2021/01/23/s7xrZV.jpg", // 晴（白天） CLEAR_DAY 
-        CLEAR_NIGHT: "https://s3.ax1x.com/2021/01/23/s7xsaT.jpg", // 晴（夜间） CLEAR_NIGHT 
-        PARTLY_CLOUDY_DAY: "https://s3.ax1x.com/2021/01/23/s7xyIU.jpg", // 多云（白天）  PARTLY_CLOUDY_DAY 
-        PARTLY_CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7xciF.jpg", // 多云（夜间）  PARTLY_CLOUDY_NIGHT 
-        CLOUDY: "https://s3.ax1x.com/2021/01/23/s7xyIU.jpg", // 阴（白天）  CLOUDY 
-        CLOUDY_NIGHT: "https://s3.ax1x.com/2021/01/23/s7xciF.jpg", // 阴（夜间）  CLOUDY 
-        LIGHT_HAZE: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 轻度雾霾   LIGHT_HAZE 
-        LIGHT_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 轻度雾霾   LIGHT_HAZE 
-        MODERATE_HAZE: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 中度雾霾  MODERATE_HAZE 
-        MODERATE_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 中度雾霾  MODERATE_HAZE 
-        HEAVY_HAZE: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 重度雾霾   HEAVY_HAZE 
-        HEAVY_HAZE_NIGHT: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 重度雾霾   HEAVY_HAZE 
-        LIGHT_RAIN: "https://s3.ax1x.com/2021/01/23/s7x2RJ.jpg", // 小雨 LIGHT_RAIN 
-        MODERATE_RAIN: "https://s3.ax1x.com/2021/01/23/s7x2RJ.jpg", // 中雨 MODERATE_RAIN 
-        HEAVY_RAIN: "https://s3.ax1x.com/2021/01/23/s7x2RJ.jpg", // 大雨  HEAVY_RAIN 
-        STORM_RAIN: "https://s3.ax1x.com/2021/01/23/s7x2RJ.jpg", // 暴雨 STORM_RAIN 
-        FOG: "https://s3.ax1x.com/2021/01/23/s7xBq0.jpg", // 雾 FOG 
-        LIGHT_SNOW: "https://s3.ax1x.com/2021/01/23/s7xRz9.jpg", // 小雪  LIGHT_SNOW 
-        MODERATE_SNOW: "https://s3.ax1x.com/2021/01/23/s7xRz9.jpg", // 中雪 MODERATE_SNOW 
-        HEAVY_SNOW: "https://s3.ax1x.com/2021/01/23/s7xRz9.jpg", // 大雪  HEAVY_SNOW 
-        STORM_SNOW: "https://s3.ax1x.com/2021/01/23/s7xRz9.jpg", // 暴雪 STORM_SNOW 
-        DUST: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 浮尘  DUST 
-        SAND: "https://s3.ax1x.com/2021/01/23/s7xgG4.jpg", // 沙尘  SAND 
-        WIND: "https://s3.ax1x.com/2021/01/23/s7xfMR.jpg", // 大风  WIND 
-    },
-    //**********************************************************************
+// ………………背景选择………………
+
+const path = files.joinPath(files.documentsDirectory(), "testPath")
+    if (newBG && config.runsInApp)
+{
+  const img = await Photos.fromLibrary()
+      widget.backgroundImage = img
+      files.writeImage(path, img)
+}else{
+    if (files.fileExists(path)) { 
+      try {
+    widget.backgroundImage = files.readImage(path)
+    log("读取图片成功")
+} catch (e){
+  widget.backgroundColor = bgcolor
+  log(e.message)
+}    
+    } 
+}
+    if (removeBG && files.fileExists(path)) {
+      try {
+    files.remove(path)
+    log("背景图片清理成功")
+} catch (e){
+    widget.backgroundColor = bgcolor
+    log(e.message)
+  }
+}
+
+// …………………………………………
+const topDrawing = new DrawContext()
+topDrawing.size = new Size(642, secondRibbonPosition+17)
+topDrawing.opaque = false
+topDrawing.respectScreenScale=true
+
+// 顶部虚线绘制
+ for (i=0;i<78;i++)
+ {drawLine(topDrawing,30+i*7.5, 84, 35+i*7.5, 84, dotcolor, 2)}
+
+// 空气质量颜色以及程度
+var AQIcolor 
+// 选择 AQI 数据 USAQI or CHNAQI
+let AQIData = CHNAQI
+if (AQIData<= 50)
+{ ac = "00e400"  
+}else if (AQIData<=100)
+{ ac = "f8c50a"  
+}else if (AQIData<=150)
+{ ac = "ff7e00"
+}else if (AQIData<=200)
+{ ac = "ff0000"
+}else if (AQIData<=300)
+{ ac = "ba0033"  
+}else
+{ ac = "7e0023"
+}
+AQIcolor = new Color(ac,1)
+
+// ######右侧底色#######
+
+fillRect(topDrawing,522, 58, 90, 18, 6, AQIcolor)
+
+// ######日期显示#######
+
+const df = new DateFormatter()
+df.locale=locale
+const date = currentDate
+// 农历信息
+const lunarInfo = await getLunar(date.getDate() - 1)
+
+// 星期 EEEE星期几 EEE周几
+df.dateFormat = "EEE"
+let week = df.string(date)
+// 日期格式
+df.dateFormat = "MMMd日"
+let dateFormat = df.string(date)
+
+drawText(topDrawing,30, 50, 150, 54,dateFormat + " "+ week, timecolor, "regular",22,"left") 
+
+// 获取周数
+// let beginDate = new Date(date.getFullYear(), 0, 1);
+// let week = "第 "+ Math.ceil((parseInt((date - beginDate) / (24 * 60 * 60 * 1000)) + 1 + beginDate.getDay()) / 7) + " 周"
+// log("开始时间"+beginDate)
+// log("计算结果"+Math.ceil((parseInt((date - beginDate) / (24 * 60 * 60 * 1000)) + 1 + beginDate.getDay()) / 7))
+// log(week)
+
+// 获取农历信息
+let lunarJoinInfo = lunarInfo.infoLunarText+ " " + lunarInfo.holidayText
+log("农历信息："+lunarJoinInfo)
+
+// 周数 or 农历信息
+drawText(topDrawing,90, firstRibbonPosition+40+1, 215, 24, lunarJoinInfo, timecolor, "regular",22,"right")
+
+// 当前天气
+drawIcon(topDrawing,365, 30, realtimeweather,40)
+// 当前温度
+drawText(topDrawing,420, 25, 100, 54, currentTemperature, ctcolor, "regular",50,"center")
+
+// 空气质量&下雨概率
+var textColortoShow
+textColortoShow = aircolor
+drawText(topDrawing, 522, 57, 90, 17, AQIData + " - " + CHNAQIDes, textColortoShow, "bold",16,"center")
+
+// 温度条位置
+var tempHeight
+if (feelslikeT < Math.round(dailyTemperature[0].min))
+{ tempHeight = 8 }
+if (feelslikeT > Math.round(dailyTemperature[0].max))
+{ tempHeight = 90 }
+if (feelslikeT >= Math.round(dailyTemperature[0].min) && feelslikeT <= Math.round(dailyTemperature[0].max))
+{ tempHeight = (feelslikeT-Math.round(dailyTemperature[0].min))*82/(Math.round(dailyTemperature[0].max)-Math.round(dailyTemperature[0].min))+8 }
+
+// ######温度条#######
+fillRect(topDrawing,522, 47, 90, 8, 4, ctbgcolor)
+fillRect(topDrawing,522, 47, tempHeight, 8, 4, ctfgcolor)
+
+// 今天最高最低温度
+drawText(topDrawing,522, 25, 45,18, Math.round(dailyTemperature[0].min).toString(), todaycolor, "semibold",18,"left")
+drawText(topDrawing,566, 25, 45,18, Math.round(dailyTemperature[0].max).toString(), todaycolor, "semibold",18,"right")
+
+
+const contentStack = widget.addStack()
+contentStack.layoutVertically()
+contentStack.size = new Size(widgetWidth/scale, widgetHeight/scale)
+
+const topStack = contentStack.addStack()
+topStack.size = new Size(widgetWidth/scale, widgetHeight*98/296/scale)
+topStack.addImage(topDrawing.getImage())
+// contentStack.url = 'calshow:' + (Math.floor(currentDate.getTime() / 1000) - 978307200)
+
+// ######获取日程#######
+const eventDrawing = new DrawContext()
+eventDrawing.size = new Size(355, 255-98)
+eventDrawing.opaque = false
+eventDrawing.respectScreenScale=true
+
+
+currentDate.setDate(currentDate.getDate())
+console.log(`Filter event by start date ${currentDate}`)
+  // 结束时间设置为当日"+targetDate"天的日期
+const endDate = new Date()
+endDate.setDate(endDate.getDate() + targetDate)
+console.log(`Filter event by end date ${endDate}`)
+
+const allEvents = await CalendarEvent.between(currentDate, endDate, [])
+console.log(`Get ${allEvents.length} events from this time range`)
+const futureEvents = enumerateEvents()
+const eventsAreVisible = (futureEvents.length > 0) && (numberOfEvents > 0)
+
+// ##############
+// ##############
+  if (numberOfEvents == 0) { return }
+  
+  for (let i = 0; i < numberOfEvents; i++) 
+    {
+    const event = futureEvents[i]
+    if (!event) { break }
+    const eventColor = event.calendar.color
+    log(eventColor)
+    fillRect(eventDrawing, 30, (88-88)+i*55, 5, 45, 2, eventColor)
+// 标题
+    const title = event.title  
+    
+    drawText(eventDrawing, 45, (86-88)+i*55, 305, 24, title, etitlecolor, "bold", 22, "left")
+// 限制行高。
+    if (futureEvents.length >= 3) { title.lineLimit = 1 }
+// 格式化时间信息。
+    let df = new DateFormatter()
+    df.useShortDateStyle()
+// 剩余时间(日)
+const timeLeft = ((df.date(df.string(event.startDate)))-(df.date(df.string(currentDate))))/(1000*60*60*24)
+
+    const eventSeconds = Math.floor(currentDate.getTime() / 1000) - 978307200 + timeLeft*3600*24
+    
+    const duration = ((df.date(df.string(event.endDate)))-(df.date(df.string(event.startDate))))/(1000*60*60*24) //事件持续时间
+    
+// log(timeLeft)
+// 事件时间提醒    
+var timeText
+var eventTimeColor
+    if (timeLeft==0)
+    {
+    df.useNoDateStyle()
+    df.useShortTimeStyle()
+     eventTimeColor = new Color('ffff00')
+      if (event.isAllDay)
+        {timeText = ("今天全天")
+        } else { 
+        timeText = ("今天"+df.string(event.startDate))
+        console.log(`${df.date (df.string(event.startDate))}`)
+}}
+//     } else { 
+    if(timeLeft < 0 
+//     && duration > 0
+    )
+       {let df = new DateFormatter()
+       const longEventDate = ("d日HH:mm")
+       df.dateFormat = longEventDate
+      timeText = (df.string(event.startDate)+"-"+df.string(event.endDate))
+       // 今日事件字体颜色
+       eventTimeColor = new Color('ffff00')      
+    } 
+//       else {
+    if (timeLeft == 1)
+    {df.useNoDateStyle()
+    df.useShortTimeStyle()
+      if (event.isAllDay)
+        {timeText = ("明天全天")
+        eventTimeColor = new Color('ffff00')
+        } else { 
+        timeText = ("明天"+df.string(event.startDate))
+        eventTimeColor = new Color('ffff00')
+        }
+      }
+//         else{ 
+    if(timeLeft>1)
+    {let df = new DateFormatter()
+      let startTime = event.startDate
+      let finishTime = event.endDate
+      df.dateFormat = "EEE"
+      let eee = df.string(startTime)
+      df.dateFormat = "MMMd日"
+      let ddd = df.string(startTime)
+      let sep = '-'
+      df.dateFormat="h:mm"
+      let detailTimes = df.string(startTime)+sep+df.string(finishTime)
+      if (event.isAllDay)
+        {timeText = (eee + " " + ddd + "  [" + timeLeft + "]")
+        } else {
+          timeText = (eee + " " + ddd + " " + detailTimes + "  [" + timeLeft + "]")
+        }
+          eventTimeColor = etimecolor
+//         log(timeText)
+    }
+//         log (timeText)
+    drawText(eventDrawing, 45, (88-88)+i*55+25, 305, 30, timeText, eventTimeColor, "medium", 18, "left")
+    
+}
+const middleStack = contentStack.addStack()
+middleStack.layoutHorizontally()
+const eventStack = middleStack.addStack()
+eventStack.size = new Size(widgetWidth*355/642/scale, widgetHeight*(255-88)/296/scale)
+if (futureEvents.length == 0 || showYY) {
+	eventStack.layoutVertically()
+	eventStack.setPadding(0, 16, 0, 10)
+	eventStack.addSpacer()
+
+	let yy = providepoetry.hitokoto
+	let yyshow = eventStack.addText(yy)
+	yyshow.font = Font.lightSystemFont(14)
+	yyshow.textColor = yycolor
+	eventStack.addSpacer()
+
+	const r1 = eventStack.addStack()
+	r1.addSpacer()
+	let author_who = r1.addText(providepoetry.from_who + "   " + providepoetry.from)
+	author_who.font = Font.lightSystemFont(10)
+	author_who.textColor = yycolor
+	author_who.textOpacity = 0.8
+	author_who.linelimit = 1
+	eventStack.addSpacer(6)
+		}else{
+		eventStack.addImage(eventDrawing.getImage())
+		}
+eventStack.url = 'calshow:' + (Math.floor(currentDate.getTime() / 1000) - 978307200)
+
+
+// ######天气预报#######
+const weatherDrawing = new DrawContext()
+weatherDrawing.size = new Size(642-355, (255-98))
+weatherDrawing.opaque = false
+weatherDrawing.respectScreenScale=true
+
+
+const deltaX = (610-slipPosition)/(daystoShow*2)
+const firstPointtoLeft = slipPosition+deltaX
+
+const ToTop = (120-98)
+var min, max, diff;
+	for(var i = 0; i<daystoShow ;i++)
+  {
+	let	temp = Math.round(data[i].value);
+		min = (temp < min || min == undefined ? temp : min)
+		max = (temp > max || max == undefined ? temp : max)
+	}
+
+diff = max-min
+
+if (diff == 0) {diff= diff+1
+max=max+0.3}
+
+for (i=0;i<daystoShow-1;i++){ 
+  
+  let timeText = data[i].datetime.slice(11, 13)
+}
+// ########小时预报#######
+for (i=0;i<daystoShow;i++){ 
+// 颜色定义
+var temperaturetextcolor
+var temeratureBarcolor
+if (rainIndex[i*2].value>=0.06)
+{temperaturetextcolor = rainycolor
+temeratureBarcolor = rainycolor}
+else{temperaturetextcolor = hourlycolor
+temeratureBarcolor = hourlyfgcolor}
+
+// 温度条位置
+if (Math.round(data[i*2].value) < Math.round(dailyTemperature[0].min))
+{ tempHeight = 8 }
+if (Math.round(data[i*2].value) >= Math.round(dailyTemperature[0].max))
+{ tempHeight = 40 }
+
+if (Math.round(data[i*2].value) >=Math.round(dailyTemperature[0].min) && Math.round(data[i*2].value) < Math.round(dailyTemperature[0].max))
+tempHeight = (Math.round(data[i*2].value)-Math.round(dailyTemperature[0].min))*32/(Math.round(dailyTemperature[0].max)-Math.round(dailyTemperature[0].min))+8
+
+// ######温度条#######
+fillRect(weatherDrawing, firstPointtoLeft-4+(2.15*i)*deltaX-355-5,115-98+3, 8, 40, 4, hourlybgcolor)
+fillRect(weatherDrawing, firstPointtoLeft-4+(2.15*i)*deltaX-355-5,150-tempHeight-98+3+5, 8, tempHeight, 4, temeratureBarcolor)
+
+// 温度
+drawText(weatherDrawing, firstPointtoLeft+deltaX*i*2.15-20-355-5,150-98+10, 40,20,Math.round(data[i*2].value)+"º",temperaturetextcolor,"regular",16,"center")
+
+// 时间
+let weathertimeText = data[i*2].datetime.slice(11, 13)
+if (i==0) {weathertimeText="现在"}
+else { weathertimeText = weathertimeText
+// + ":00"
+}
+drawText(weatherDrawing, firstPointtoLeft+deltaX*i*2.15-20-355-5, 100-98-3, 40, 30, weathertimeText,temperaturetextcolor,"regular",16,"center")
+
 }
 
 
-// @定义小组件
-class Widget extends Base {
-    constructor(scriptName) {
-        super(scriptName)
-        // 初始化其他变量
-        this.setSelectPicBg(widgetConfigs.selectPicBg)
-        this.setColorBgMode(widgetConfigs.colorBgMode, widgetConfigs.bgColor)
-        this.paddingSetting(Object.assign(widgetConfigs.padding))
-        this.refreshIntervalTime(widgetConfigs.refreshInterval)
-        this.setPreViewSizeMode(widgetConfigs.previewMode)
+// ####每日预报########
+for (i=1;i<4;i++){
+//   log(Mainweather[i].value)
+  
+// 图标
+drawIcon(weatherDrawing,10+88*(i-1)+40-1-3, 196-98-10+3, Mainweather[i].value, 30 )
+
+
+// 每日温度
+let dMax = Math.round(dailydata[i].max)+"º"
+let dMin = Math.round(dailydata[i].min)+"º"
+fillRect(weatherDrawing,5+88*(i-1)+6+1,173-98+40+16+2, 70, 4, 2, daybarcolor)
+drawText(weatherDrawing,5+88*(i-1)+6+1,173-98+20+62-18, 40,20,dMin,daycolor,"regular",18,"left")
+drawText(weatherDrawing,5+88*(i-1)+6+40+1,173-98+20+62-18, 30,20,dMax,daycolor,"regular",18,"right")
+
+// 每日日期
+const weatherDate = new Date()
+weatherDate.setDate(weatherDate.getDate() + i)
+// log(weatherDate)
+df.dateFormat = "E"
+drawText(weatherDrawing, 5+88*(i-1)-1,173-98+20, 50,20,df.string(weatherDate),daycolor,"a",16,"center")
+}
+
+const weatherStack = middleStack.addStack()
+weatherStack.size = new Size(widgetWidth*(642-355)/642/scale, widgetHeight*(255-98)/296/scale)
+weatherStack.addImage(weatherDrawing.getImage())
+weatherStack.url = "https://caiyunapp.com/weather/"
+
+
+// ######底部信息展示#######
+const bottomDrawing = new DrawContext()
+bottomDrawing.size = new Size(642, (296-255))
+bottomDrawing.opaque = false
+bottomDrawing.respectScreenScale=true
+
+// 底部虚线绘制
+ for (i=0;i<78;i++)
+ {drawLine(bottomDrawing,30+i*7.5, 1, 35+i*7.5, 1, 
+ dotcolor, 2)}
+
+// 如果没有预警信息，显示天气描述
+var content
+var alertTextColor
+// log (alertInfo)
+  if (alertInfo == undefined)
+  {
+  content = weatherDesc
+}else{
+  content = "注意："+alertInfo.title
+  }
+  drawText(bottomDrawing, 0, 7, 642, 25, content, btcolor,"default",20,"center")
+
+const bottomStack = contentStack.addStack()
+bottomStack.size = new Size(widgetWidth/scale, widgetHeight*(296-255)/296/scale)
+bottomStack.addImage(bottomDrawing.getImage())
+
+// ###############
+
+Script.setWidget(widget)
+widget.presentMedium()
+Script.complete()
+
+// ######画线######
+function drawLine(drawing,x1,y1,x2,y2,color,width)
+{
+  const path = new Path()
+  path.move(new Point(Math.round(x1),Math.round(y1)))
+  path.addLine(new Point(Math.round(x2),Math.round(y2)))
+  
+  drawing.addPath(path)
+  drawing.setStrokeColor(color)
+  drawing.setLineWidth(width)
+  drawing.strokePath()
+}
+
+// ######绘制文字#######
+function drawText(drawing, x, y, width,height,text,color,font,fontsize,alignment)
+  {
+    if (font=="a"){
+drawing.setFont(Font.boldRoundedSystemFont(fontsize))}
+if (font=="default"){
+drawing.setFont(Font.lightMonospacedSystemFont(fontsize))}
+if (font=="semibold"){
+drawing.setFont(Font.semiboldSystemFont(fontsize))}
+if (font=="bold"){
+drawing.setFont(Font.boldSystemFont(fontsize))}
+if (font=="medium"){
+drawing.setFont(Font.mediumSystemFont(fontsize))}
+if (font=="regular"){
+drawing.setFont(Font.regularSystemFont(fontsize))}
+  drawing.setTextColor(color)
+  if(alignment == "left")
+  {drawing.setTextAlignedLeft()}
+  if(alignment == "center")
+  {drawing.setTextAlignedCenter()}
+  if(alignment == "right")
+  {drawing.setTextAlignedRight()}
+  drawing.drawTextInRect(text, new Rect(x, y, width, height))
+
+}
+
+// ######绘制主要天气图标#######
+function drawIcon(drawing,x1,y1,WeatherCondition,size)
+{
+ if (WeatherCondition=="CLOUDY"
+  )
+  {y1=y1+8}
+  if(WeatherCondition=="LIGHT_RAIN"||
+  WeatherCondition=="MODERATE_RAIN"||
+  WeatherCondition=="HEAVY_RAIN"||
+  WeatherCondition=="STORM_RAIN"
+  )
+  {y1=y1+4}
+drawing.drawImageAtPoint(provideSymbol(WeatherCondition, 0,size), new Point(x1, y1)) 
+}
+
+// ######提供天气图标名称#######
+function provideSymbol(cond,night,size) {
+//   log("字体大小"+size)
+  let symbols = {
+    
+"CLEAR_DAY": function() {return"sun.max.fill"},
+"CLEAR_NIGHT": function() {return"moon.stars.fill"},
+"PARTLY_CLOUDY_DAY": function() {return"cloud.sun.fill"},
+"PARTLY_CLOUDY_NIGHT": function() {return"cloud.moon.fill"},
+"CLOUDY": function() {return"cloud.fill"},
+"LIGHT_HAZE": function() {return night? "cloud.fog.fill":"sun.haze.fill"},
+"MODERATE_HAZE": function() {return night? "cloud.fog.fill":"sun.haze.fill"},
+"HEAVY_HAZE": function() {return night? "cloud.fog.fill":"sun.haze.fill"},
+"LIGHT_RAIN": function() {return"cloud.drizzle.fill"},
+"MODERATE_RAIN": function() {return"cloud.rain.fill"},
+"HEAVY_RAIN": function() {return"cloud.rain.fill"},
+"STORM_RAIN": function() {return"cloud.heavyrain.fill"},
+"FOG": function() {return"cloud.fog.fill"},
+"LIGHT_SNOW": function() {return"cloud.sleet.fill"},
+"MODERATE_SNOW": function() {return"cloud.snow.fill"},
+"HEAVY_SNOW": function() {return"cloud.snow.fill"},
+"STORM_SNOW": function() {return"snow"},
+"DUST": function() {return night? "cloud.fog.fill":"sun.dust.fill"},
+"SAND": function() {return night? "cloud.fog.fill":"sun.dust.fill"},
+"WIND": function() {return"wind"},
+    
+  }
+  let sfs = SFSymbol.named(symbols[cond]())
+  sfs.applyFont(Font.systemFont(size))
+return sfs.image
+}
+
+function drawSfs (drawing,x1,y1,symblos,size)
+{
+let sfs = SFSymbol.named(symblos).image
+sfs.applyBoldWeight()
+sfs.tintColor = new Color("000000", 1)
+sfs.applyFont(Font.systemFont(size))
+
+let a = drawing.drawImageAtPoint(sfs.image, new Point(x1, y1))  
+}
+
+function fillRect (drawing,x,y,width,height,cornerradio,color)
+{
+let path = new Path()
+let rect = new Rect(x, y, width, height)
+path.addRoundedRect(rect, cornerradio, cornerradio)
+drawing.addPath(path)
+drawing.setFillColor(color)
+drawing.fillPath()
+}
+
+
+function drawPoint(drawing,x1,y1,color,diaofPoint)
+{
+let currPath = new Path()
+  currPath.addEllipse(new Rect(x1, y1, diaofPoint, diaofPoint))
+  drawing.addPath(currPath)
+  drawing.setFillColor(color)
+  drawing.fillPath()
+}
+
+// ######获取彩云天气数据#######
+async function getCaiyunData()
+  {
+// 设定天气数据缓存路径
+const cachePath = files.joinPath(files.documentsDirectory(), "Caiyuncache-Pih")
+const cacheExists = files.fileExists(cachePath)
+const cacheDate = cacheExists ? files.modificationDate(cachePath) : 0
+var data
+// 假设存储器已经存在且距离上次请求时间不足60秒，使用存储器数据
+if (cacheExists && (currentDate.getTime() - cacheDate.getTime()) < 60000) {
+  const cache = files.readString(cachePath)
+  data = JSON.parse(cache)
+  log("==>请求时间间隔过小，使用缓存数据")
+
+// 否则利用 api 得到新的数据
+} else {
+ 
+try {
+const weatherReq = "https://api.caiyunapp.com/v2.5/"+ apiKey +"/"+ await getLocation()+ "/weather.json?alert=true&dailysteps=7&lang=zh_CN"
+const dataToday = await new Request(weatherReq).loadJSON()
+log(weatherReq)
+  data = {dataToday}
+  files.writeString(cachePath, JSON.stringify(data))
+  log("==>天气信息请求成功")}
+  catch(e){
+  data = JSON.parse(files.readString(cachePath))
+  log("==>天气信息请求失败，使用缓存数据/"+e.message)}
+}
+return data
+}
+
+// ######获取定位信息#######
+async function getLocation()
+{
+  // 设定位置缓存数据路径
+const locationPath = files.joinPath(files.documentsDirectory(), "Mylocation-Pih")
+var latitude, longitude
+var locationString
+// 如果位置设定保存且锁定了，从缓存文件读取信息
+
+if (lockLocation && files.fileExists(locationPath)) {
+locationString = files.readString(locationPath)
+log("位置锁定，使用缓存数据"+locationString)
+// return locationString
+// 否则，从系统获取位置信息
+} else {
+  try {
+  const location = await Location.current()
+  latitude = location.latitude
+  longitude = location.longitude
+  locationString = longitude+","+latitude
+  files.writeString(locationPath, locationString)
+  log("==>定位成功")}
+  catch(e){
+  locationString = files.readString(locationPath)
+  log("==>无法定位，使用缓存定位数据")}
+  locationString = locationString
+
+//   return locationString
+}
+log("地址"+locationString)
+return locationString
+}
+
+
+// 未来事件
+function enumerateEvents() {
+  let futureEvents = []
+  for (const event of allEvents) {
+    if (event.endDate.getTime() > currentDate.getTime() && !event.title.startsWith("Canceled:") && ![ignoreCal].includes(event.calendar.title)) {
+      futureEvents.push(event)
     }
+  }
+  return futureEvents
+}
 
-    /**
-     * 获取彩云天气信息
-     */
-    async getWeather(dailysteps = 7) {
-        // 获取位置
-        let location = widgetConfigs.location
-        if (!widgetConfigs.lockLocation) {
-            location = await this.getLocation(widgetConfigs.locale)
-            widgetConfigs.location = location
-        }
-        // 小时
-        const hour = new Date().getHours()
+// #####获取一言######
+async function poetry()
+  {
+const poetryCachePath = files.joinPath(files.documentsDirectory(), "Caiyunweather-Pih")
+var poetryData
+try {
+poetryData = await new Request("https://v1.hitokoto.cn/?c=i&encode=json&max_length=40").loadJSON()
+files.writeString(poetryCachePath, JSON.stringify(poetryData))
+log("==>一言获取成功")
+} catch(e){
+  poetryData = JSON.parse(files.readString(poetryCachePath))
+  log("==>获取一言失败，使用缓存数据")
+}
 
-        // 彩云天气域名
-        const url = `https://api.caiyunapp.com/v2.5/${widgetConfigs.apiKey}/${location.longitude},${location.latitude}/weather.json?alert=true&dailysteps=${dailysteps}`
-        const weatherJsonData = await this.httpGet(url, true, null, 'weatherMultiInfo')
+return poetryData
+}
 
-        // 天气数据
-        let weatherInfo = {}
-        if (weatherJsonData.status == "ok") {
-            log("天气数据请求成功")
-
-            // 天气突发预警
-            let alertWeather = weatherJsonData.result.alert.content
-            if (alertWeather.length > 0) {
-                const alertWeatherTitle = alertWeather[0].title
-                log(`突发的天气预警==>${alertWeatherTitle}`)
-                weatherInfo.alertWeatherTitle = alertWeatherTitle
-            }
-
-            // 全部温度
-            weatherInfo.daily = weatherJsonData.result.daily
-            // 温度范围
-            const temperatureData = weatherInfo.daily.temperature[0]
-            // 最低温度
-            const minTemperature = temperatureData.min
-            // 最高温度
-            const maxTemperature = temperatureData.max
-            weatherInfo.minTemperature = Math.round(minTemperature)
-            weatherInfo.maxTemperature = Math.round(maxTemperature)
-
-            // 体感温度
-            const bodyFeelingTemperature = weatherJsonData.result.realtime.apparent_temperature
-            weatherInfo.bodyFeelingTemperature = Math.floor(bodyFeelingTemperature)
-
-            // 显示温度
-            const temperature = weatherJsonData.result.realtime.temperature
-            weatherInfo.temperature = Math.floor(temperature)
-
-            // 天气状况 weatherIcos[weatherIco]
-            let weather = weatherJsonData.result.realtime.skycon
-            let night = hour - 12 >= 7
-            let nightCloudy = night && weather == "CLOUDY"
-            let nightLightHaze = night && weather == "LIGHT_HAZE"
-            let nightModerateHaze = night && weather == "MODERATE_HAZE"
-            let nightHeavyHaze = night && weather == "HEAVY_HAZE"
-            if (nightCloudy) {
-                weather = "CLOUDY_NIGHT"
-            }
-            if (nightLightHaze) {
-                weather = "LIGHT_HAZE_NIGHT"
-            }
-            if (nightModerateHaze) {
-                weather = "MODERATE_HAZE_NIGHT"
-            }
-            if (nightHeavyHaze) {
-                weather = "HEAVY_HAZE_NIGHT"
-            }
-            weatherInfo.weatherIco = weather
-            log(`天气：${weather}`)
-
-            // 天气描述
-            const weatherDesc = weatherJsonData.result.forecast_keypoint
-            weatherInfo.weatherDesc = weatherDesc.replace("。还在加班么？", "，")
-            log("天气预告==>" + weatherDesc)
-
-            // 降水率
-            weatherInfo.probability = weatherJsonData.result.minutely.probability
-
-            // 相对湿度
-            const humidity = (Math.floor(weatherJsonData.result.realtime.humidity * 100)) + "%"
-            weatherInfo.humidity = humidity
-
-            // 舒适指数
-            const comfort = weatherJsonData.result.realtime.life_index.comfort.desc
-            weatherInfo.comfort = comfort
-            log(`舒适指数：${comfort}`)
-
-            // 紫外线指数
-            const ultraviolet = weatherJsonData.result.realtime.life_index.ultraviolet.desc
-            weatherInfo.ultraviolet = ultraviolet
-
-            // 空气质量
-            const aqi = weatherJsonData.result.realtime.air_quality.aqi.chn
-            const aqiInfo = this.airQuality(aqi)
-            weatherInfo.aqiInfo = aqiInfo
-
-            // 日出日落
-            const astro = weatherJsonData.result.daily.astro[0]
-            // 日出
-            const sunrise = astro.sunrise.time
-            // 日落
-            const sunset = astro.sunset.time
-            weatherInfo.sunrise = sunrise.toString()
-            weatherInfo.sunset = sunset.toString()
-
-            // 小时预告
-            let hourlyArr = []
-            const hourlyData = weatherJsonData.result.hourly
-            const temperatureArr = hourlyData.temperature
-            const temperatureSkyconArr = hourlyData.skycon
-            for (var i = 0; i < temperatureArr.length; i++) {
-                let hourlyObj = {}
-                hourlyObj.datetime = temperatureArr[i].datetime
-                hourlyObj.temperature = Math.round(temperatureArr[i].value)
-
-                let weather = temperatureSkyconArr[i].value
-                if (nightCloudy) {
-                    weather = "CLOUDY_NIGHT"
-                }
-                hourlyObj.skycon = `${weather}`
-                hourlyArr.push(hourlyObj)
-            }
-            weatherInfo.hourly = hourlyArr
-        } else {
-            log(`请求彩云天气出错：${weatherJsonData.status}`)
-        }
-
-        return weatherInfo
-    }
-
-
-    /**
-     * 空气指标质量
-     * @param {number} levelNum 控制aiq
-     */
-    airQuality(levelNum) {
-        // 0-50 优，51-100 良，101-150 轻度污染，151-200 中度污染
-        // 201-300 重度污染，>300 严重污染
-        if (levelNum >= 0 && levelNum <= 50) {
-            return "优秀"
-        } else if (levelNum >= 51 && levelNum <= 100) {
-            return "良好"
-        } else if (levelNum >= 101 && levelNum <= 150) {
-            return "轻度"
-        } else if (levelNum >= 151 && levelNum <= 200) {
-            return "中度"
-        } else if (levelNum >= 201 && levelNum <= 300) {
-            return "重度"
-        } else {
-            return "严重"
-        }
-    }
-
-    /**
-     * 获取农历信息
-     */
-    async getLunar() {
-        const day = new Date().getDate() - 1
-        // 万年历数据
-        const url = "https://wannianrili.51240.com/"
+async function getLunar(day) {
+    // 缓存key
+    const cacheKey = "lsp-lunar-cache"
+    // 万年历数据
+    let response = undefined
+    try {
+        const request = new Request("https://wannianrili.51240.com/")
         const defaultHeaders = {
             "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.67 Safari/537.36"
         }
-        const html = await this.httpGet(url, false, defaultHeaders)
+        request.method = 'GET'
+        request.headers = defaultHeaders
+        const html = await request.loadString()
         let webview = new WebView()
         await webview.loadHTML(html)
         var getData = `
@@ -612,522 +718,108 @@ class Widget extends Base {
             }
             
             getData()
-        `
-
+            `
         // 节日数据  
-        const response = await webview.evaluateJavaScript(getData, false)
+        response = await webview.evaluateJavaScript(getData, false)
+        Keychain.set(cacheKey, JSON.stringify(response))
         console.log(`农历输出：${JSON.stringify(response)}`);
-
-        return response
-    }
-
-    /**
-     * 筛选日程
-     * @param {CalendarEvent} schedule 日程
-     * @return 返回符合条件的日程
-     */
-    shouldShowSchedule(schedule) {
-        const currentDate = new Date()
-        // 被取消的日程不用显示
-        if (schedule.title.startsWith("Canceled:")) { return false }
-        // 与当前时间做比较
-        let timeInterval = schedule.endDate.getTime() > currentDate.getTime()
-        // 返回全天跟还没过去的
-        return timeInterval && !schedule.isAllDay
-    }
-
-    /**
-    * 获取手机日程
-    */
-    async getSchedules() {
-        let showSchedules = []
-        const todaySchedules = await CalendarEvent.today([])
-        for (const schedule of todaySchedules) {
-            if (this.shouldShowSchedule(schedule)) {
-                // 日程
-                let scheduleObj = {}
-                // 开始时间
-                const startDate = schedule.startDate
-                // 年
-                const startYear = startDate.getFullYear()
-                // 月
-                const month = startDate.getMonth() + 1
-                // 日
-                const day = startDate.getDate()
-                // 开始小时
-                const startHour = ("0" + startDate.getHours()).slice(-2)
-                // 开始分钟
-                const startMinute = ("0" + startDate.getMinutes()).slice(-2)
-
-                // 结束时间
-                const endDate = schedule.endDate
-                // 结束小时
-                const endHour = ("0" + endDate.getHours()).slice(-2)
-                // 结束分钟
-                const endMinute = ("0" + endDate.getMinutes()).slice(-2)
-
-                // 时间安排展示
-                let timeText = month + "月" + day + "日 " + startHour + ":" + startMinute + "～" + endHour + ":" + endMinute
-                if (schedule.isAllDay) {
-                    timeText = "全天"
-                }
-
-                // 构造格式后的日程
-                scheduleObj.title = schedule.title
-                scheduleObj.timeText = timeText
-                log(`>>日程：${scheduleObj.title} ==> ${timeText}`)
-                showSchedules.push(scheduleObj)
-            }
-        }
-
-        return showSchedules
-    }
-
-    /**
-     * 下载更新
-     */
-    async downloadUpdate() {
-        let files = FileManager.local()
-        const iCloudInUse = files.isFileStoredIniCloud(module.filename)
-        files = iCloudInUse ? FileManager.iCloud() : files
-        let message = ''
-        try {
-            const req = new Request("https://gitee.com/enjoyee/scriptable/raw/master/%E6%96%B0%E7%B3%BB%E5%88%97/%E5%A4%9A%E6%A0%B7%E5%BC%8F%E5%A4%A9%E6%B0%94.js")
-            const codeString = await req.loadString()
-            files.writeString(module.filename, codeString)
-            message = "天气脚本已更新，请退出脚本重新进入运行生效。"
-        } catch {
-            message = "更新失败，请稍后再试。"
-        }
-        const options = ["好的"]
-        await this.generateAlert(message, options)
-        Script.complete()
-    }
-
-    /**
-     * 获取天气背景图
-     */
-    weatherBgUrls() {
-        let weatherBgUrls = widgetConfigs.weatherBgOneUrls
-        const widgetUIBg = widgetConfigs.widgetUIBg
-        if (widgetUIBg == 2) {
-            weatherBgUrls = widgetConfigs.weatherBgTwoUrls
-        } else if (widgetUIBg == 3) {
-            weatherBgUrls = widgetConfigs.weatherBgThreeUrls
-        } else if (widgetUIBg == 4) {
-            weatherBgUrls = widgetConfigs.weatherBgFourUrls
-        } else if (widgetUIBg == 5) {
-            weatherBgUrls = widgetConfigs.weatherBgFiveUrls
-        } else if (widgetUIBg == 6) {
-            weatherBgUrls = widgetConfigs.weatherBgSixUrls
-        }
-        return weatherBgUrls
-    }
-
-    /**
-     * 获取天气icon
-     */
-    weatherIcos() {
-        let weatherIcos = widgetConfigs.weatherOneIcos
-        const widgetUIIcon = widgetConfigs.widgetUIIcon
-        if (widgetUIIcon == 2) {
-            weatherIcos = widgetConfigs.weatherTwoIcos
-        } else if (widgetUIIcon == 3) {
-            weatherIcos = widgetConfigs.weatherThreeIcos
-        } else if (widgetUIIcon == 4) {
-            weatherIcos = widgetConfigs.weatherFourIcos
-        } else if (widgetUIIcon == 5) {
-            weatherIcos = widgetConfigs.weatherFiveIcos
-        }
-        return weatherIcos
-    }
-
-    /**
-     * 组件样式1
-     */
-    async renderUIStyle1() {
-        //-------------------------------------
-        // 天气对应的背景
-        let weatherBgUrls = this.weatherBgUrls()
-        // 天气对应的图标
-        let weatherIcos = this.weatherIcos()
-        //-------------------------------------
-        const widget = new ListWidget()
-        widget.addSpacer(20)
-        const widgetWidth = this.getWidgetWidthSize('中号', widgetConfigs.isIphone12Mini)
-        //-------------------------------------
-        const currentDate = new Date()
-        // 获取天气信息
-        const sizeCount = 6
-        // 六天内天气
-        const weatherInfo = await this.getWeather(sizeCount)
-
-        // 当前信息
-        const currentInfoStack = widget.addStack()
-        currentInfoStack.layoutHorizontally()
-        currentInfoStack.addSpacer(15)
-        // 
-        const stackTopFont = Font.systemFont(10)
-        const temStack = currentInfoStack.addStack()
-        temStack.layoutVertically()
-        // 定位图标
-        temStack.addSpacer(10)
-        const locationStack = temStack.addStack()
-        locationStack.centerAlignContent()
-        locationStack.addSpacer(3)
-        const locationImg = await this.getImageByUrl("https://s3.ax1x.com/2021/01/24/sH8Hk6.png")
-        const locationImgSpan = locationStack.addImage(locationImg)
-        locationImgSpan.imageSize = new Size(10, 10)
-        // 定位
-        locationStack.addSpacer(7)
-        let textWidget = locationStack.addText(`${widgetConfigs.location.subLocality}`)
-        textWidget.textColor = Color.white()
-        textWidget.font = stackTopFont
-        // 天气
-        textWidget = locationStack.addText(` • ${widgetConfigs.weatherDesc[weatherInfo.weatherIco]}`)
-        textWidget.textColor = Color.white()
-        textWidget.font = stackTopFont
-        // 农历
-        if (widgetConfigs.showLunar) {
-            const lunarInfo = await this.getLunar()
-            // 农历信息
-            const infoLunarText = lunarInfo.infoLunarText
-            const holidayText = lunarInfo.holidayText
-            let dateFullText = `${infoLunarText}`
-            if (holidayText.length != 0) {
-                dateFullText = `${dateFullText} ⊙ ${holidayText}`
-            }
-            textWidget = locationStack.addText(` • ${dateFullText}`)
-            textWidget.textColor = Color.white()
-            textWidget.font = stackTopFont
-        }
-        if (widgetConfigs.showUpdateTime) {
-            // 更新时间
-            const updateText = `${this.getDateStr(new Date(), "HH:mm")} ⊹`
-            textWidget = locationStack.addText(` • ${updateText}`)
-            textWidget.textColor = Color.white()
-            textWidget.font = stackTopFont
-        }
-        locationStack.addSpacer()
-        // 
-        temStack.addSpacer(15)
-        let image = await this.drawTextWithCustomFont(widgetConfigs.enFontUrl, `${weatherInfo.temperature}°c`, 40, "FFFFFF", "left")
-        let imgSpan = temStack.addImage(image)
-        imgSpan.imageSize = new Size(image.size.width / 2, image.size.height / 2)
-        imgSpan.leftAlignImage()
-        currentInfoStack.addSpacer()
-        //------
-        const topRightStack = currentInfoStack.addStack()
-        topRightStack.layoutVertically()
-        topRightStack.addSpacer(20)
-        const previewSize = new Size(11, 11)
-        // 
-        let stackWidth = 60
-        const comfort = weatherInfo.comfort
-        if (comfort.length > 2) {
-            stackWidth = 67
-        }
-        const singleSize = new Size(stackWidth, 0)
-        const comfortStack = topRightStack.addStack()
-        comfortStack.layoutHorizontally()
-        comfortStack.size = singleSize
-        let img = await this.getImageByUrl("https://s3.ax1x.com/2021/01/23/sHiv9K.png")
-        imgSpan = comfortStack.addImage(img)
-        imgSpan.imageSize = previewSize
-        comfortStack.addSpacer(5)
-        textWidget = comfortStack.addText(`${weatherInfo.comfort}`)
-        textWidget.textColor = Color.white()
-        textWidget.font = Font.mediumSystemFont(10)
-        comfortStack.addSpacer()
-        // -----
-        topRightStack.addSpacer(5)
-        const aqStack = topRightStack.addStack()
-        aqStack.layoutHorizontally()
-        aqStack.size = singleSize
-        img = await this.getImageByUrl("https://s3.ax1x.com/2021/01/23/sHPrZR.png")
-        imgSpan = aqStack.addImage(img)
-        imgSpan.imageSize = previewSize
-        aqStack.addSpacer(6)
-        textWidget = aqStack.addText(`${weatherInfo.aqiInfo}`)
-        textWidget.textColor = Color.white()
-        textWidget.font = Font.mediumSystemFont(10)
-        aqStack.addSpacer()
-        // -----
-        topRightStack.addSpacer(6)
-        const rainStack = topRightStack.addStack()
-        rainStack.layoutHorizontally()
-        rainStack.size = singleSize
-        img = await this.getImageByUrl("https://s3.ax1x.com/2021/01/23/sHic0s.png")
-        imgSpan = rainStack.addImage(img)
-        imgSpan.imageSize = previewSize
-        rainStack.addSpacer(8)
-        textWidget = rainStack.addText(`${Math.floor(weatherInfo.probability[0] * 100)}%`)
-        textWidget.textColor = Color.white()
-        textWidget.font = Font.mediumSystemFont(10)
-        rainStack.addSpacer()
-        topRightStack.addSpacer()
-
-        // ========================================================
-        // 未来天气信息
-        widget.addSpacer(5)
-        const weatherInfoStack = widget.addStack()
-        weatherInfoStack.layoutHorizontally()
-        weatherInfoStack.size = new Size(widgetWidth, 0)
-        // 日温度
-        const daily = weatherInfo.daily
-        // 日温度
-        const temperatureArr = daily.temperature
-        const perSize = widgetWidth / sizeCount
-        for (let index = 0; index < temperatureArr.length; index++) {
-            let itemStack = weatherInfoStack.addStack()
-            itemStack.size = new Size(perSize, 0)
-            itemStack.setPadding(0, 0, 10, 0)
-            itemStack.layoutVertically()
-            itemStack.centerAlignContent()
-
-            // 日期
-            let dateStack = itemStack.addStack()
-            dateStack.layoutHorizontally()
-            dateStack.addSpacer()
-            const dailyTemperature = temperatureArr[index]
-            let dateText = dailyTemperature.date.slice(8, 10)
-            // 替换实时天气icon
-            let realtimeIcon = weatherInfo.weatherIco
-            if (dateText == currentDate.getDate()) {
-                dateText = `今天`
-            } else {
-                dateText = `${dateText}日`
-                realtimeIcon = daily.skycon[index].value
-            }
-            textWidget = dateStack.addText(dateText)
-            textWidget.textColor = Color.white()
-            textWidget.font = Font.systemFont(10)
-            dateStack.addSpacer()
-            itemStack.addSpacer(6)
-
-            // 天气图标
-            let weatherIco = this.getSFSymbol(widgetConfigs.weatherSFIcos[realtimeIcon])
-            if (!widgetConfigs.useSF) {
-                weatherIco = await this.getImageByUrl(weatherIcos[realtimeIcon])
-            }
-            let icoStack = itemStack.addStack()
-            icoStack.layoutHorizontally()
-            icoStack.addSpacer()
-            let imgStack = icoStack.addImage(weatherIco)
-            imgStack.imageSize = new Size(22, 22)
-            icoStack.addSpacer()
-            itemStack.addSpacer(6)
-
-            // 温度区间
-            let temperatureStack = itemStack.addStack()
-            temperatureStack.setPadding(0, 0, 0, 0)
-            temperatureStack.layoutHorizontally()
-            temperatureStack.addSpacer()
-            textWidget = temperatureStack.addText(`${Math.floor(dailyTemperature.min)}/${Math.floor(dailyTemperature.max)}°`)
-            textWidget.textColor = Color.white()
-            textWidget.font = Font.systemFont(11)
-            temperatureStack.addSpacer()
-        }
-
-        //-------------------------------------
-        widget.addSpacer(15)
-        const selectPicBg = widgetConfigs.selectPicBg
-        this.setSelectPicBg(selectPicBg)
-        if (!selectPicBg) {
-            // 天气背景
-            let bgImg = await this.getImageByUrl(weatherBgUrls[weatherInfo.weatherIco])
-            bgImg = await this.loadShadowColor2Image(bgImg, new Color("000", 0.3))
-            await this.saveImgCache(this.scriptName, bgImg)
-        }
-        return widget
-    }
-
-    /**
-     * 组件样式2
-     */
-    async renderUIStyle2() {
-        //-------------------------------------
-        // 字体颜色
-        const fontColorHex = "FFFFFF"
-        //-------------------------------------
-        // 天气对应的背景
-        let weatherBgUrls = this.weatherBgUrls()
-        // 天气对应的图标
-        let weatherIcos = this.weatherIcos()
-        //-------------------------------------
-        // 获取天气信息
-        const sizeCount = 6
-        // 六天内天气
-        const weatherInfo = await this.getWeather(sizeCount)
-        // 获取农历信息
-        const lunarInfo = await this.getLunar()
-        //-------------------------------------
-        const widget = new ListWidget()
-        //-------------------------------------
-        let fontUrl = "https://mashangkaifa.coding.net/p/coding-code-guide/d/coding-code-guide/git/raw/master/harmony-2.otf"
-        let image = await this.drawTextWithCustomFont(fontUrl, `${this.getDateStr(new Date(), "EEEE", "en")}`, 40, fontColorHex)
-        let imgSpan = widget.addImage(image)
-        imgSpan.imageSize = new Size(image.size.width / 2, image.size.height / 2)
-        imgSpan.centerAlignImage()
-
-        // 日历信息 
-        widget.addSpacer(10)
-        let stack = widget.addStack()
-        stack.layoutHorizontally()
-        stack.centerAlignContent()
-        stack.addSpacer()
-        const infoLunarText = lunarInfo.infoLunarText
-        const holidayText = lunarInfo.holidayText
-        const dateFullText = `${infoLunarText}`
-        if (holidayText.length != 0) {
-            dateFullText = `${dateFullText} ⊙ ${holidayText}`
-        }
-        fontUrl = "https://mashangkaifa.coding.net/p/coding-code-guide/d/coding-code-guide/git/raw/master/jf-openhuninn-1.0.ttf"
-        let text = `${dateFullText}`
-        image = await this.drawTextWithCustomFont(fontUrl, `${text}`, 14, fontColorHex)
-        imgSpan = stack.addImage(image)
-        imgSpan.imageSize = new Size(image.size.width / 2, image.size.height / 2)
-        imgSpan.centerAlignImage()
-        // 当前日期
-        const dateArr = [
-            "January",
-            "February",
-            "March",
-            "April",
-            "May",
-            "June",
-            "July",
-            "August",
-            "September",
-            "October",
-            "November",
-            "December"
-        ]
-        const currentDate = new Date()
-        fontUrl = "https://mashangkaifa.coding.net/p/coding-code-guide/d/coding-code-guide/git/raw/master/quicksand_regular.ttf"
-        text = ` ⊙ ${currentDate.getDate()}  ${dateArr[currentDate.getMonth()]}`
-        image = await this.drawTextWithCustomFont(fontUrl, `${text}`, 16, fontColorHex)
-        imgSpan = stack.addImage(image)
-        imgSpan.imageSize = new Size(image.size.width / 2, image.size.height / 2)
-        imgSpan.centerAlignImage()
-        // 电池信息
-        if (holidayText.length == 0) {
-            const batteryLevel = Math.floor(Device.batteryLevel() * 100)
-            text = ` ⊙ ${batteryLevel}%`
-            image = await this.drawTextWithCustomFont(fontUrl, `${text}`, 15, fontColorHex)
-            imgSpan = stack.addImage(image)
-            imgSpan.imageSize = new Size(image.size.width / 2, image.size.height / 2)
-            imgSpan.centerAlignImage()
-        }
-        stack.addSpacer()
-
-        // 当前天气
-        //---------
-        widget.addSpacer(5)
-        stack = widget.addStack()
-        stack.layoutHorizontally()
-        stack.centerAlignContent()
-        stack.addSpacer()
-        //---------
-        let weatherIco = this.getSFSymbol(widgetConfigs.weatherSFIcos[weatherInfo.weatherIco])
-        if (!widgetConfigs.useSF) {
-            weatherIco = await this.getImageByUrl(weatherIcos[weatherInfo.weatherIco])
-        }
-        imgSpan = stack.addImage(weatherIco)
-        imgSpan.imageSize = new Size(23, 23)
-        imgSpan.centerAlignImage()
-        //---------
-        stack.addSpacer(10)
-        text = `${widgetConfigs.weatherDesc[weatherInfo.weatherIco]}  ${weatherInfo.temperature}°`
-        image = await this.drawTextWithCustomFont(fontUrl, `${text}`, 16, fontColorHex)
-        imgSpan = stack.addImage(image)
-        imgSpan.imageSize = new Size(image.size.width / 2, image.size.height / 2)
-        imgSpan.centerAlignImage()
-        //---------
-        // 舒适指数
-        stack.addSpacer(10)
-        image = await this.getImageByUrl("https://s3.ax1x.com/2021/01/23/sHPrZR.png")
-        imgSpan = stack.addImage(image)
-        imgSpan.tintColor = new Color(fontColorHex, 0.8)
-        imgSpan.imageSize = new Size(14, 14)
-        stack.addSpacer(6)
-        text = `${weatherInfo.aqiInfo}`
-        let textWidget = stack.addText(`${text}`)
-        textWidget.textColor = new Color(fontColorHex, 0.8)
-        textWidget.font = Font.lightSystemFont(13)
-        // 降雨率
-        stack.addSpacer(10)
-        image = await this.getImageByUrl("https://s3.ax1x.com/2021/01/23/sHic0s.png")
-        imgSpan = stack.addImage(image)
-        imgSpan.tintColor = new Color(fontColorHex, 0.8)
-        imgSpan.imageSize = new Size(14, 14)
-        stack.addSpacer(6)
-        text = `${Math.floor(weatherInfo.probability[0] * 100)}%`
-        textWidget = stack.addText(`${text}`)
-        textWidget.textColor = new Color(fontColorHex, 0.8)
-        textWidget.font = Font.lightSystemFont(13)
-        //---------
-        stack.addSpacer()
-
-        // 天气预告
-        //---------
-        widget.addSpacer(7)
-        stack = widget.addStack()
-        stack.layoutHorizontally()
-        stack.centerAlignContent()
-        stack.addSpacer()
-        //---------
-        text = `⊱ ${weatherInfo.weatherDesc} ⊰`
-        textWidget = stack.addText(`${text}`)
-        textWidget.textColor = new Color(fontColorHex, 0.8)
-        textWidget.font = Font.lightSystemFont(13)
-        stack.addSpacer()
-
-        //-------------------------------------
-        const selectPicBg = widgetConfigs.selectPicBg
-        this.setSelectPicBg(selectPicBg)
-        if (!selectPicBg) {
-            // 天气背景
-            let bgImg = await this.getImageByUrl(weatherBgUrls[weatherInfo.weatherIco])
-            bgImg = await this.loadShadowColor2Image(bgImg, new Color("333", 0.25))
-            await this.saveImgCache(this.scriptName, bgImg)
-        }
-        //-------------------------------------
-        return widget
-    }
-
-    /**
-     * 组件渲染
-     */
-    async renderUI() {
-        if (widgetConfigs.widgetStyle == 1) {
-            return await this.renderUIStyle1()
-        } else if (widgetConfigs.widgetStyle == 2) {
-            return await this.renderUIStyle2()
+    } catch (e) {
+        console.error(`农历请求出错：${e}`)
+        if (Keychain.contains(cacheKey)) {
+            const cache = Keychain.get(cacheKey)
+            response = JSON.parse(cache)
         }
     }
 
-    //-------------------------------------
-    /**
-     * @渲染小组件
-     */
-    async render() {
-        // 下载更新
-        if (widgetConfigs.openDownload && config.runsInApp) {
-            const message = "同步天气远程脚本？"
-            const options = ["运行脚本", "下载脚本"]
-            let typeIndex = await this.generateAlert(message, options)
-            if (typeIndex == 1) {
-                await this.downloadUpdate()
-            } else {
-                return await this.renderUI()
-            }
-        } else {
-            return await this.renderUI()
-        }
-    }
+    return response
 }
 
-// @运行测试
-const { Running } = require("./lsp环境")
-await Running(Widget, Script.name())
+/*function Addblur (Img)
+{
+  const drawing = new DrawContext()
+  drawing.size = Img.size
+  const rect = new Rect(0, 0, drawing.size.width, drawing.size.height)
+  drawing.drawImageInRect(Img, rect)
+  drawing.setFillColor(new Color("000000", 0.08))
+  drawing.fillRect(rect)
+  drawing.setStrokeColor(new Color("ffffff", 0.4))
+  
+
+//   for (i=0;i<5;i++)
+// {drawwhiteline(slipPosition+i*1.5, 70-i, 610+i*1.5, 70-i, AQIcolor, 60/(40+15*i)),drawing}
+drawing.setLineWidth(4)
+// drawing.strokeRect(rect)
+
+  let blurImg = drawing.getImage()
+return blurImg
+
+}*/
+
+
+
+function getWidgetSize ()
+{
+let deviceSize = (Device.screenSize().height*scale).toString()
+let deviceInfo = 
+  {  "2778": {
+    "models"  : ["12 Pro Max"],
+    "small"   : { "w": 510,   "h":  510 },
+    "medium"  : { "w": 1092,  "h": 510 },
+    "large"   : { "w": 1092,  "h": 1146}
+  },
+
+  "2532": {
+    "models"  : ["12", "12 Pro"],
+    "small"   : {"w": 474,  "h": 474 },
+    "medium"  : {"w": 1014, "h": 474 },
+    "large"   : {"w": 1014, "h": 1062 }
+  },
+   
+  "2688": {
+    "models"  : ["Xs Max", "11 Pro Max"],
+    "small"   : {"w": 507,  "h": 507},
+    "medium"  : {"w": 1080, "h": 507},
+    "large"   : {"w": 1080, "h": 1137}
+  },
+  
+  "1792": {
+    "models"  : ["11", "Xr"],
+    "small"   : {"w": 338, "h": 338},
+    "medium"  : {"w": 720, "h": 338},
+    "large"   : {"w": 720, "h": 758}
+  },
+  
+  "2436": {
+    "models"  : ["X", "Xs", "11 Pro"],
+    "small"   : {"w": 465, "h": 465},
+    "medium"  : {"w": 987, "h": 465},
+    "large"   : {"w": 987, "h": 1035}
+  },
+  
+  "2208": {
+    "models"  : ["6+", "6s+", "7+", "8+"],
+    "small"   : {"w": 471, "h": 471},
+    "medium"  : {"w": 1044, "h": 471},
+    "large"   : {"w": 1044, "h": 1071}
+  },
+  
+  "1334": {
+    "models"  : ["6","6s","7","8"],
+    "small"   : {"w": 296, "h": 296},
+    "medium"  : {"w": 642, "h": 296},
+    "large"   : {"w": 642, "h": 648}
+  },
+
+  "1136": {
+    "models"  : ["5","5s","5c","SE"],
+    "small"   : {"w": 282, "h": 282},
+    "medium"  : {"w": 584, "h": 282},
+    "large"   : {"w": 584, "h": 622}
+  }
+}
+
+let widgetSize = deviceInfo[deviceSize].medium
+return widgetSize
+// 
+}
+

@@ -2,10 +2,10 @@
 
 QX:
 
-^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/All_pro.js
+^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js
 
 surge:
-http-response ^https://m-api.nexon.com/sdk/enterToy.nx requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/All_pro.js
+http-response ^https://m-api.nexon.com/sdk/enterToy.nx requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js
 
 [MITM]
 hostname = m-api.nexon.com

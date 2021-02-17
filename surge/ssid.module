@@ -1,0 +1,8 @@
+#!name=SSID
+#!desc=Network switching
+#!system=ios
+
+[Script]
+
+#SSID
+event network-changed debug=1,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/wifi_proxy.js

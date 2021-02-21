@@ -38,5 +38,9 @@ TF DOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/acco
 
 一言 = script-path=https://github.com/dompling/Script/raw/master/oneSay/oneSay.js,type=cron,cronexp=0 8 * * * 
 
+#小米运动
+小米运动 = type=cron,cronexp="15 23 * * *",wake-system=1,timeout=3600,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/xmSports.js
+小米运动Token = type=http-response,pattern=^https:\/\/account\.huami\.com\/v2\/client\/login, requires-body=1, max-size=0, script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/backUp/xmSports.js
+
  [MITM]		
  hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com,api. m.jd.com,e.189.cn,mb3admin.com,testflight.apple.com

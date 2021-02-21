@@ -1,5 +1,5 @@
 {
- "name": "LXK9301 task gallery",
+ "name": "task gallery",
  "description": "https://gitee.com/lxk0301/jd_scripts/tree/master",
  "task": [
     "2 9 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bean_change.js, tag=浜眴鍙樺姩閫氱煡, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",

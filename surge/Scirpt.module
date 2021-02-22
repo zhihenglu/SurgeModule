@@ -36,7 +36,7 @@ TF DOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/acco
 
 彩云天气 = type=http-request,pattern=https://((weather-data.apple)|(api.weather)).com,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,script-update-interval=0
 
-一言 = script-path=https://github.com/dompling/Script/raw/master/oneSay/oneSay.js,type=cron,cronexp=0 8 * * * 
+//一言 = script-path=https://github.com/dompling/Script/raw/master/oneSay/oneSay.js,type=cron,cronexp=0 8 * * * 
 
 
  [MITM]		

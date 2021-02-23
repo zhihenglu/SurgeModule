@@ -1,0 +1,8 @@
+hostname = *.googlevideo.com,raw.githubusercontent.com, gist.githubusercontent.com
+
+#新版YouTube去广告
+ctier=[A-Z] url 302 ctier=A
+^https://[\s\S]*\.googlevideo\.com/.*&(oad|ctier) url reject-200
+
+#GitHub 访问加速 @ Peng-YM
+^(https?:\/\/(?:raw|gist)\.githubusercontent\.com\/.+)$ url 302 https://github.pengym.workers.dev/$1

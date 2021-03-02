@@ -1,4 +1,4 @@
-hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com
+hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,e.189.cn, mkt.21cn.com
 
 #枫之谷M
 //^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js
@@ -43,3 +43,9 @@ https:\/\/((weather-data\.apple)|(api.weather))\.com url script-request-header h
 
 #TF区域限制
 ^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$ url script-request-body https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js
+
+#电信天翼套餐 
+^https?:\/\/e\.189\.cn\/store\/user\/package_detail\.do url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomSky.js
+
+https:\/\/mkt\.21cn\.com\/mkt\/api\/user\/queryActivityInfo\.do\?activityId=\d+ url script-request-header https://raw.githubusercontent.com/Sunert/Scripts/master/Task/telecomSky.js
+    

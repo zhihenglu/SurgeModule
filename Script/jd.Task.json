@@ -28,7 +28,7 @@
         "10 7 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_syj.js, tag=十元街 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_syj.png",
         "10 7 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bean_home.js, tag=领京豆额外奖励 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_bean_home.png",
         "10 7 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car.js, tag=京东汽车 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_car.png",
-        "0 0 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car_exchange.js, tag=京东汽车兑换 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_car_exchange.png",
+        "*/2 0-2 0 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car_exchange.js, tag=京东汽车兑换 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_car_exchange.png",
         "10 0 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_kd.js, tag=京东快递签到 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_kd.png",
         "0 */3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_daily_egg.js, tag=京东金融-天天提鹅 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_daily_egg.png",
         "12 * * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_pigPet.js, tag=京东金融-养猪猪 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_pigPet.png",

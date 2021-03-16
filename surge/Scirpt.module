@@ -17,7 +17,7 @@ tb_price.js = requires-body=1,script-path=https://raw.githubusercontent.com/yich
 单集评分 = type=http-response,pattern=^https?://ios\.prod\.ftl\.netflix\.com/iosui/warmer/.+type=show-ath,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js	
 		
 #枫之谷		
- All_pro.js = requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js,type=http-response,pattern=^https://m-api.nexon.com/sdk/enterToy.nx	
+//All_pro.js = requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js,type=http-response,pattern=^https://m-api.nexon.com/sdk/enterToy.nx	
 
 #彩云VIP
 //彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
@@ -36,7 +36,7 @@ TF DOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/acco
 
 彩云天气 = type=http-request,pattern=https://((weather-data.apple)|(api.weather)).com,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,script-update-interval=0
 
-一言 = script-path=https://github.com/dompling/Script/raw/master/oneSay/oneSay.js,type=cron,cronexp=0 8 * * * 
+//一言 = script-path=https://github.com/dompling/Script/raw/master/oneSay/oneSay.js,type=cron,cronexp=0 8 * * * 
 
 
 [MITM]		

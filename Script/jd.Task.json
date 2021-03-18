@@ -71,6 +71,7 @@
         "0 9 8-31 3 * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_global.js, tag=环球挑战赛, img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_global.png, enabled=true",
         "0 0,9,13,20 * * * https://raw.githubusercontent.com/i-chenzhe/qx/main/backup/jd_mlyjy.js,tag=美丽研究院,img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png    , enabled=true",
         "0 0 0 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_xtg.js, tag=手机尚学季, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
+        "5 1,6,11,16,21 * 3-4 * https://raw.githubusercontent.com/i-chenzhe/qx/main/z_super5g.js, tag=5G超级盲盒, enabled=true",
         "8 0-23/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js, tag=京东天天加速, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdjs.png, enabled=true"
     ]
 }

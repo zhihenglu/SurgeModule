@@ -36,7 +36,7 @@ https:\/\/api\.m\.jd\.com\/client\.action.*functionId=signBean url script-reques
 https:\/\/((weather-data\.apple)|(api.weather))\.com url script-request-header https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js
 
 #彩云js
-//https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
+https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
 
 #AQI
 ^https:\/\/weather-data\.apple\.com\/v1\/weather\/[\w-]+\/([0-9]+\.[0-9]+)\/([0-9]+\.[0-9]+)\? url script-response-body https://raw.githubusercontent.com/chouchoui/QuanX/master/Scripts/iOS_Weather_AQI_Standard/index.js

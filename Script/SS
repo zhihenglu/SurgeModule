@@ -1,2 +1,2 @@
-vmess=43.128.4.177:21915, method=aes-128-gcm, password=e36efdbe-555f-40d1-dee8-64f5c823b0c6, fast-open=true, udp-relay=true, tag=🇭🇰SS_1
+vmess=43.128.4.177:21915, method=aes-128-gcm, password=e36efdbe-555f-40d1-dee8-64f5c823b0c6, fast-open=false, udp-relay=true, tag=🇭🇰SS_1
 http= a1.ap.fastqvpn.com:29980, username= 420623418656817152, password= 813bf506-74b7-45c5-ba60-f825717770a8, over-tls=true, tls-verification=false,fast-open=false, udp-relay=false, tag=🇭🇰SS_2

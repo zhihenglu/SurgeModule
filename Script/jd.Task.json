@@ -71,6 +71,8 @@
         "0 0 0 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_xtg.js, tag=手机尚学季, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
         "0 0-18/6 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_carnivalcity.js, tag=京东手机狂欢城, img-url= https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
         "0 8 22-31/1 3 * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_nzmh.js, tag=女装盲盒, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
+        "0 0 * * * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_inter_shop_sign.js, tag=interCenter渠道店铺签到,  enabled=true",
+        "15 15 * * * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_shop_follow_sku.js, tag=关注有礼,  enabled=true",
         "8 0-23/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js, tag=京东天天加速, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdjs.png, enabled=true"
     ]
 }

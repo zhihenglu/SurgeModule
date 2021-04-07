@@ -75,6 +75,10 @@
         "15 15 * * * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_shop_follow_sku.js, tag=关注有礼,  enabled=true",
         "3 3,23 * * * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_shop_lottery.js, tag=店铺大转盘,  enabled=true",
         "5 8,14,20 6-13 4 * https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_mother_jump.js, tag=母婴-跳一跳, enabled=true",
+        "15 08 2-18 4 * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/monk_skyworth.js, tag=创维408下班全勤奖,  enabled=true",
+        "0 0 5-11 4 * https://raw.githubusercontent.com/monk-coder/dust/dust/backup/z_asus_iqiyi.js, tag=华硕-iqiyi, enabled=true",
+        "0 0,1-22/2 1-31 4-7 * https://raw.githubusercontent.com/monk-coder/dust/dust/member/monk_pasture.js, tag=有机牧场,  enabled=true",
+        "10 10 7-9 4 * https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_xmf.js, tag=京东小魔方,  enabled=true",
         "8 0-23/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js, tag=京东天天加速, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdjs.png, enabled=true"
     ]
 }

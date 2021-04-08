@@ -80,7 +80,6 @@
         "0 0,1-22/2 1-31 4-7 * https://raw.githubusercontent.com/monk-coder/dust/dust/member/monk_pasture.js, tag=有机牧场,  enabled=true",
         "10 10 7-9 4 * https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_xmf.js, tag=京东小魔方,  enabled=true",
         "15 12 * * * https://raw.githubusercontent.com/monk-coder/dust/dust/car/monk_shop_add_to_car.js, tag=加购有礼,  enabled=true",
-        "0 0 1 1 * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_syj.js, tag=赚京豆, enabled=true",
         "8 0-23/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js, tag=京东天天加速, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdjs.png, enabled=true"
     ]
 }

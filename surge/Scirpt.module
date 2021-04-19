@@ -40,4 +40,4 @@ TF DOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/acco
 
 
 [MITM]		
-hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com, e.189.cn,mb3admin.com,testflight.apple.com
+hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios-h2.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com, e.189.cn,mb3admin.com,testflight.apple.com

@@ -1,12 +1,12 @@
-hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,*.baidu.com
+hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios-h2.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,*.baidu.com
 
 #枫之谷M
 ^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js
 
 #Netflix评分
-^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D url script-request-header https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
+^https?://ios-h2\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D url script-request-header https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 
-^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D url script-response-body https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
+^https?://ios-h2\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D url script-response-body https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 
 #JD比价
 ^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) url script-response-body https://raw.githubusercontent.com/yichahucha/surge/master/jd_price.js

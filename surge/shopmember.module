@@ -1,0 +1,11 @@
+#!name=解绑会员
+#!desc=点击会员卡直达注销页面
+#!system=ios
+
+
+[URL Rewrite]
+# 取消绑定京东店铺会员，点击会员卡直达注销页面 
+^https:\/\/shopmember\.m\.jd\.com\/shopcard\/\?(venderId=[0-9]+).* https:\/\/shopmember\.m\.jd\.com\/member\/memberCloseAccount\?$1 302
+
+[MITM]
+hostname = %APPEND% shopmember.m.jd.com

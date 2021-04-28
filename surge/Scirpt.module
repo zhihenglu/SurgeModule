@@ -41,5 +41,10 @@ TF DOWN = type=http-request,pattern=^https?:\/\/testflight\.apple\.com\/v2\/acco
 
 tbopener.js = type=http-response,pattern=^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi,script-path=https://raw.githubusercontent.com/HotKids/Rules/master/Script/weixin110.js
 
+#BiliBili
+Bili Region = type=http-response,pattern=^https:\/\/ap(p|i)\.bilibili\.com\/(pgc\/view\/(v\d\/)?app|x(\/v\d)?\/view\/video)\/(season|online)\?access_key,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
+
+http-response https?:\/\/api\.bilibili\.com\/pgc\/player\/api\/playurl script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/bilifj.js,requires-body=true
+
 [MITM]		
-hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios-h2.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com, e.189.cn,mb3admin.com,testflight.apple.com,weixin110.qq.com
+hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios-h2.prod.ftl.netflix.com ,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com, e.189.cn,mb3admin.com,testflight.apple.com,weixin110.qq.com,ap?.bilibili.com,api.bilibili.com

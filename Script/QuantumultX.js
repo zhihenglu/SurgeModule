@@ -1,4 +1,4 @@
-hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios-h2.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,*.baidu.com,weixin110.qq.com
+hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios-h2.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,*.baidu.com,weixin110.qq.com,*.tiktokv.com, *.byteoversea.com, *.tik-tokapi.com,wq.jd.com, m.jingxi.com,ap?.bilibili.com
 
 #枫之谷M
 ^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js
@@ -51,5 +51,19 @@ https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response
 ^https?:\/\/.*\.baidu\.com url request-header (\r\n)User-Agent:.+(\r\n) request-header $1User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/16C50 Quark/604.1 T7/10.3 SearchCraft/2.6.3 (Baidu; P1 8.0.0)$2
 
 #解除微信屏蔽
-^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi url script-response-body https://raw.githubusercontent.com/HotKids/Rules/master/Script/weixin110.js
+^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi url script-response-body https://raw.githubusercontent.com/HotKids/Rules/ master/Script/weixin110.js
+
+
+(?<=_region=)CN(?=&) url 307 TW
+(?<=&mcc_mnc=)4 url 307 2
+^(https?:\/\/(tnc|dm)[\w-]+\.\w+\.com\/.+)(\?)(.+) url 302  $1$3
+(?<=\d\/\?\w{7}_\w{4}=)1[6-9]..(?=.?.?&) url 307 17
+
+^https\:\/\/wq\.jd\.com\/cubeactive\/farm\/dotask url script-request-header https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
+  ^https\:\/\/m\.jingxi\.com\/dreamfactory\/generator\/CollectCurrentElectricity url script-request-header https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
+  ^https\:\/\/m\.jingxi\.com\/jxcfd\/consume\/CashOut url script-request-header https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js
+
+^https:\/\/ap(p|i)\.bilibili\.com\/(pgc\/view\/(v\d\/)?app|x(\/v\d)?\/view\/video)\/(season|online)\?access_key url script-response-body https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
+        
             
+    

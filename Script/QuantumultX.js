@@ -1,4 +1,4 @@
-hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios-h2.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,*.baidu.com,weixin110.qq.com,*.tiktokv.com, *.byteoversea.com, *.tik-tokapi.com,wq.jd.com, m.jingxi.com,ap?.bilibili.com
+hostname = m-api.nexon.com,trade-acs.m.taobao.com,api.m.jd.com,ios-h2.prod.ftl.netflix.com,wapside.189.cn,weather-data.apple.com, api.weather.com,ifac*.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,*.baidu.com,*.tiktokv.com, *.byteoversea.com, *.tik-tokapi.com,wq.jd.com, m.jingxi.com,ap?.bilibili.com
 
 #枫之谷M
 ^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/All_pro.js
@@ -50,8 +50,7 @@ https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response
 # 百度防跳转
 ^https?:\/\/.*\.baidu\.com url request-header (\r\n)User-Agent:.+(\r\n) request-header $1User-Agent: Mozilla/5.0 (iPhone; CPU iPhone OS 13_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/13.1.1 Mobile/15E148 Safari/16C50 Quark/604.1 T7/10.3 SearchCraft/2.6.3 (Baidu; P1 8.0.0)$2
 
-#解除微信屏蔽
-^https?:\/\/weixin110\.qq\.com\/cgi-bin\/mmspamsupport-bin\/newredirectconfirmcgi url script-response-body https://raw.githubusercontent.com/HotKids/Rules/ master/Script/weixin110.js
+
 
         
             

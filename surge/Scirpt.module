@@ -48,7 +48,7 @@ http-response https?:\/\/api\.bilibili\.com\/pgc\/player\/api\/playurl script-pa
 
 Bili Search = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/search\/type\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
     
-
+捷径策略切换 = type=http-request,pattern=^http:\/\/nobyda\.policy,requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Shortcuts/PolicySwitch.js
    
 [MITM]		
 hostname = %APPEND% trade-acs.m.taobao.com, api.m.jd.com, ios.prod.ftl.netflix.com,m- api.nexon.com,biz.caiyunapp.com,weather-data.apple.com,,weather-data.apple.com,api.weather.com,duckduckgo.com,biz.caiyunapp.com, e.189.cn,mb3admin.com,testflight.apple.com,weixin110.qq.com,ap?.bilibili.com,api.bilibili.com

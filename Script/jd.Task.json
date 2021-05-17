@@ -53,6 +53,7 @@
         "30 6,12,22 * * * https://raw.githubusercontent.com/moposmall/Script/main/Me/jx_cfd_exchange.js, tag=京喜财富岛兑换提醒 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jx_cfd_exchange.png",
         "0 0 * * * https://raw.githubusercontent.com/jonrean/JD-SHELL/main/jx_cfdtx.js, tag=京喜财富岛提现, img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jx_cfd_exchange.png, enabled=true",
         "10 7 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_syj.js, tag=赚京豆, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true",
+        "0 9 * * * https://ghproxy.com/https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_zjd_tuan.js, tag=京东赚京东开团, img-url=https://ghproxy.com/https://raw.githubusercontent.com/58xinian/icon/master/jd_syj.png, enabled=true",
         "30 7 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_xgyl.js, tag=小鸽有礼2,img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_xg.png, enabled=true",
         "10 7 * * * https://raw.githubusercontent.com/l2308/Surge/master/joy.js, tag=crazyJoy, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jd_crazy_joy.png, enabled=true",
         "5 0 * * * https://raw.githubusercontent.com/ZCY01/daily_scripts/main/jd/jd_priceProtect.js, tag=京东价格保护, img-url=https://raw.githubusercontent.com/ZCY01/img/master/pricev1.png, enabled=true",
@@ -85,7 +86,6 @@
         "0 0-23/1 * * * https://raw.githubusercontent.com/nianyuguai/longzhuzhu/main/qx/jd_super_redrain.js, tag=整点京豆雨, img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_super_redrain.png, enabled=true",
         "13 1,22,23 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_daily_lottery.js, tag=每日抽奖, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
         "25 8,12 6-11 5 * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/adolf_oppo.js, tag=刺客567之寻宝,  enabled=true",
-        "15 8 9-13 5 * https://raw.githubusercontent.com/monk-coder/dust/dust/car/adolf_ETIP.js, tag=探秘无限星空,  enabled=true",
         "5 8,14,20 11-17 5 *  https://raw.githubusercontent.com/monk-coder/dust/dust/i-chenzhe/z_mother_jump.js, tag=母婴-跳一跳, enabled=true",
         "8 0-23/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js, tag=京东天天加速, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdjs.png, enabled=true"
     ]

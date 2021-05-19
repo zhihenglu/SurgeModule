@@ -1,3 +1,1 @@
 vmess=mayong.cloud:11814, method=aes-128-gcm, password=2391411c-d809-4d39-fe82-915a914fd49c, fast-open=false, udp-relay=false, tag=🇭🇰SS_1
-
-http= a1.ap.fastqvpn.com:29980, username= 420623418656817152, password=ef7f3b7b-6599-4fca-816a-a085e01261d4, over-tls=true, tls-verification=false,fast-open=false, udp-relay=false, tag=🇭🇰SS_2

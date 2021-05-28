@@ -11,6 +11,7 @@
         "5 0 * * * https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js, tag=京东 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/JD_DailyBonus.png",
         "2 9 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bean_change.js, tag=京东资产变动通知, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
         "55 8 * * * https://raw.githubusercontent.com/ZCY01/daily_scripts/main/app/free_app_detect.js, tag=限免APP, img-url=applelogo.system, enabled=true",
+        "0 2 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_price.js, tag=京东保价, img-url=https://raw.githubusercontent.com/Orz-3/task/master/jd.png, enabled=true",
         "15 */2 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy.js, tag=宠汪汪 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_joy.png",
         "0 0,6 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_steal.js, tag=宠汪汪偷好友积分与狗粮 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_joy_steal.png",
         "15 */1 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_joy_feedPets.js, tag=宠汪汪喂食 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_joy_feedPets.png",

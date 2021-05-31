@@ -99,8 +99,6 @@
         "15 9,20 * 5,6 * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/adolf_superbox.js, tag=京东超级盒子,img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png,enabled=true",
         "15 9,20 * 5,6 * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/adolf_newInteraction.js, tag=618大势新品赏,img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png,enabled=true",
         "15 9 * 5,6 * https://raw.githubusercontent.com/monk-coder/dust/dust/normal/adolf_jxhb.js, tag=京喜阶梯红包,img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png,enabled=true",
-        "0 0 0 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_xtg.js, tag=家电星推官, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
-        "0 0 0 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_xtg_help.js, tag=家电星推官好友互助, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
         "13 1,22 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_gold_creator.js, tag=金榜创造营, img-url=https://raw.githubusercontent.com/Orz-3/mini/master/Color/jd.png, enabled=true",
         "8 0-23/3 * * * https://jdsharedresourcescdn.azureedge.net/jdresource/jd_speed.js, tag=京东天天加速, img-url=https://raw.githubusercontent.com/58xinian/icon/master/jdjs.png, enabled=true"
     ]

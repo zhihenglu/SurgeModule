@@ -1,9 +1,9 @@
 /.
-quanx:
-^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$ url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js
+//quanx:
+//^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$ url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js
 
-[MITM]
-hostname =api.revenuecat.com
+//[MITM]
+//hostname =api.revenuecat.com
 
 
 let obj = JSON.parse($response.body)

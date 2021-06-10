@@ -1,1 +1,1 @@
-vmess=43.129.21.5:48079, method=aes-128-gcm, password=cbf1297f-6f47-4ae1-a170-a8766e8248f3, fast-open=false, udp-relay=true,tag=🇭🇰SS_1
+vmess=216.189.149.34:43211, method=aes-128-gcm, password=9ede8854-84db-48f6-81de-a218e7678598, fast-open=false, udp-relay=false,tag=🇭🇰SS_1

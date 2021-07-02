@@ -42,15 +42,15 @@ function Tool() {
     this.notify = (title, subtitle, message, option) => {
         if (_isQuanX) $notify(title, subtitle, message, option)
         if (_isSurge) $notification.post(title, subtitle, message, {"url":option["open-url"]})
-        if (_isLoon) $notification.post(title, subtitle, message, option["open-url"])
+        if (_isLoon) $notification.post(title, subtitle, message, {"openUrl":option["open-url"],"mediaUrl":option["media-url"]})
         if (_node) console.log(JSON.stringify({ title, subtitle, message }));
     }
     this.write = (value, key) => {
-        if (_isQuanX) return $prefs.setValueForKey(value, key)
+        if (_isQuanX || _isLoon) return $prefs.setValueForKey(value, key)
         if (_isSurge) return $persistentStore.write(value, key)
     }
     this.read = (key) => {
-        if (_isQuanX) return $prefs.valueForKey(key)
+        if (_isQuanX || _isLoon) return $prefs.valueForKey(key)
         if (_isSurge) return $persistentStore.read(key)
     }
     this.get = (options, callback) => {
@@ -59,7 +59,7 @@ function Tool() {
             options["method"] = "GET"
             $task.fetch(options).then(response => { callback(null, _status(response), response.body) }, reason => callback(reason.error, null, null))
         }
-        if (_isSurge) $httpClient.get(options, (error, response, body) => { callback(error, _status(response), body) })
+        if (_isQuanX || _isLoon) $httpClient.get(options, (error, response, body) => { callback(error, _status(response), body) })
         if (_node) _node.request(options, (error, response, body) => { callback(error, _status(response), body) })
     }
     this.post = (options, callback) => {
@@ -68,7 +68,7 @@ function Tool() {
             options["method"] = "POST"
             $task.fetch(options).then(response => { callback(null, _status(response), response.body) }, reason => callback(reason.error, null, null))
         }
-        if (_isSurge) $httpClient.post(options, (error, response, body) => { callback(error, _status(response), body) })
+        if (_isQuanX || _isLoon) $httpClient.post(options, (error, response, body) => { callback(error, _status(response), body) })
         if (_node) _node.request.post(options, (error, response, body) => { callback(error, _status(response), body) })
     }
     _status = (response) => {

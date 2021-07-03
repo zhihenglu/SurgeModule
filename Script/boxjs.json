@@ -2,8 +2,8 @@
   "id": "jd",
   "name": "boxjs订阅",
   "author": "@zhiheng",
-  "icon": "https://avatars0.githubusercontent.com/u/21308593?s=52&v=4",
-  "repo": "https://gitee.com/lxk0301/jd_scripts/tree/master/",
+  "icon": "https://github.com/zhihenglu/SurgeModule",
+  "repo": "https://github.com/zhihenglu/SurgeModule/raw/master",
   "apps": [
     {
       "id": "JD_Cookies",

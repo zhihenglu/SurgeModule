@@ -1,11 +1,6 @@
 # Task配置 By FrancH
 # Loon群组：https://t.me/Loon0x00
 
-# Boxjs
-cron "0 * * * *" script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/Delete_All.js, enable=false, tag=抹掉Boxjs全局备份
-cron "0 * * * *" script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/Delete_Cache.js, enable=false, tag=抹掉Boxjs订阅缓存
-
-
 #京喜财富岛提现
 cron "0 0 * * *" script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/cfdtx.js, tag=京喜财富岛提现
 

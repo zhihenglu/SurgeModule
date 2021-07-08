@@ -1,0 +1,30 @@
+#!name=Task
+#!desc=JD,IQyi,Xmi
+
+[Script]
+
+京东资产变动通知 = type=cron,cronexp=5 9 * * *,wake-system=1,timeout=3600,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_bean_change.js
+
+财富岛提现 = type=cron,cronexp=0 0 * * *, script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/cfdtx.js
+
+取关京东店铺商品 = type=cron,cronexp=“55 23 * * *”,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_unsubscribe.js
+
+京东试用 = type=cron,cronexp=“0 5 * * *”, wake-system=1,timeout=1500,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_try.js
+
+东东超市兑换奖品 = type=cron,cronexp=“0 0 0 * * *”,wake-system=1,timeout=3600,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_blueCoin.js
+
+宠汪汪积分兑换奖品 = type=cron,cronexp=“0 0-16/8 * * *”,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/songyangzz/jd_scripts/master/jd_joy_reward.js
+
+小米运动 = type=cron,cronexp=“0 23 * * *”,wake-system=1,timeout=3600,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/xmSports.js
+
+爱奇艺签到 = type=cron,cronexp=0 9 * * *,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
+
+#彩云天气
+彩云天气 = type=cron,cronexp=0 6-23/1 * * *,wake-system=1,script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js,script-update-interval=0
+
+#一言
+一言 = type=cron,cronexp=0 9-21/12 * * *,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/one_day.js
+
+[MITM]
+	
+hostname = %APPEND% 

@@ -10,7 +10,7 @@
 QuantumultX
 
 [rewrite_local]
-^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://raw.githubusercontent.com/MapleRen/MapleStoryM-language/master/Global/QuantumultX/msmUnBlock.js
+^https://m-api.nexon.com/sdk/enterToy.nx url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 [mitm]
 hostname = m-api.nexon.com
 

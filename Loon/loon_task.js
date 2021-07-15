@@ -25,3 +25,6 @@ cron "0 9-21/12 * * *" script-path=https://github.com/zhihenglu/SurgeModule/raw/
 #彩云
 cron "0 6-23/1 * * *" script-path=https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js, tag=彩云
 
+#小米运动
+cron "15 17 * * *" script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/xmSports.js, tag=小米运动    
+

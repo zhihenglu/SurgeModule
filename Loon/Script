@@ -5,6 +5,11 @@ http-response https://weather-data.apple.com/v2/weather/[\w-]+/-?[0-9]+\.[0-9]+/
 http-request ^https\:\/\/wq\.jd\.com\/cubeactive\/farm\/dotask script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js, timeout=10, tag=京喜token
 http-request ^https\:\/\/m\.jingxi\.com\/dreamfactory\/generator\/CollectCurrentElectricity script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js, timeout=10, tag=京喜token
 http-request ^^https\:\/\/m\.jingxi\.com\/jxcfd\/consume\/CashOut script-path=https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_tokens.js, timeout=10, tag=京喜token
+
+http-request https:\/\/api\.m\.jd\.com\/client\.action.*functionId=signBean tag=获取京东Cookie, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
+
+http-response ^https:\/\/account\.huami\.com\/v2\/client\/login script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/xmSports.js, requires-body=true, timeout=3600, tag=小米运动获取Token
+
 http-response https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js, requires-body=true, timeout=10, tag=彩云VIP
 
 http-response ^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item) script-path=https://raw.githubusercontent.com/githubdulong/Script/master/jfConvert.js, requires-body=true, timeout=10, tag=京粉转链
@@ -39,5 +44,5 @@ cron ”0 6-23/1 * * *“ script-path=https://raw.githubusercontent.com/Peng-YM/
 
 
 hostname = 
-duckduckgo.com,weather-data.apple.com,biz.caiyunapp.com,api.m.jd.com,mb3admin.com,ios.prod.ftl.netflix.com,ap?.bilibili.com,api.weather.com,weather-data.apple.com,wq.jd.com, m.jingxi.com
+duckduckgo.com,weather-data.apple.com,biz.caiyunapp.com,api.m.jd.com,mb3admin.com,ios.prod.ftl.netflix.com,ap?.bilibili.com,api.weather.com,weather-data.apple.com,wq.jd.com, m.jingxi.com,account.huami.com,api.m.jd.com
 

@@ -20,7 +20,7 @@ embyPremiere.js = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/se
 
 
 #VSCO
-vsco = type=http-response,pattern=https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$,requires-body=1,max-size=0,script-path=vsco.js
+vsco = type=http-response,pattern=https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$,requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js
 
 
 #TF

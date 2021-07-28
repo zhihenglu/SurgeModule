@@ -8,6 +8,8 @@ http-request ^^https\:\/\/m\.jingxi\.com\/jxcfd\/consume\/CashOut script-path=ht
 
 http-request https:\/\/api\.m\.jd\.com\/client\.action.*functionId=signBean tag=获取京东Cookie, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 
+http-request ^https?:\/\/iface(\d)?\.iqiyi\.com\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/iQIYI-DailyBonus/iQIYI.js
+
 http-response ^https:\/\/account\.huami\.com\/v2\/client\/login script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/xmSports.js, requires-body=true, timeout=3600, tag=小米运动获取Token
 
 http-response https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js, requires-body=true, timeout=10, tag=彩云VIP
@@ -34,5 +36,5 @@ http-response ^https?://m-api\.nexon\.com/sdk/enterToy.nx script-path=https://gi
 http-response ^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$  script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js, requires-bpdy=true, tag=VSCO
 
 hostname = 
-duckduckgo.com,weather-data.apple.com,biz.caiyunapp.com,api.m.jd.com,mb3admin.com,ios.prod.ftl.netflix.com,ap?.bilibili.com,api.weather.com,weather-data.apple.com,wq.jd.com, m.jingxi.com,account.huami.com,api.m.jd.com,m-api.nexon.com,api.revenuecat.com
-
+duckduckgo.com,weather-data.apple.com,biz.caiyunapp.com,api.m.jd.com,mb3admin.com,ios.prod.ftl.netflix.com,ap?.bilibili.com,api.weather.com,weather-data.apple.com,wq.jd.com, m.jingxi.com,account.huami.com,api.m.jd.com,m-api.nexon.com,api.revenuecat.com,
+ifac*.iqiyi.com

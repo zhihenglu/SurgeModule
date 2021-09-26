@@ -16,6 +16,7 @@ flushDNS = script-name=flushDNS,update-interval=-1
     let panel = {
         title: "Flush DNS",
         content: `delay: ${delay}ms${dnsCache ? `\nserver:\n${dnsCache}` : ""}`,
+        icon :"network"
     };
     if (typeof $argument != "undefined") {
         let arg = Object.fromEntries($argument.split("&").map((item) => item.split("=")));

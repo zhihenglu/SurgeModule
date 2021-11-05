@@ -77,7 +77,6 @@
         "11 1 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_lotteryMachine.js, tag=抽奖机 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_lotteryMachine.png",
         "11 9 * * * https://raw.githubusercontent.com/yangtingxiao/QuantumultX/master/scripts/jd/jd_rankingList.js, tag=排行榜 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_rankingList.png",
         "0 1,18 * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_factory_component.js, tag=京喜工厂plus , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jx_factory_component.png",
-        "10 10 * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jx_products_detail.js, tag=京喜工厂商品列表详情 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jx_products_detail.png",
         "1 0-23/1 * * * https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_super_redrain.js, tag=整点京豆雨 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/long_super_redrain.png",
         "15 19 * * * https://gitee.com/lxk0301/jd_scripts/raw/master/backUp/xmSports.js, tag=小米运动 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/xmSports.png", 
     ]

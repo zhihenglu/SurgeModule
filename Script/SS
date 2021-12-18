@@ -1,1 +1,3 @@
-vmess=34.92.40.190:63753, method=aes-128-gcm, password=2f998c30-5236-4d6b-beec-8e3f18c7cb25, fast-open=false, udp-relay=true, tag=🚦Network
+vmess=155.248.172.30:26954, method=aes-128-gcm, password=2287cd67-989e-444d-9348-dcc85f499a42, fast-open=false, udp-relay=false, tag=🇯🇵Vemss1
+
+vmess=150.230.209.27:22703, method=aes-128-gcm, password=ec6ba36a-5036-4d35-a138-21d48e9496c8, fast-open=false, udp-relay=false, tag=🇯🇵Vemss2

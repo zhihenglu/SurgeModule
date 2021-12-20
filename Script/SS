@@ -1,3 +1,7 @@
 shadowsocks=168.138.195.241:46079, method=aes-256-gcm, password=233blog.com, fast-open=false, udp-relay=false, tag=🇯🇵SS1
 
 shadowsocks=152.70.106.2:36334, method=aes-256-gcm, password=233blog.com, fast-open=false, udp-relay=false, tag=🇯🇵SS2
+
+shadowsocks=146.56.114.191:40487, method=aes-256-gcm, password=233blog.com, fast-open=false, udp-relay=false, tag=🇰🇷SS1
+
+shadowsocks=152.67.212.27:50646, method=aes-256-gcm, password=233blog.com, fast-open=false, udp-relay=false, tag=🇰🇷SS2

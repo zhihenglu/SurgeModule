@@ -1,7 +1,3 @@
-vmess=146.56.114.191:21119, method=aes-128-gcm, password=d7a1316b-46ad-4118-a46e-d5c6ccd2bb93, fast-open=false, udp-relay=false, tag=🇰🇷Korea 1
-
-vmess=152.67.212.27:50960, method=aes-128-gcm, password=9acb5969-de74-4bcc-8f10-6759150b4282, fast-open=false, udp-relay=false, tag=🇰🇷Korea 2
-
 vmess=168.138.195.241:58464, method=aes-128-gcm, password=9f30e45b-0b6f-4622-e5bd-b08112873b0a, fast-open=false, udp-relay=false, tag=🇯🇵JaPan 1
 
 vmess=152.70.106.2:31484, method=aes-128-gcm, password=4ee8bb2e-c039-45c6-bb2a-8313e736bd0f, fast-open=false, udp-relay=false, tag=🇯🇵JaPan 2

@@ -1,5 +1,5 @@
-vmess=168.138.195.241:58464, method=aes-128-gcm, password=9f30e45b-0b6f-4622-e5bd-b08112873b0a, fast-open=false, udp-relay=false, tag=🇯🇵JaPan 1
+vmess=168.138.195.241:58464, method=aes-128-gcm, password=9f30e45b-0b6f-4622-e5bd-b08112873b0a, fast-open=false, udp-relay=true, tag=🇯🇵JaPan 1
 
-vmess=152.70.106.2:31484, method=aes-128-gcm, password=4ee8bb2e-c039-45c6-bb2a-8313e736bd0f, fast-open=false, udp-relay=false, tag=🇯🇵JaPan 2
+vmess=152.70.106.2:31484, method=aes-128-gcm, password=4ee8bb2e-c039-45c6-bb2a-8313e736bd0f, fast-open=false, udp-relay=true, tag=🇯🇵JaPan 2
 
-vmess=103.135.251.81:16222, method=aes-128-gcm, password=854d517c-791f-4d2e-9277-392d492e6cd5, fast-open=false, udp-relay=false, tag=🇭🇰HongKong 1
+vmess=103.135.251.81:16222, method=aes-128-gcm, password=854d517c-791f-4d2e-9277-392d492e6cd5, fast-open=false, udp-relay=true, tag=🇭🇰HongKong 1

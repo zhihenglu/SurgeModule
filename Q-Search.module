@@ -1,0 +1,40 @@
+#!name=🔍Q-Search-All in one
+#!desc=Adjust the browser search engine, default serach engine: google
+
+#先设置更改 Safari 默认搜索设置为 Google
+#原支持iPhone iPad Safari，支持Mac Chrome, edge。增加Mac Safari搜索。未注明表示未测试
+#Safari内输入“命令 + 空格 + 搜索内容“来指定搜索方式
+# gh：  GitHub搜索
+# wiki: 维基百科
+# wk:   维基中文
+# rd: Reddit
+# bi: 必应
+# bd：百度搜索
+# ddg：DuckDuckGo 搜索
+# 无指令默认Google 搜索
+
+[URL Rewrite]
+# gh：GitHub
+^https:\/\/www\.google.com\/search\?q=gh\+([^&]+).+ https://github.com/search?q=$1 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=gh\+([^&]+).+ https://github.com/search?q=$1 302
+# wiki：维基百科
+^https:\/\/www\.google.com\/search\?q=wiki(\+|%20)([^&]+).+ http://wikipedia.org/wiki/$2 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=wiki(\+|%20)([^&]+).+ http://wikipedia.org/wiki/$2 302
+# wk：维基百科ZH
+^https:\/\/www\.google.com\/search\?q=wk(\+|%20)([^&]+).+ https://zh.wikipedia.org/wiki/$2 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=wk(\+|%20)([^&]+).+ https://zh.wikipedia.org/wiki/$2 302
+# rd：Reddit
+^https:\/\/www\.google.com\/search\?q=rd\+([^&]+).+ https://www.reddit.com/search?q=$1 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=rd\+([^&]+).+ https://www.reddit.com/search?q=$1 302
+# bi: 必应搜索
+^https:\/\/www\.google.com\/search\?q=bi\+([^&]+).+ https://cn.bing.com/search?q=$1 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=bi\+([^&]+).+ https://cn.bing.com/search?q=$1 302
+# bd: 百度搜索
+^https:\/\/www\.google.com\/search\?q=bd\+([^&]+).+ https://www.baidu.com/s?wd=$1 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=bd\+([^&]+).+ https://www.baidu.com/s?wd=$1 302
+# ddg: DuckDuckGo 搜索
+^https:\/\/www\.google.com\/search\?q=ddg\+([^&]+).+ https://duckduckgo.com/?ia=about&q=$1 302
+^https:\/\/www\.google.com\/search\?client=\w+\&rls=\w+\&q=ddg\+([^&]+).+ https://duckduckgo.com/?ia=about&q=$1 302
+
+[MITM]
+hostname = %APPEND% www.google.com

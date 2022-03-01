@@ -34,7 +34,6 @@
         "0 0 0 * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_blueCoin.js, tag=京小超兑换奖品 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_blueCoin.png",
         "10 0 * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_shop.js, tag=进店领豆 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_shop.png",
         "5 0 * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_club_lottery.js, tag=摇京豆 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_club_lottery.png",
-        "1 1 * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_redPacket.js, tag=京东全民开红包 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_redPacket.png",
         "0 0 * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_jdzz.js, tag=京东赚赚 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_jdzz.png",
         "2 9 * * * https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_bean_change.js, tag=京豆变动通知 , img-url=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_bean_change.js",
         "10 * * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_dreamFactory.js, tag=京喜工厂 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_dreamFactory.png",

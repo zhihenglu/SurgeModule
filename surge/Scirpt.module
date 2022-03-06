@@ -41,7 +41,10 @@ bilibili-json = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/(v2
 bilibili-proto = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.(view\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/iEwha/Profiles/master/Script/bilibili-proto.js,script-update-interval=0
 
 bilibili_mine = type=http-response,pattern=^https://app\.bilibili\.com/x/v2/account/mine\?access_key,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/iEwha/Profiles/master/Script/bilibili_mine.js,script-update-interval=0
+
+#Tidal
+Tidal = type=http-request,pattern=^https?:\/\/api\.tidal\.com\/v1\/(pages\/album|(user|track|page)s\/(\d+)\/(state|subscription|lyrics|onboarding|playbackinfopostpaywall)),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yqc007/QuantumultX/master/TIDALHiFiPlusCrack.js,script-update-interval=0
         
    
 [MITM]		
-hostname = %APPEND% ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,security.wechat.com, weixin110.qq.com,,app.bilibili.com, grpc.biliapi.net, ap?.bilibili.com
+hostname = %APPEND% ios.prod.ftl.netflix.com,api.tidal.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,security.wechat.com, weixin110.qq.com,,app.bilibili.com, grpc.biliapi.net, ap?.bilibili.com

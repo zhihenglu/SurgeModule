@@ -44,4 +44,4 @@ bilibili_mine = type=http-response,pattern=^https://app\.bilibili\.com/x/v2/acco
         
    
 [MITM]		
-hostname = %APPEND% ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,security.wechat.com, weixin110.qq.com,,app.bilibili.com, grpc.biliapi.net, ap?.bilibili.com
+hostname = %APPEND% ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,security.wechat.com, weixin110.qq.com,,app.bilibili.com, grpc.biliapi.net, ap?.bilibili.com,api.m.jd.com

@@ -1,5 +1,0 @@
-vmess=168.138.195.241:58464, method=aes-128-gcm, password=9f30e45b-0b6f-4622-e5bd-b08112873b0a, fast-open=false, udp-relay=true, tag=🇯🇵JaPan 1
-
-shadowsocks=152.70.106.2:43187, method=aes-256-gcm, password=9eJT6OUCvd, fast-open=true, udp-relay=true, tag=🇯🇵JaPan 2
-
-shadowsocks=198.74.99.180:37244, method=aes-256-gcm, password=CoJdg9uKyc, fast-open=true, udp-relay=true, tag=🇺🇸USA 01

@@ -1,0 +1,6 @@
+#!name=DOH
+#!desc=doh is ios
+
+[General]
+
+doh-server = https://doh.pub/dns-query

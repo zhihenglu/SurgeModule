@@ -1,4 +1,4 @@
-hostname = ios.prod.ftl.netflix.com,weather-data.apple.com, api.weather.com,passport.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,testflight.apple.com,mb3admin.com,ms.jr.jd.com, me-api.jd.com,account.huami.com,api.revenuecat.com,*.bilibili.com,api.m.jd.com
+hostname = ios.prod.ftl.netflix.com,weather-data.apple.com, api.weather.com,passport.iqiyi.com,*.video.qq.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,mb3admin.com,ms.jr.jd.com, me-api.jd.com,account.huami.com,api.revenuecat.com,*.bilibili.com,api.m.jd.com
 
 #Netflix评分
 ^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D url script-request-header https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
@@ -26,9 +26,6 @@ https:\/\/((weather-data\.apple)|(api.weather))\.com url script-request-header h
 
 #彩云js
 https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js
-
-#TF区域限制
-//^https?:\/\/testflight\.apple\.com\/v\d\/accounts\/.+?\/install$ url script-request-body https://gist.githubusercontent.com/NobyDa/9be418b93afc5e9c8a8f4d28ae403cf2/raw/TF_Download.js
 
 #vsco
 ^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$ url script-response-body https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js

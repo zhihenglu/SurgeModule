@@ -15,10 +15,6 @@ http-response ^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness
 #彩云VIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
 
-#Emby
-embyPremiere.js = type=http-response,pattern=^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice,requires-body=1,max-size=0,script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js
-
-
 #VSCO
 vsco = type=http-response,pattern=https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$,requires-body=1,max-size=0,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js
 

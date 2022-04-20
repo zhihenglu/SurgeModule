@@ -20,7 +20,7 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
 
   ;(async () => {
     let panel_result = {
-      title: '𝑺𝒕𝒓𝒆𝒂𝒎𝒊𝒏𝒈 𝒖𝒏𝒍𝒐𝒄𝒌𝒊𝒏𝒈',
+      title: '𝐒𝐭𝐫𝐞𝐚𝐦𝐢𝐧𝐠 𝐮𝐧𝐥𝐨𝐜𝐤𝐢𝐧𝐠',
       content: '',
       icon: 'play.tv.fill',
       'icon-color': '#FFA500',
@@ -145,7 +145,7 @@ panel_result['content'] = content
       })
     }
   
-    let netflix_check_result = '𝗡𝗘𝗧𝗙𝗟𝗜𝗫：'
+    let netflix_check_result = '𝗡𝗘𝗧𝗙𝗟𝗜𝗫 ：'
   
     await inner_check(81215567)
       .then((code) => {

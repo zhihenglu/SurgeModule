@@ -1,0 +1,11 @@
+#!name=Streaming Unlock Detection
+#!desc=Netflix、disney+ is Streaming Unlock Detection
+
+[Panel]
+
+#Detection
+Detection= script-name=Detection,title=Streaming, content=Please refresh, update-interval=36000
+
+[Script]
+
+Detection= type=generic,timeout=5,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/Streaming

@@ -20,7 +20,7 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
 
   ;(async () => {
     let panel_result = {
-      title: '𝐒𝐭𝐫𝐞𝐚𝐦𝐢𝐧𝐠 𝐮𝐧𝐥𝐨𝐜𝐤𝐢𝐧𝐠',
+      title: '𝑺𝒕𝒓𝒆𝒂𝒎𝒊𝒏𝒈',
       content: '',
       icon: 'play.tv.fill',
       'icon-color': '#FFA500',
@@ -29,20 +29,20 @@ const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (
     await Promise.all([check_netflix()])
       .then((result) => { 
          console.log(result)
- let disney_result="𝗗𝗜𝗦𝗡𝗘𝗬+"
+ let disney_result="𝑫𝒊𝒔𝒏𝒆𝒚++"
     if (status==STATUS_COMING) {
         //console.log(1)
-        disney_result="𝗗𝗜𝗦𝗡𝗘𝗬+  ：𝐍𝐨𝐔𝐧𝐥𝐨𝐜𝐤~"+region.toUpperCase()
+        disney_result="𝑫𝒊𝒔𝒏𝒆𝒚+  ：𝐍𝐨𝐔𝐧𝐥𝐨𝐜𝐤~"+region.toUpperCase()
       } else if (status==STATUS_AVAILABLE){
         //console.log(2)
         console.log(region)
-        disney_result="𝗗𝗜𝗦𝗡𝗘𝗬+ ：𝐔𝐧𝐥𝐨𝐜𝐤🚦 "+region.toUpperCase()
+        disney_result="𝑫𝒊𝒔𝒏𝒆𝒚+ ：𝑼𝒏𝒍𝒐𝒄𝒌🚦 "+region.toUpperCase()
         // console.log(result["Disney"])
       } else if (status==STATUS_NOT_AVAILABLE) {
         //console.log(3)
-        disney_result="𝗗𝗜𝗦𝗡𝗘𝗬+ ：未支持 🚫 "
+        disney_result="𝑫𝒊𝒔𝒏𝒆𝒚+ ：未支持 🚫 "
       } else if (status==STATUS_TIMEOUT) {
-        disney_result="𝗗𝗜𝗦𝗡𝗘𝗬+     ：检测超时🚦"
+        disney_result="𝑫𝒊𝒔𝒏𝒆𝒚+     ：检测超时🚦"
       }
 result.push(disney_result)
 console.log(result)
@@ -145,14 +145,14 @@ panel_result['content'] = content
       })
     }
   
-    let netflix_check_result = '𝗡𝗘𝗧𝗙𝗟𝗜𝗫 ：'
+    let netflix_check_result = '𝑵𝒆𝒕𝒇𝒍𝒊𝒙 ：'
   
     await inner_check(81215567)
       .then((code) => {
         if (code === 'Not Found') {
           return inner_check(80018499)
         }
-        netflix_check_result += '𝐔𝐧𝐥𝐨𝐜𝐤🚦 ' + code.toUpperCase()
+        netflix_check_result += '𝑼𝒏𝒍𝒐𝒄𝒌🚦 ' + code.toUpperCase()
         return Promise.reject('BreakSignal')
       })
       .then((code) => {
@@ -160,7 +160,7 @@ panel_result['content'] = content
           return Promise.reject('Not Available')
         }
   
-        netflix_check_result += '𝐍𝐞𝐭𝐟𝐥𝐢𝐱🚦 ' + code.toUpperCase()
+        netflix_check_result += '𝒏𝒆𝒕𝒇𝒍𝒊𝒙🚦 ' + code.toUpperCase()
         return Promise.reject('BreakSignal')
       })
       .catch((error) => {

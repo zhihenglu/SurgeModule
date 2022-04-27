@@ -27,13 +27,6 @@ Bili Search = type=http-request,pattern=^https:\/\/app\.bilibili\.com\/x\/v2\/se
 
 unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.com/sdk/enterToy.nx,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 
-// 动态广告
-bilibili-json = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/x\/(v2\/(splash\/(list|show)|feed\/index\?)|resource\/show\/tab\/v2),requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/iEwha/Profiles/master/Script/bilibili-json.js,script-update-interval=0
-
-bilibili-proto = type=http-response,pattern=^https:\/\/app\.bilibili\.com\/bilibili\.app\.(view\.v1\.View\/View|dynamic\.v2\.Dynamic\/DynAll)$,requires-body=1,binary-body-mode=1,max-size=0,script-path=https://raw.githubusercontent.com/iEwha/Profiles/master/Script/bilibili-proto.js,script-update-interval=0
-
-bilibili_mine = type=http-response,pattern=^https://app\.bilibili\.com/x/v2/account/mine\?access_key,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/iEwha/Profiles/master/Script/bilibili_mine.js,script-update-interval=0
-        
    
 [MITM]		
-hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,app.bilibili.com, grpc.biliapi.net, ap?.bilibili.com,api.m.jd.com
+hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com 

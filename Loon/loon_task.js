@@ -1,9 +1,6 @@
 # Task配置 By FrancH
 # Loon群组：https://t.me/Loon0x00
 
-#京东试用
-cron "0 6 * * *" script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_try.js, tag=京东试用
-
 #京东
 cron "5 0 * * *" tag=京东多合一签到, script-path=https://raw.githubusercontent.com/NobyDa/Script/master/JD-DailyBonus/JD_DailyBonus.js
 

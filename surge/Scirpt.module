@@ -10,7 +10,7 @@
 单集评分 = type=http-response,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/warmer/.+type=show-ath,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js	
 
 # > 京粉转链比价
-http-response ^https?://api\.m\.jd\.com/client\.action\?functionId=(wareBusiness|serverConfig|basicConfig) requires-body=1,script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/jdjf_price.js, tag=京东比价
+http-response ^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item) requires-body=1,script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/jdjf_price.js, tag=京东比价
 
 #彩云VIP
 彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
@@ -29,4 +29,4 @@ unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.
 
    
 [MITM]		
-hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net
+hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net,api.m.jd.com

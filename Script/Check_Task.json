@@ -257,7 +257,6 @@
         "5 0 * * * https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/wechatsubs/wechatsubs.js, tag=公众号监控, img-url=https://qxnav.com/rules/QuantumultX/img/wechat.png, enabled=true",
         "5 0 * * * https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/check_in/klcw/klcw-app.js, tag=酷乐潮玩App, img-url=https://raw.githubusercontent.com/evilbutcher/Quantumult_X/master/picture/klcw.png, enabled=true",
         "10 0 * * * https://raw.githubusercontent.com/whyour/hundun/master/quanx/jd_collectBlueCoin.js, tag=⚠️京小超领蓝币, img-url=https://raw.githubusercontent.com/Xirou/Script/master/jxc.PNG, enabled=true",
-        "8/30 * 1-6 * * * https://raw.githubusercontent.com/ztxtop/x/main/zqread.js, tag=中青阅读, img-url=https://qxnav.com/rules/QuantumultX/img/youth.png, enabled=true",
         "30 6 * * * https://raw.githubusercontent.com/ztxtop/x/main/youth_banner.js, tag=中青看看赚, img-url=https://qxnav.com/rules/QuantumultX/img/youth.png, enabled=true",
         "*/30 0-23 * * * https://raw.githubusercontent.com/CenBoMin/QuantumultX/master/Scripts/Youth/youth.js, tag=中青看点极速版, img-url=https://qxnav.com/rules/QuantumultX/img/youth.png, enabled=true",
         "10 1-23 * * * https://raw.githubusercontent.com/CenBoMin/QuantumultX/master/Scripts/Youth/Youth_AutoRead.js, tag=中青阅读自动阅读, img-url=https://qxnav.com/rules/QuantumultX/img/youth.png, enabled=true",

@@ -18,14 +18,11 @@ http-request ^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22vide
 http-response ^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js, requires-body=true, timeout=10, tag=Netflix评分
 http-response ^https?://ios\.prod\.ftl\.netflix\.com/iosui/warmer/.+type=show-ath script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating_season.js, requires-body=true, timeout=10, tag=Netflix评分
 
-http-response ^https?:\/\/mb3admin.com\/admin\/service\/registration\/validateDevice script-path=https://subweb.oss-cn-hongkong.aliyuncs.com/Script/embyPremiere.js, requires-body=true, timeout=10, tag=EMBY
-enable = false
-
 http-request ^http:\/\/nobyda\.policy script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Shortcuts/PolicySwitch.js, requires-body=true, timeout=10, tag=捷径策略切换
 
 http-response ^https?://m-api\.nexon\.com/sdk/enterToy.nx script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js,tag=unblock
 
-http-response ^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$  script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/vsco.js, requires-bpdy=true, tag=VSCO
+http-response ^https:\/\/api\.revenuecat\.com\/v\d\/subscribers\/\d+$  script-path=https://github.com/NobyDa/Script/blob/master/QuantumultX/File/vsco.js, requires-bpdy=true, tag=VSCO
 
 hostname = 
 duckduckgo.com,weather-data.apple.com,biz.caiyunapp.com,api.m.jd.com,mb3admin.com,ios.prod.ftl.netflix.com,ap?.bilibili.com,api.weather.com,weather-data.apple.com,wq.jd.com, m.jingxi.com,account.huami.com,api.m.jd.com,m-api.nexon.com,api.revenuecat.com,

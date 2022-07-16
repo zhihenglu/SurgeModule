@@ -30,6 +30,13 @@ unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.
 
 #Pillow
 pillow = type=http-response,requires-body=1,max-size=0,pattern=https:\/\/api\.revenuecat\.com\/v1\/(subscribers|receipts),script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/pillow.js    
+
+#财新周刊
+cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/cxzk.js,script-update-interval=0
+
+#Tidal
+Tidal = type=http-request,pattern=^https?:\/\/api\.tidal\.com\/v1\/(pages\/album|(user|track|page)s\/(\d+)\/(state|subscription|lyrics|onboarding|playbackinfopostpaywall)),requires-body=1,max-size=-1,timeout=10,script-path=https://raw.githubusercontent.com/yqc007/QuantumultX/master/TIDALHiFiPlusCrack.js,script-update-interval=-1
+
    
 [MITM]		
-hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net,api.m.jd.com,api.revenuecat.com   
+hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net,api.m.jd.com,api.revenuecat.com,ipadcms.caixin.com,api.tidal.com

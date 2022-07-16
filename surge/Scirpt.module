@@ -29,7 +29,7 @@ Bili Search = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com
 unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.com/sdk/enterToy.nx,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 
 #Pillow
-pillow = type=http-response,requires-body=1,max-size=0,pattern=https:\/\/api\.revenuecat\.com\/v1\/(subscribers|receipts),script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/pillow.js    
+pillow = type=http-response,requires-body=1,max-size=0,pattern=https:\/\/api\.revenuecat\.com\/v1\/(subscribers|receipts),script-path=pillow.js    
 
 #财新周刊
 cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/ddgksf2013/Cuttlefish/master/Crack/cxzk.js,script-update-interval=0

@@ -28,6 +28,8 @@ Bili Search = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com
 
 unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.com/sdk/enterToy.nx,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 
+#Pillow
+pillow = type=http-response,requires-body=1,max-size=0,pattern=https:\/\/api\.revenuecat\.com\/v1\/(subscribers|receipts),script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/pillow.js    
    
 [MITM]		
-hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net,api.m.jd.com
+hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net,api.m.jd.com,api.revenuecat.com   

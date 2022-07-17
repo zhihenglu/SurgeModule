@@ -11,8 +11,6 @@
 
 京东试用 = type=cron,cronexp=“0 5 * * *”, wake-system=1,timeout=1500,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_try.js
 
-东东超市兑换奖品 = type=cron,cronexp=“0 0 0 * * *”,wake-system=1,timeout=3600,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/jd_blueCoin.js
-
 宠汪汪积分兑换奖品 = type=cron,cronexp=“0 0-16/8 * * *”,wake-system=1,timeout=3600,script-path=https://raw.githubusercontent.com/songyangzz/jd_scripts/master/jd_joy_reward.js
 
 小米运动 = type=cron,cronexp=“0 23 * * *”,wake-system=1,timeout=3600,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/xmSports.js

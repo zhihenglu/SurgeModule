@@ -29,7 +29,6 @@
 点点券 = type=cron,cronexp="10 0,20 * * *",wake-system=1,timeout=20,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_necklace.js
 赚京豆 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=20,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_syj.js
 领京豆额外奖励 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=20,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_bean_home.js
-京东汽车 = type=cron,cronexp="10 7 * * *",wake-system=1,timeout=20,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car.js
 京东汽车兑换 = type=cron,cronexp="0 0 * * *",wake-system=1,timeout=2000,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_car_exchange.js
 京东快递签到 = type=cron,cronexp="10 0 * * *",wake-system=1,timeout=20,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_kd.js
 京东金融-天天提鹅 = type=cron,cronexp="0 */3 * * *",wake-system=1,timeout=20,script-path=https://jdsharedresourcescdn.azureedge.net/jdresource/jd_daily_egg.js

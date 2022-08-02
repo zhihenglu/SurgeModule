@@ -19,7 +19,7 @@ http-response ^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBu
 http-request ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 http-response ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 
-Bili Region = type=http-response,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/v\d\/search\/defaultwords)\?access_key,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
+Bili Region = type=http-response,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
 
 #可选, 适用于搜索指定地区的番剧
 Bili Search = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
@@ -39,4 +39,4 @@ Tidal = type=http-request,pattern=^https?:\/\/api\.tidal\.com\/v1\/(pages\/album
 
    
 [MITM]		
-hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bilibili.com, ap?.biliapi.net,api.m.jd.com,api.revenuecat.com,ipadcms.caixin.com,api.tidal.com
+hostname = %APPEND% ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,api.bilibili.com,api.revenuecat.com,m-api.nexon.com,ap?.bili*i.com, ap?.bili*i.net,api.m.jd.com,api.revenuecat.com,ipadcms.caixin.com,api.tidal.com

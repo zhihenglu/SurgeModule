@@ -1,4 +1,4 @@
-hostname = ios.prod.ftl.netflix.com,weather-data.apple.com, api.weather.com,passport.iqiyi.com,,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,mb3admin.com,ms.jr.jd.com, me-api.jd.com,account.huami.com,api.revenuecat.com,*.bilibili.com,api.m.jd.com,nomo.dafork.com
+hostname = ios.prod.ftl.netflix.com,weather-data.apple.com, api.weather.com,passport.iqiyi.com,blindbox.jd.com,biz.caiyunapp.com,operation-api.jimistore.com,mb3admin.com,ms.jr.jd.com, me-api.jd.com,account.huami.com,api.revenuecat.com,*.bilibili.com,api.m.jd.com,nomo.dafork.com
 
 #Netflix评分
 ^https?://ios\.prod\.ftl\.netflix\.com/iosui/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D url script-request-header https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js

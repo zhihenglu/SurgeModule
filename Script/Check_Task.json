@@ -21,7 +21,6 @@
         "10 * * * * https://raw.githubusercontent.com/ChuheGit/1/main/Script/jd_scripts/jd_jdfactory.js, tag=东东工厂 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/jd_jdfactory.png",
                 "* * * * 1/1 ? https://raw.githubusercontent.com/zwf234/rules/master/js/jd_Delck.js, tag=清除京东ck, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",
         "0 8-22/3 * * * https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/nCov.js, tag=疫情动态, img-url=https://qxnav.com/rules/QuantumultX/img/COVID-19.png, enabled=true",
-        "11 2,11 * * * https://qxnav.com/rules/QuantumultX/js/zwf234/virmach.js, tag=流量查询, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",
         "11 2,11 * * * https://qxnav.com/rules/QuantumultX/js/zwf234/jd_opencard_Daddy.js, tag=奶爸盛典, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",
         "0 8 * * * https://raw.githubusercontent.com/NobyDa/Script/master/Bahamut/BahamutDailyBonus.js, tag=巴哈姆特签到, img-url=https://qxnav.com/rules/QuantumultX/img/bahamutGame.png",
         "0 0 0,5,9,14,20 * * ? https://qxnav.com/rules/QuantumultX/js/zwf234/jx_hotballoon.js, tag=财富岛热气球, img-url=https://qxnav.com/rules/QuantumultX/img/jxcfd.png, enabled=true",

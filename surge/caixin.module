@@ -9,5 +9,10 @@ cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requi
 http-request ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 http-response ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 
+# 京粉
+http-response ^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item) requires-body=1,script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/jdjf_price.js, tag=京东比价
+
+    
+
 [MITM]
 hostname = %APPEND% ipadcms.caixin.com,api.revenuecat.com

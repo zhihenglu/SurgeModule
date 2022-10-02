@@ -655,7 +655,6 @@
             	"0 0,10,20 * * * https://git.metauniverse-cn.com/https://raw.githubusercontent.com/shufflewzc/faker/main/gua_nhjRed.js, tag=年货节无门槛红包, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
     	"2 9 * * * https://git.metauniverse-cn.com/https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_bean_change_new.js, tag=京豆新版变动通知, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
     	"18 0-23/2 * * * https://git.metauniverse-cn.com/https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_wealth_island.js, tag=财富大陆, enabled=true",
-    	"15 0,6,13,19,21 * * * https://raw.githubusercontent.com/hyzaw/scripts/main/ddo_pk.js, tag=京享值PK, enabled=true",
     	"15 6 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_DrawEntrance.js, tag=天天优惠大乐透,  enabled=true",
 	"1 8,12,18 * * *  https://git.metauniverse-cn.com/https://raw.githubusercontent.com/Wenmoux/scripts/wen/jd/chinnkarahoi_jd_bookshop.js, tag=京东口袋书店, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/Youthsongs/QuanX/master/pic/wen.png, enabled=true",
 	 "20 12,14 * * * https://git.metauniverse-cn.com/https://raw.githubusercontent.com/panghu999/panghu/master/jd_hwsx.js, tag=京东好物上新, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/Youthsongs/QuanX/master/pic/ningmeng.png, enabled=true",

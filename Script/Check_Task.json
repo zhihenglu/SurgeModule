@@ -26,7 +26,6 @@
         "0 0 0,5,9,14,20 * * ? https://qxnav.com/rules/QuantumultX/js/zwf234/jx_hotballoon.js, tag=财富岛热气球, img-url=https://qxnav.com/rules/QuantumultX/img/jxcfd.png, enabled=true",
         "18 0-23/2 * * * https://raw.githubusercontent.com/smiek2221/scripts/master/gua_wealth_island.js, tag=京喜财富岛, img-url=https://qxnav.com/rules/QuantumultX/img/jxcfd.png, enabled=true",
         "59 11,12,23 * * * https://raw.githubusercontent.com/Aaron-lv/sync/jd_scripts/jd_cfdtx.js, tag=财富岛提现, img-url=https://qxnav.com/rules/QuantumultX/img/jxcfd.png, enabled=true",
-        "30 6 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_goodMorning.js, tag=早起福利, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",
         "57 59 9  * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_europeancup.js, tag=欧洲狂欢杯, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",
         "0 0 * * * https://raw.githubusercontent.com/cdle/jd_study/main/jd_cash_exchange.js, tag=签到领现金兑换, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",
         "0 0 * * * https://raw.githubusercontent.com/cdle/jd_study/main/jd_angryKoi.js, tag=愤怒的锦鲤, img-url=https://qxnav.com/rules/QuantumultX/img/jd.png, enabled=true",

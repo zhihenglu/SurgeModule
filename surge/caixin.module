@@ -3,7 +3,7 @@
 
 [Script]
 
-cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requires-body=1,max-size=0,script-path=https://gitlab.com/ddgksf2013/Cuttlefish/-/raw/master/Crack/cxzk.js,script-update-interval=0
+cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zhihenglu/SurgeModule/master/Script/cxzk.js,script-update-interval=0
 
 #VSCO
 http-request ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js

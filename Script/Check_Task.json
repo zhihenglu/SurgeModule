@@ -393,7 +393,6 @@
 		"10 7 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_ms.js, tag=京东秒秒币, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/yogayyy/Scripts/master/Icon/shylocks/jd_ms.jpg, enabled=true",
 		"10 0,20 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_necklace.js, tag=京东点点券, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
 		"15 6-18/6 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_pet.js, tag=京东东东萌宠, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/58xinian/icon/master/jdmc.png, enabled=true",
-		"12 * * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_pigPet.js, tag=京东金融养猪猪, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/58xinian/icon/master/jdyz.png, enabled=true",
 		"1 7-21/2 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_plantBean.js, tag=京东种豆得豆, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true",
 		"0 2 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_price.js, tag=京东保价, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
 		"1 1 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_redPacket.js, tag=京东全民开红包, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/58xinian/icon/master/jd_redPacket.png, enabled=true",

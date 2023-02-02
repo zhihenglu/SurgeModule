@@ -1123,7 +1123,6 @@
 		"10 0,20 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_necklace.js, tag=京东点点券, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
 		"15 6-18/6 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_pet.js, tag=京东东东萌宠, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/58xinian/icon/master/jdmc.png, enabled=true",
 		"1 7-21/2 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_plantBean.js, tag=京东种豆得豆, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/58xinian/icon/master/jdzd.png, enabled=true",
-		"0 2 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_price.js, tag=京东保价, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
 		"20 8 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_sgmh.js, tag=京东闪购盲盒, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
 		"0 7 * * * https://raw.githubusercontent.com/shufflewzc/faker2/main/jd_speed_sign.js, tag=京东极速版, img-url=https://git.metauniverse-cn.com/https://raw.githubusercontent.com/sngxpro/QuanX/master/pic/lxk0301.png, enabled=true",
         "1 0-23/1 * * * https://raw.githubusercontent.com/longzhuzhu/nianyu/main/qx/long_super_redrain.js, tag=整点京豆雨 , img-url=https://raw.githubusercontent.com/ChuheGit/1/main/QuantumultX/Gallery/API-Icon/long_super_redrain.png",

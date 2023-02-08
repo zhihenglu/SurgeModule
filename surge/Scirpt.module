@@ -7,9 +7,6 @@
 # > 京粉转链比价
 http-response ^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item) requires-body=1,script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/jdjf_price.js, tag=京东比价
 
-#彩云VIP
-彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
-
 #VSCO
 http-request ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
 http-response ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/vsco.js
@@ -19,4 +16,4 @@ http-response ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ requires-body
 unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.com/sdk/enterToy.nx,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 
 [MITM]		
-hostname = %APPEND% biz.caiyunapp.com,duckduckgo.com,biz.caiyunapp.com,mb3admin.com,m-api.nexon.com,api.m.jd.com
+hostname = %APPEND% duckduckgo.com,biz.caiyunapp.com,mb3admin.com,m-api.nexon.com,api.m.jd.com

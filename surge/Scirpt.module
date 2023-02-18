@@ -15,8 +15,5 @@ http-response ^https?:\/\/api\.revenuecat\.com\/v\d\/subscribers\/ requires-body
 
 unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.com/sdk/enterToy.nx,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 
-#彩云VIP
-彩云天气 = type=http-response,requires-body=1,max-size=0,pattern=https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user),script-path= https://github.com/zhihenglu/SurgeModule/raw/master/Script/canyunvip.js
-
 [MITM]		
-hostname = %APPEND% duckduckgo.com,biz.caiyunapp.com,mb3admin.com,m-api.nexon.com,api.m.jd.com
+hostname = %APPEND% duckduckgo.com,mb3admin.com,m-api.nexon.com,api.m.jd.com

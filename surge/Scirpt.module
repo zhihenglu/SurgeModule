@@ -28,6 +28,8 @@ cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requi
 
 Wechat.js = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js,type=http-response,pattern=^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad
 
+Weather = type=http-response,requires-body=1,max-size=0,pattern=^https:\/\/biz\.(caiyunapp\.com|cyapi\.cn)\/v2\/user\?app_name\=weather,script-path=https://raw.githubusercontent.com/Maasea/surgeModule/master/Script/Weather/weather.js
+
 
 [MITM]		
-hostname = %APPEND% duckduckgo.com,mb3admin.com,m-api.nexon.com,api.m.jd.com,ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,ap?.bili*i.com, ap?.bili*i.net,ipadcms.caixin.com,mp.weixin.qq.com
+hostname = %APPEND% duckduckgo.com,mb3admin.com,m-api.nexon.com,api.m.jd.com,ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,ap?.bili*i.com, ap?.bili*i.net,ipadcms.caixin.com,mp.weixin.qq.com,biz.caiyunapp.com,biz.cyapi.cn

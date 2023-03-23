@@ -15,6 +15,3 @@ hostname = ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com, api.weather.com,
 
 #彩云天气
 https:\/\/((weather-data\.apple)|(api.weather))\.com url script-request-header https://raw.githubusercontent.com/Peng-YM/QuanX/master/Tasks/caiyun.js
-
-#彩云js
-https?:\/\/biz\.caiyunapp\.com\/(membership_rights|v2\/user) url script-response-body https://raw.githubusercontent.com/githubdulong/Script/master/cytq.js

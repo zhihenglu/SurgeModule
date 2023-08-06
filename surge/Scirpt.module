@@ -6,8 +6,6 @@
 
 # > 京粉转链比价
 http-response ^https?://api\.m\.jd\.com/(client\.action|api)\?functionId=(wareBusiness|serverConfig|basicConfig|lite_wareBusiness|pingou_item) requires-body=1,script-path=https://raw.githubusercontent.com/Tartarus2014/Script/master/jdjf_price.js, tag=京东比价
-    
-捷径策略切换 = type=http-request,pattern=^http:\/\/nobyda\.policy,requires-body=1,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Shortcuts/PolicySwitch.js
 
 unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.com/sdk/enterToy.nx,script-path=https://github.com/zhihenglu/SurgeModule/raw/master/Script/MapleStory.js
 
@@ -15,17 +13,12 @@ unblock.js = type=http-response,requires-body=1,pattern=^https?://m-api\.nexon\.
 nf_rating.js = type=http-request,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 nf_rating.js = type=http-response,requires-body=1,pattern=^https?:\/\/ios(-.*)?\.prod\.ftl\.netflix\.com\/iosui\/user/.+path=%5B%22videos%22%2C%\d+%22%2C%22summary%22%5D,script-path=https://raw.githubusercontent.com/yichahucha/surge/master/nf_rating.js
 
-Bili Region = type=http-response,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/(pgc\/view\/v\d\/app\/season|x\/offline\/version)\?,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
-
-#可选, 适用于搜索指定地区的番剧
-Bili Search = type=http-request,pattern=^https:\/\/ap(p|i)\.bili(bili|api)\.(com|net)\/x\/v\d\/search(\/type)?\?.+?%20(%E6%B8%AF|%E5%8F%B0|%E4%B8%AD)&,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/Surge/JS/Bili_Auto_Regions.js
-
 cxzk = type=http-response,pattern=http://ipadcms.caixin.com/tmp/articles/*,requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/zhihenglu/SurgeModule/master/Script/cxzk.js,script-update-interval=0
 
 Wechat.js = requires-body=1,max-size=0,script-path=https://raw.githubusercontent.com/NobyDa/Script/master/QuantumultX/File/Wechat.js,type=http-response,pattern=^https?:\/\/mp\.weixin\.qq\.com\/mp\/getappmsgad
 
-Weather = type=http-response,requires-body=1,max-size=0,pattern=^https:\/\/biz\.(caiyunapp\.com|cyapi\.cn)\/v2\/user\?app_name\=weather,script-path=https://raw.githubusercontent.com/Maasea/surgeModule/master/Script/Weather/weather.js
+caiyun = type=http-response, pattern=^https:\/\/biz\.cyapi\.cn\/(p\/v1\/vip_info|v2\/user), requires-body=1, max-size=0, script-path=https://raw.githubusercontent.com/RuCu6/QuanX/main/Scripts/break/caiyun.js
 
 
 [MITM]		
-hostname = %APPEND% duckduckgo.com,mb3admin.com,m-api.nexon.com,api.m.jd.com,ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,ap?.bili*i.com, ap?.bili*i.net,ipadcms.caixin.com,mp.weixin.qq.com,biz.caiyunapp.com,biz.cyapi.cn
+hostname = %APPEND% duckduckgo.com,mb3admin.com,m-api.nexon.com,api.m.jd.com,ios-*.prod.ftl.netflix.com,ios.prod.ftl.netflix.com,ipadcms.caixin.com,mp.weixin.qq.com,biz.cyapi.cn,wrapper.cyapi.cn   

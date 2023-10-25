@@ -1,0 +1,12 @@
+# HboMax规则
+#2023-10-25
+
+DOMAIN-SUFFIX,discomax.com
+DOMAIN-SUFFIX,api.discomax.com
+DOMAIN-SUFFIX,prd.api.discomax.com
+DOMAIN-SUFFIX,events.prd.api.discomax.com
+DOMAIN,events.prd.api.discomax.com
+DOMAIN-SUFFIX,discomax.com
+DOMAIN-SUFFIX,prd.api.discomax.com
+DOMAIN-SUFFIX,cdn.prd.api.discomax.com
+DOMAIN,images.cdn.prd.api.discomax.com

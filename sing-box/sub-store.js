@@ -18,7 +18,7 @@ config.outbounds.push(...proxies)
 // 1. 移除模板中原有的自动测速组（urltest 类型，tag 以 -auto 结尾）
 config.outbounds = config.outbounds.filter(o => !/-auto$/.test(o.tag))
 
-// 2. 清理其他出站中对自动测速组的引用及 default 指向
+// 2. 清理其他出站中对自动测速组的引用，并修正 default 指向手动组
 config.outbounds.forEach(o => {
   if (Array.isArray(o.outbounds)) {
     o.outbounds = o.outbounds.filter(t => !/-auto$/.test(t))
@@ -37,7 +37,7 @@ config.outbounds.map(i => {
     i.outbounds.push(...getTags(proxies, /港|hk|hongkong|hong kong|🇭🇰/i))
   }
   if (['tw'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇨🇳/i))
+    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇹🇼/i))
   }
   if (['jp'].includes(i.tag)) {
     i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵/i))

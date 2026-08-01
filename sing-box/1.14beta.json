@@ -1,0 +1,316 @@
+{
+  "log": {
+    "disabled": false,
+    "level": "debug",
+    "output": "sing-box.log",
+    "timestamp": true
+  },
+  "experimental": {
+    "cache_file": {
+      "enabled": true,
+      "path": "cache.db",
+      "store_fakeip": true
+    },
+    "clash_api": {
+      "default_mode": "Rule",
+      "external_controller": "0.0.0.0:9090",
+      "secret": "singbox",
+      "external_ui": "zashboard",
+      "external_ui_download_url": "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+    }
+  },
+  "services": [
+    {
+      "type": "api",
+      "listen": "::",
+      "listen_port": 9999,
+      "secret": "singbox",
+      "dashboard": {
+        "enabled": true,
+        "path": "dashboard",
+        "download_url": "https://github.com/SagerNet/sing-box-dashboard/archive/refs/heads/gh-pages.zip",
+        "http_client": "s-download",
+        "update_interval": "1d"
+      }
+    }
+  ],
+  "http_clients": [
+    {
+      "tag": "s-download",
+      "detour": "Proxy"
+    }
+  ],
+  "dns": {
+    "servers": [
+      {
+        "type": "hosts",
+        "tag": "hosts",
+        "predefined": {
+          "doh.pub": [
+            "120.53.53.53",
+            "1.12.12.12"
+          ]
+        }
+      },
+      {
+        "tag": "dns-proxy",
+        "type": "group",
+        "servers": [
+          "cloudflare",
+          "google"
+        ]
+      },
+      {
+        "tag": "dns-direct",
+        "type": "group",
+        "servers": [
+          "tencent",
+          "ali"
+        ]
+      },
+      {
+        "tag": "cloudflare",
+        "type": "https",
+        "server": "1.1.1.1",
+        "detour": "Proxy"
+      },
+      {
+        "tag": "google",
+        "type": "https",
+        "server": "8.8.8.8",
+        "detour": "Proxy"
+      },
+      {
+        "tag": "tencent",
+        "type": "https",
+        "server": "doh.pub",
+        "domain_resolver": "hosts"
+      },
+      {
+        "tag": "ali",
+        "type": "https",
+        "server": "223.6.6.6"
+      },
+      {
+        "tag": "remote",
+        "type": "fakeip",
+        "inet4_range": "198.18.0.0/15",
+        "inet6_range": "fc00::/18"
+      }
+    ],
+    "rules": [
+      {
+        "clash_mode": "Direct",
+        "action": "route",
+        "server": "dns-direct"
+      },
+      {
+        "rule_set": [
+          "direct",
+          "AppleCN"
+        ],
+        "action": "route",
+        "server": "dns-direct"
+      },
+      {
+        "rule_set": [
+          "proxy"
+        ],
+        "action": "route",
+        "server": "dns-proxy"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "clash_mode": "AllowAds",
+            "invert": true
+          },
+          {
+            "rule_set": [
+              "block",
+              "Ads_AWAvenue"
+            ]
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "ChinaDomain"
+        ],
+        "action": "route",
+        "server": "dns-direct"
+      },
+      {
+        "query_type": [
+          "A",
+          "AAAA"
+        ],
+        "action": "route",
+        "server": "remote"
+      }
+    ],
+    "optimistic": true,
+    "strategy": "prefer_ipv4"
+  },
+  "inbounds": [
+    {
+      "type": "mixed",
+      "tag": "mixed-in",
+      "listen": "::",
+      "listen_port": 7080
+    },
+    {
+      "type": "ebpf",
+      "tag": "ebpf-in",
+      "redirect_address": [
+        "127.128.0.0/9",
+        "fd53:696e:672d:626f::/64"
+      ],
+      "bypass_rule_set": [
+        "direct",
+        "ChinaIP"
+      ],
+      "shared_network": {
+        "enabled": true,
+        "include_interface": [
+          "wlan2"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "direct",
+      "type": "direct"
+    },
+    {
+      "tag": "Proxy",
+      "type": "selector",
+      "outbounds": [
+        "direct"
+      ],
+      "default": "direct",
+      "use_all_providers": true,
+      "interrupt_exist_connections": true
+    }
+  ],
+  "providers": [
+    {
+      "tag": "Provider1",
+      "type": "remote",
+      "url": "url",
+      "exclude": "节点|剩余|套餐|客服|官网",
+      "path": "./source/Provider1.json",
+      "update_interval": "24h",
+      "user_agent": "clash.meta/alpha/mihomo",
+      "health_check": {"enabled":true,"url":"http://cp.cloudflare.com/generate_204","interval":"30m","timeout":"3s"}
+    }
+  ],
+  "route": {
+    "default_domain_resolver": "dns-direct",
+    "rule_set": [
+      {
+        "type": "local",
+        "tag": ["block", "direct", "proxy"],
+        "format": "source",
+        "path": "./source/{tag}.json"
+      },
+      {
+        "type": "remote",
+        "tag": ["Ads_AWAvenue", "AppleCN", "ChinaDomain", "ChinaIP", "Proxy"],
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/Repcz/Tool/X/sing-box/Rules/{tag}.srs",
+        "update_interval": "24h",
+        "initial_path": "./source/{tag}.srs"
+      }
+    ],
+    "rules": [
+      {
+        "action": "sniff"
+      },
+      {
+        "type": "logical",
+        "mode": "or",
+        "rules": [
+          {
+            "port": 53
+          },
+          {
+            "protocol": "dns"
+          }
+        ],
+        "action": "hijack-dns"
+      },
+      {
+        "clash_mode": "Direct",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "direct",
+          "AppleCN"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "proxy"
+        ],
+        "action": "route",
+        "outbound": "Proxy"
+      },
+      {
+        "type": "logical",
+        "mode": "and",
+        "rules": [
+          {
+            "clash_mode": "AllowAds",
+            "invert": true
+          },
+          {
+            "rule_set": [
+              "block",
+              "Ads_AWAvenue"
+            ]
+          }
+        ],
+        "action": "reject"
+      },
+      {
+        "rule_set": [
+          "ChinaDomain"
+        ],
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "rule_set": [
+          "Proxy"
+        ],
+        "action": "route",
+        "outbound": "Proxy"
+      },      
+      {
+        "action": "resolve",
+        "match_only": true
+      },
+      {
+        "rule_set": "ChinaIP",
+        "action": "route",
+        "outbound": "direct"
+      },
+      {
+        "ip_is_private": true,
+        "outbound": "direct"
+      }
+    ],
+    "find_process": true,
+//    "auto_detect_interface": true,
+    "final": "Proxy"
+  }
+}

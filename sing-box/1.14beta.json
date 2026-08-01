@@ -1,123 +1,66 @@
 {
   "log": {
     "disabled": false,
-    "level": "debug",
+    "level": "info",
     "output": "sing-box.log",
     "timestamp": true
   },
   "experimental": {
     "cache_file": {
       "enabled": true,
-      "path": "cache.db",
       "store_fakeip": true
     },
     "clash_api": {
       "default_mode": "Rule",
-      "external_controller": "0.0.0.0:9090",
-      "secret": "singbox",
-      "external_ui": "zashboard",
-      "external_ui_download_url": "https://github.com/Zephyruso/zashboard/archive/refs/heads/gh-pages.zip"
+      "external_controller": "127.0.0.1:9090",
+      "external_ui": "ui",
+      "external_ui_download_url": "https://github.com/Zephyruso/zashboard/releases/latest/download/dist.zip",
+      "external_ui_download_detour": "Proxy"
     }
   },
-  "services": [
-    {
-      "type": "api",
-      "listen": "::",
-      "listen_port": 9999,
-      "secret": "singbox",
-      "dashboard": {
-        "enabled": true,
-        "path": "dashboard",
-        "download_url": "https://github.com/SagerNet/sing-box-dashboard/archive/refs/heads/gh-pages.zip",
-        "http_client": "s-download",
-        "update_interval": "1d"
-      }
-    }
-  ],
-  "http_clients": [
-    {
-      "tag": "s-download",
-      "detour": "Proxy"
-    }
-  ],
-  "dns": {
+    "dns": {
     "servers": [
       {
-        "type": "hosts",
-        "tag": "hosts",
-        "predefined": {
-          "doh.pub": [
-            "120.53.53.53",
-            "1.12.12.12"
-          ]
-        }
-      },
-      {
-        "tag": "dns-proxy",
-        "type": "group",
-        "servers": [
-          "cloudflare",
-          "google"
-        ]
-      },
-      {
-        "tag": "dns-direct",
-        "type": "group",
-        "servers": [
-          "tencent",
-          "ali"
-        ]
-      },
-      {
         "tag": "cloudflare",
-        "type": "https",
-        "server": "1.1.1.1",
+        "address": "https://1.1.1.1/dns-query",
         "detour": "Proxy"
-      },
-      {
-        "tag": "google",
-        "type": "https",
-        "server": "8.8.8.8",
-        "detour": "Proxy"
-      },
-      {
-        "tag": "tencent",
-        "type": "https",
-        "server": "doh.pub",
-        "domain_resolver": "hosts"
       },
       {
         "tag": "ali",
-        "type": "https",
-        "server": "223.6.6.6"
+        "address": "https://223.6.6.6/dns-query",
+        "detour": "direct"
       },
       {
         "tag": "remote",
-        "type": "fakeip",
-        "inet4_range": "198.18.0.0/15",
-        "inet6_range": "fc00::/18"
+        "address": "fakeip"
+      },
+      {
+        "tag": "block",
+        "address": "rcode://success"
       }
     ],
     "rules": [
       {
+        "outbound": "any",
+        "server": "ali"
+      },
+      {
         "clash_mode": "Direct",
         "action": "route",
-        "server": "dns-direct"
+        "server": "ali"
+      },
+      {
+        "clash_mode": "Global",
+        "action": "route",
+        "server": "cloudflare"
       },
       {
         "rule_set": [
-          "direct",
-          "AppleCN"
+          "alibaba",
+          "category-games@cn"
         ],
         "action": "route",
-        "server": "dns-direct"
-      },
-      {
-        "rule_set": [
-          "proxy"
-        ],
-        "action": "route",
-        "server": "dns-proxy"
+        "server": "ali"
       },
       {
         "type": "logical",
@@ -129,19 +72,21 @@
           },
           {
             "rule_set": [
-              "block",
-              "Ads_AWAvenue"
+              "AWAvenue-Ads",
+              "category-ads-all"
             ]
           }
         ],
-        "action": "reject"
+        "action": "route-options",
+        "server": "block",
+        "disable_cache": true
       },
       {
         "rule_set": [
-          "ChinaDomain"
+          "cn-domain"
         ],
         "action": "route",
-        "server": "dns-direct"
+        "server": "ali"
       },
       {
         "query_type": [
@@ -152,33 +97,27 @@
         "server": "remote"
       }
     ],
-    "optimistic": true,
+    "fakeip": {
+      "enabled": true,
+      "inet4_range": "198.18.0.0/15",
+      "inet6_range": "fc00::/18"
+    },
+    "independent_cache": true,
     "strategy": "prefer_ipv4"
   },
   "inbounds": [
     {
       "type": "mixed",
-      "tag": "mixed-in",
+      "tag": "mixed",
       "listen": "::",
-      "listen_port": 7080
+      "listen_port": 7080,
+      "set_system_proxy": false
     },
     {
-      "type": "ebpf",
-      "tag": "ebpf-in",
-      "redirect_address": [
-        "127.128.0.0/9",
-        "fd53:696e:672d:626f::/64"
-      ],
-      "bypass_rule_set": [
-        "direct",
-        "ChinaIP"
-      ],
-      "shared_network": {
-        "enabled": true,
-        "include_interface": [
-          "wlan2"
-        ]
-      }
+      "type": "tproxy",
+      "tag": "tproxy",
+      "listen": "::",
+      "listen_port": 1536
     }
   ],
   "outbounds": [
@@ -193,38 +132,66 @@
         "direct"
       ],
       "default": "direct",
-      "use_all_providers": true,
       "interrupt_exist_connections": true
     }
   ],
-  "providers": [
-    {
-      "tag": "Provider1",
-      "type": "remote",
-      "url": "url",
-      "exclude": "节点|剩余|套餐|客服|官网",
-      "path": "./source/Provider1.json",
-      "update_interval": "24h",
-      "user_agent": "clash.meta/alpha/mihomo",
-      "health_check": {"enabled":true,"url":"http://cp.cloudflare.com/generate_204","interval":"30m","timeout":"3s"}
-    }
-  ],
   "route": {
-    "default_domain_resolver": "dns-direct",
     "rule_set": [
       {
-        "type": "local",
-        "tag": ["block", "direct", "proxy"],
-        "format": "source",
-        "path": "./source/{tag}.json"
+        "tag": "AWAvenue-Ads",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/TG-Twilight/AWAvenue-Ads-Rule/main/Filters/AWAvenue-Ads-Rule-Singbox.srs",
+        "download_detour": "Proxy",
+        "update_interval": "24h"
       },
       {
+        "tag": "category-ads-all",
         "type": "remote",
-        "tag": ["Ads_AWAvenue", "AppleCN", "ChinaDomain", "ChinaIP", "Proxy"],
         "format": "binary",
-        "url": "https://raw.githubusercontent.com/Repcz/Tool/X/sing-box/Rules/{tag}.srs",
-        "update_interval": "24h",
-        "initial_path": "./source/{tag}.srs"
+        "url": "https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-category-ads-all.srs",
+        "download_detour": "Proxy",
+        "update_interval": "24h"
+      },
+      {
+        "tag": "alibaba",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-alibaba.srs",
+        "download_detour": "Proxy",
+        "update_interval": "24h"
+      },
+      {
+        "tag": "category-games@cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/SagerNet/sing-geosite/rule-set/geosite-category-games@cn.srs",
+        "download_detour": "Proxy",
+        "update_interval": "24h"
+      },
+      {
+        "tag": "geolocation-!cn",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-geolocation-!cn.srs",
+        "download_detour": "Proxy",
+        "update_interval": "24h"
+      },
+      {
+        "tag": "cn-domain",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-cn.srs",
+        "download_detour": "Proxy",
+        "update_interval": "24h"
+      },
+      {
+        "tag": "cn-ip",
+        "type": "remote",
+        "format": "binary",
+        "url": "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs",
+        "download_detour": "Proxy",
+        "update_interval": "10d"
       }
     ],
     "rules": [
@@ -250,19 +217,17 @@
         "outbound": "direct"
       },
       {
-        "rule_set": [
-          "direct",
-          "AppleCN"
-        ],
+        "clash_mode": "Global",
         "action": "route",
-        "outbound": "direct"
+        "outbound": "Proxy"
       },
       {
         "rule_set": [
-          "proxy"
+          "alibaba",
+          "category-games@cn"
         ],
         "action": "route",
-        "outbound": "Proxy"
+        "outbound": "direct"
       },
       {
         "type": "logical",
@@ -274,8 +239,8 @@
           },
           {
             "rule_set": [
-              "block",
-              "Ads_AWAvenue"
+              "AWAvenue-Ads",
+              "category-ads-all"
             ]
           }
         ],
@@ -283,24 +248,13 @@
       },
       {
         "rule_set": [
-          "ChinaDomain"
+          "cn-domain"
         ],
         "action": "route",
         "outbound": "direct"
       },
       {
-        "rule_set": [
-          "Proxy"
-        ],
-        "action": "route",
-        "outbound": "Proxy"
-      },      
-      {
-        "action": "resolve",
-        "match_only": true
-      },
-      {
-        "rule_set": "ChinaIP",
+        "rule_set": "cn-ip",
         "action": "route",
         "outbound": "direct"
       },
@@ -310,7 +264,6 @@
       }
     ],
     "find_process": true,
-//    "auto_detect_interface": true,
     "final": "Proxy"
   }
 }

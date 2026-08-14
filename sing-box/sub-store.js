@@ -37,7 +37,7 @@ config.outbounds.forEach(outbound => {
     outbound.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i))
   }
   if (outbound.tag === 'us') {
-    outbound.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸|🇩🇪|🇦🇺/i))
+    outbound.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸|德国|德國|germany|🇩🇪|澳大利亚|澳洲|australia|🇦🇺/i))
   }
 })
 

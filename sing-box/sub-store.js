@@ -1,13 +1,12 @@
 const { type, name } = $arguments
-
-const compatibleOutbound = {
+const compatible_outbound = {
   tag: 'COMPATIBLE',
   type: 'direct',
 }
 
-let compatibleAdded = false
-const config = JSON.parse($files[0])
-const proxies = await produceArtifact({
+let compatible
+let config = JSON.parse($files[0])
+let proxies = await produceArtifact({
   name,
   type: /^1$|col/i.test(type) ? 'collection' : 'subscription',
   platform: 'sing-box',
@@ -16,43 +15,53 @@ const proxies = await produceArtifact({
 
 config.outbounds.push(...proxies)
 
-config.outbounds.forEach(outbound => {
-  if (!Array.isArray(outbound.outbounds)) {
-    return
-  }
+// 提取所有有效节点的 Tag 集合
+let proxyTags = new Set(proxies.map(p => p.tag))
 
-  if (outbound.tag === 'all') {
-    outbound.outbounds.push(...getTags(proxies))
+config.outbounds.map(i => {
+  if (['all', 'all-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies))
   }
-  if (outbound.tag === 'hk') {
-    outbound.outbounds.push(...getTags(proxies, /港|hk|hongkong|hong kong|🇭🇰/i))
+  // 日本策略组：包含 日本、jp、japan、🇯🇵，以及新增的 韩国、kr、korea、🇰🇷
+  if (['jp', 'jp-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵|韩|kr|korea|🇰🇷/i))
   }
-  if (outbound.tag === 'tw') {
-    outbound.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇨🇳/i))
+  // 台区：将正则和旗帜替换为 🇨🇳 (中国)
+  if (['tw', 'tw-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇨🇳/i))
   }
-  if (outbound.tag === 'jp') {
-    outbound.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵|韩国|韓國|韩|韓|kr|korea|🇰🇷/i))
+  if (['sg', 'sg-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i))
   }
-  if (outbound.tag === 'sg') {
-    outbound.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i))
-  }
-  if (outbound.tag === 'us') {
-    outbound.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸|德国|德國|germany|🇬🇧|英国|UK|🇩🇪|澳大利亚|澳洲|australia|🇦🇺/i))
+  // 美国策略组：包含 美、us、unitedstates、🇺🇸，以及新增的 德国、de、germany、🇩🇪、澳、au、australia、🇦🇺、英、uk、united kingdom、🇬🇧
+  if (['us', 'us-auto'].includes(i.tag)) {
+    i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸|德|de|germany|🇩🇪|澳|au|australia|🇦🇺|英|uk|united kingdom|🇬🇧/i))
   }
 })
 
+// 1. 自动处理空策略组（防止启动报错）
 config.outbounds.forEach(outbound => {
-  if (Array.isArray(outbound.outbounds) && outbound.outbounds.length === 0) {
-    if (!compatibleAdded) {
-      config.outbounds.push(compatibleOutbound)
-      compatibleAdded = true
+  if (Array.isArray(outbound.outbounds)) {
+    // 过滤掉依赖中不存在的节点名称
+    outbound.outbounds = outbound.outbounds.filter(tag => proxyTags.has(tag) || ['direct', 'proxy', 'COMPATIBLE', 'GLOBAL', 'hk', 'tw', 'jp', 'sg', 'us', 'all'].includes(tag))
+    
+    if (outbound.outbounds.length === 0) {
+      if (!compatible) {
+        config.outbounds.push(compatible_outbound)
+        compatible = true
+      }
+      outbound.outbounds.push(compatible_outbound.tag);
     }
-    outbound.outbounds.push(compatibleOutbound.tag)
   }
-})
+  
+  // 2. 自动修正单节点 detour 依赖失效问题 (修复 dependency not found 报错)
+  if (outbound.detour && !proxyTags.has(outbound.detour) && !['direct', 'proxy'].includes(outbound.detour)) {
+    delete outbound.detour;
+  }
+});
 
 $content = JSON.stringify(config, null, 2)
 
 function getTags(proxies, regex) {
-  return (regex ? proxies.filter(proxy => regex.test(proxy.tag)) : proxies).map(proxy => proxy.tag)
+  return (regex ? proxies.filter(p => regex.test(p.tag)) : proxies).map(p => p.tag)
 }

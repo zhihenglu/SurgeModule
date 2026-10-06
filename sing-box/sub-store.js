@@ -13,30 +13,27 @@ let proxies = await produceArtifact({
   produceType: 'internal',
 })
 
+// 1. 替换台区国旗 🇹🇼 为 🇨🇳
+// 2. 修复链式代理等情况下国旗（Emoji）与节点名称之间丢失空格的问题
+proxies.forEach(p => {
+  if (p.tag) {
+    p.tag = p.tag.replace(/🇹🇼/g, '🇨🇳');
+    p.tag = p.tag.replace(/([\u{1F1E6}-\u{1F1FF}]{2})([^\s])/gu, '$1 $2');
+  }
+});
+
 config.outbounds.push(...proxies)
 
 // 提取所有有效节点的 Tag 集合
 let proxyTags = new Set(proxies.map(p => p.tag))
 
 config.outbounds.map(i => {
-  if (['all', 'all-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies))
-  }
-  // 日本策略组：包含 日本、jp、japan、🇯🇵，以及新增的 韩国、kr、korea、🇰🇷
-  if (['jp', 'jp-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵|韩|kr|korea|🇰🇷/i))
-  }
-  // 台区：将正则和旗帜替换为 🇨🇳 (中国)
-  if (['tw', 'tw-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇨🇳/i))
-  }
-  if (['sg', 'sg-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /^(?!.*(?:us)).*(新|sg|singapore|🇸🇬)/i))
-  }
-  // 美国策略组：包含 美、us、unitedstates、🇺🇸，以及新增的 德国、de、germany、🇩🇪、澳、au、australia、🇦🇺、英、uk、united kingdom、🇬🇧
-  if (['us', 'us-auto'].includes(i.tag)) {
-    i.outbounds.push(...getTags(proxies, /美|us|unitedstates|united states|🇺🇸|德|de|germany|🇩🇪|澳|au|australia|🇦🇺|英|uk|united kingdom|🇬🇧/i))
-  }
+  if (['all', 'all-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies));
+  if (['jp', 'jp-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies, /日本|jp|japan|🇯🇵|韩|kr|korea|🇰🇷/i));
+  if (['tw', 'tw-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies, /台|tw|taiwan|🇨🇳/i));
+  if (['hk', 'hk-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies, /港|hk|hongkong|🇭🇰/i));
+  if (['sg', 'sg-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies, /新|sg|singapore|🇸🇬/i));
+  if (['us', 'us-auto'].includes(i.tag)) i.outbounds.push(...getTags(proxies, /美|us|unitedstates|🇺🇸|德|de|germany|🇩🇪|澳|au|australia|🇦🇺|英|uk|united kingdom|🇬🇧/i));
 })
 
 // 1. 自动处理空策略组（防止启动报错）

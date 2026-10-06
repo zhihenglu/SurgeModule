@@ -41,15 +41,6 @@
         "action": "reject"
       },
       {
-        "query_type": [
-          "A",
-          "AAAA"
-        ],
-        "action": "route",
-        "server": "fakeip",
-        "rewrite_ttl": 1
-      },
-      {
         "rule_set": "cn_domain",
         "action": "route",
         "server": "ali"
@@ -72,19 +63,6 @@
           "dns"
         ],
         "timeout": "500ms"
-      },
-      {
-        "type": "logical",
-        "mode": "or",
-        "rules": [
-          {
-            "port": 53
-          },
-          {
-            "protocol": "dns"
-          }
-        ],
-        "action": "hijack-dns"
       },
       {
         "ip_is_private": true,

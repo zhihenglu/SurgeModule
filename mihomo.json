@@ -174,9 +174,11 @@ function buildProxyGroups(proxies) {
   const regionDefs = [
     [G.HK, /(香港|港|hong ?kong|hk)/i],
     [G.TW, /(台湾|台灣|台北|taiwan|tw)/i],
-    [G.JP, /(日本|东京|東京|大阪|japan|jp)/i],
+    // JP 组同时收纳韩国节点
+    [G.JP, /(日本|东京|東京|大阪|japan|jp|韩国|韓國|首尔|首爾|korea|kr)/i],
     [G.SG, /(新加坡|狮城|狮|singapore|sg)/i],
-    [G.US, /(美国|美國|洛杉矶|洛杉磯|硅谷|united ?states|america|us)/i]
+    // US 组同时收纳德国、英国、澳大利亚节点
+    [G.US, /(美国|美國|洛杉矶|洛杉磯|硅谷|united ?states|america|us|德国|德國|柏林|法兰克福|法蘭克福|germany|de|英国|英國|伦敦|倫敦|uk|gb|england|澳大利亚|澳大利亞|悉尼|雪梨|墨尔本|墨爾本|australia|au)/i]
   ];
   const regionNames = new Set();
   for (const [name, pattern] of regionDefs) {

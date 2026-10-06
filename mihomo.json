@@ -1,0 +1,388 @@
+/**
+ * Sub-Store → Mihomo/Clash.Meta 配置生成脚本
+ *
+ * 用法：
+ * 1. 在 Sub-Store 中建立「mihomoConfig」类型的文件，订阅源选择
+ *    需要转换的机场/节点订阅，目标平台选择 mihomo/Clash.Meta。
+ * 2. 在该文件的「处理」里添加「脚本操作」，模式选「脚本」，粘贴本脚本。
+ * 3. 下载时使用 target=mihomoConfig（或直接下载该文件）。
+ *
+ * 本脚本按 Sub-Store 当前脚本接口实现：必须导出 main(config)，返回完整配置对象。
+ * 它不会把订阅 URL 写入配置，而是处理 Sub-Store 已经解析出的 proxies。
+ */
+
+const OPTIONS = {
+  // true：每次重新生成策略组；false：保留输入配置中的 proxy-groups
+  REBUILD_PROXY_GROUPS: true,
+
+  // true：每次重新生成规则；false：仅在输入没有 rules 时生成
+  REBUILD_RULES: false,
+
+  // 是否写入 Mihomo 官方 geodata 配置
+  ENABLE_GEODATA: true,
+
+  // 是否写入 DNS、嗅探和基础运行参数
+  ENABLE_RUNTIME_DEFAULTS: true,
+  ENABLE_DNS: true,
+  ENABLE_SNIFFER: true,
+
+  // 是否写入内置 MRS 规则集；设为 false 可完全使用自己的 rule-providers
+  ENABLE_RULE_PROVIDERS: true,
+  OVERWRITE_RULE_PROVIDERS: false,
+
+  // 节点名包含下列内容时剔除。可按自己的机场命名修改。
+  NODE_EXCLUDE: /(剩余流量|套餐|到期时间|到期|官网|网址|邀请|群组|客服|公告|说明|流量|过期)/i,
+
+  // 自动测速地址。可换成自己能访问的 HTTPS 地址。
+  TEST_URL: 'https://www.gstatic.com/generate_204',
+  TEST_INTERVAL: 300,
+  TEST_TOLERANCE: 50,
+
+  // 规则最终匹配策略：PROXY 是本脚本生成的手动选择组
+  FINAL_POLICY: 'PROXY',
+
+  GROUP_NAMES: {
+    MANUAL: 'PROXY',
+    AUTO: '自动选择',
+    FALLBACK: '故障转移',
+    BALANCE: '负载均衡',
+    HK: '香港节点',
+    TW: '台湾节点',
+    JP: '日本节点',
+    SG: '新加坡节点',
+    US: '美国节点',
+    OTHER: '其他地区'
+  }
+};
+
+const RULE_PROVIDER_BASE =
+  'https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta';
+
+function isObject(value) {
+  return value && typeof value === 'object' && !Array.isArray(value);
+}
+
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+function uniq(list) {
+  return Array.from(new Set(list.filter(Boolean)));
+}
+
+function text(value) {
+  return String(value == null ? '' : value).trim();
+}
+
+function cleanProxies(input) {
+  const source = Array.isArray(input) ? input : [];
+  const output = [];
+  const used = new Set();
+  const reserved = new Set([
+    'DIRECT',
+    'REJECT',
+    ...Object.values(OPTIONS.GROUP_NAMES)
+  ]);
+
+  for (const item of source) {
+    if (!isObject(item)) continue;
+    const proxy = clone(item);
+    let name = text(proxy.name);
+    if (!name || OPTIONS.NODE_EXCLUDE.test(name)) continue;
+
+    // 防止节点名与策略组名冲突，避免 Mihomo 解析时引用歧义。
+    if (reserved.has(name)) name = `${name} · 节点`;
+
+    let finalName = name;
+    let index = 2;
+    while (used.has(finalName)) {
+      finalName = `${name} ${index++}`;
+    }
+    proxy.name = finalName;
+    used.add(finalName);
+    output.push(proxy);
+  }
+  return output;
+}
+
+function namesOf(proxies) {
+  return proxies.map(proxy => proxy.name);
+}
+
+function matchNames(proxies, pattern) {
+  return proxies
+    .filter(proxy => pattern.test(proxy.name))
+    .map(proxy => proxy.name);
+}
+
+function selectGroup(name, proxies, extra) {
+  return {
+    name,
+    type: 'select',
+    proxies: uniq([...(extra || []), ...namesOf(proxies)])
+  };
+}
+
+function urlTestGroup(name, proxies) {
+  return {
+    name,
+    type: 'url-test',
+    proxies: namesOf(proxies),
+    url: OPTIONS.TEST_URL,
+    interval: OPTIONS.TEST_INTERVAL,
+    tolerance: OPTIONS.TEST_TOLERANCE,
+    lazy: true
+  };
+}
+
+function fallbackGroup(name, proxies) {
+  return {
+    name,
+    type: 'fallback',
+    proxies: namesOf(proxies),
+    url: OPTIONS.TEST_URL,
+    interval: OPTIONS.TEST_INTERVAL,
+    lazy: true
+  };
+}
+
+function buildProxyGroups(proxies) {
+  const G = OPTIONS.GROUP_NAMES;
+  const nodeNames = namesOf(proxies);
+  const auto = nodeNames.length ? nodeNames : ['DIRECT'];
+  const groups = [
+    selectGroup(G.MANUAL, proxies, [G.AUTO, G.FALLBACK, G.BALANCE, 'DIRECT']),
+    {
+      ...urlTestGroup(G.AUTO, proxies),
+      proxies: uniq(auto)
+    },
+    {
+      ...fallbackGroup(G.FALLBACK, proxies),
+      proxies: uniq([...nodeNames, 'DIRECT'])
+    },
+    {
+      name: G.BALANCE,
+      type: 'load-balance',
+      strategy: 'consistent-hashing',
+      proxies: uniq(auto),
+      url: OPTIONS.TEST_URL,
+      interval: OPTIONS.TEST_INTERVAL,
+      lazy: true
+    }
+  ];
+
+  const regionDefs = [
+    [G.HK, /(香港|港|hong ?kong|hk)/i],
+    [G.TW, /(台湾|台灣|台北|taiwan|tw)/i],
+    [G.JP, /(日本|东京|東京|大阪|japan|jp)/i],
+    [G.SG, /(新加坡|狮城|狮|singapore|sg)/i],
+    [G.US, /(美国|美國|洛杉矶|洛杉磯|硅谷|united ?states|america|us)/i]
+  ];
+  const regionNames = new Set();
+  for (const [name, pattern] of regionDefs) {
+    const selected = matchNames(proxies, pattern);
+    selected.forEach(item => regionNames.add(item));
+    if (selected.length) {
+      groups.push({
+        name,
+        type: 'select',
+        proxies: uniq([G.AUTO, G.FALLBACK, ...selected])
+      });
+    }
+  }
+
+  const other = nodeNames.filter(name => !regionNames.has(name));
+  if (other.length) {
+    groups.push({
+      name: G.OTHER,
+      type: 'select',
+      proxies: uniq([G.AUTO, G.FALLBACK, ...other])
+    });
+  }
+  return groups;
+}
+
+function buildRuleProviders() {
+  return {
+    ads: {
+      type: 'http',
+      behavior: 'domain',
+      format: 'mrs',
+      url: `${RULE_PROVIDER_BASE}/geo/geosite/category-ads-all.mrs`,
+      path: './ruleset/ads.mrs',
+      interval: 86400
+    },
+    private: {
+      type: 'http',
+      behavior: 'domain',
+      format: 'mrs',
+      url: `${RULE_PROVIDER_BASE}/geo/geosite/private.mrs`,
+      path: './ruleset/private.mrs',
+      interval: 86400
+    },
+    cn: {
+      type: 'http',
+      behavior: 'domain',
+      format: 'mrs',
+      url: `${RULE_PROVIDER_BASE}/geo/geosite/cn.mrs`,
+      path: './ruleset/cn.mrs',
+      interval: 86400
+    },
+    'geolocation-!cn': {
+      type: 'http',
+      behavior: 'domain',
+      format: 'mrs',
+      url: `${RULE_PROVIDER_BASE}/geo/geosite/geolocation-!cn.mrs`,
+      path: './ruleset/geolocation-!cn.mrs',
+      interval: 86400
+    },
+    'cn-ip': {
+      type: 'http',
+      behavior: 'ipcidr',
+      format: 'mrs',
+      url: `${RULE_PROVIDER_BASE}/geo/geoip/cn.mrs`,
+      path: './ruleset/cn-ip.mrs',
+      interval: 86400
+    }
+  };
+}
+
+function buildRules(finalPolicy) {
+  return [
+    'RULE-SET,ads,REJECT',
+    'RULE-SET,private,DIRECT',
+    'RULE-SET,cn,DIRECT',
+    'RULE-SET,cn-ip,DIRECT',
+    `RULE-SET,geolocation-!cn,${finalPolicy}`,
+    `MATCH,${finalPolicy}`
+  ];
+}
+
+function applyRuntimeDefaults(config) {
+  const defaults = {
+    'mixed-port': 7890,
+    'allow-lan': false,
+    mode: 'rule',
+    'log-level': 'info',
+    'unified-delay': true,
+    'tcp-concurrent': true,
+    'find-process-mode': 'off',
+    'global-client-fingerprint': 'chrome',
+    profile: {
+      'store-selected': true,
+      'store-fake-ip': true
+    }
+  };
+  for (const [key, value] of Object.entries(defaults)) {
+    if (config[key] == null) config[key] = value;
+  }
+}
+
+function applyGeodata(config) {
+  if (!OPTIONS.ENABLE_GEODATA) return;
+  config['geodata-mode'] = true;
+  config['geodata-loader'] = config['geodata-loader'] || 'standard';
+  if (config['geo-auto-update'] == null) config['geo-auto-update'] = true;
+  if (config['geo-update-interval'] == null) config['geo-update-interval'] = 24;
+  config['geox-url'] = {
+    geoip: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.dat',
+    geosite: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat',
+    mmdb: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb',
+    asn: 'https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/ASN.mmdb',
+    ...(config['geox-url'] || {})
+  };
+}
+
+function applyDns(config) {
+  if (!OPTIONS.ENABLE_DNS || config.dns) return;
+  config.dns = {
+    enable: true,
+    ipv6: false,
+    'prefer-h3': true,
+    'use-hosts': true,
+    'enhanced-mode': 'fake-ip',
+    'fake-ip-range': '198.18.0.1/16',
+    'fake-ip-filter-mode': 'blacklist',
+    'fake-ip-filter': [
+      '*.lan',
+      '*.local',
+      'localhost.ptlogin2.qq.com',
+      '+.msftconnecttest.com',
+      '+.msftncsi.com',
+      'time.*.com',
+      'time.*.gov',
+      'time.*.edu.cn',
+      'time.*.apple.com',
+      '*.ntp.org.cn',
+      '+.pool.ntp.org',
+      '+.stun.*'
+    ],
+    nameserver: [
+      'https://doh.pub/dns-query',
+      'https://dns.alidns.com/dns-query'
+    ],
+    fallback: [
+      'https://1.1.1.1/dns-query',
+      'https://8.8.8.8/dns-query'
+    ],
+    'fallback-filter': {
+      geoip: true,
+      'geoip-code': 'CN',
+      geosite: ['gfw'],
+      ipcidr: ['240.0.0.0/4', '0.0.0.0/32']
+    }
+  };
+}
+
+function applySniffer(config) {
+  if (!OPTIONS.ENABLE_SNIFFER || config.sniffer) return;
+  config.sniffer = {
+    enable: true,
+    'parse-pure-ip': true,
+    sniff: {
+      HTTP: { ports: [80, '8080-8880'], 'override-destination': true },
+      TLS: { ports: [443, 8443] },
+      QUIC: { ports: [443, 8443] }
+    }
+  };
+}
+
+/*
+ * 重要：本脚本只用于 Sub-Store 的 mihomoConfig 文件，
+ * 入口必须是 main(config)，不要再额外声明 operator(input)。
+ */
+function main(input) {
+  const config = isObject(input) ? clone(input) : {};
+  const proxies = cleanProxies(config.proxies);
+  config.proxies = proxies;
+
+  if (OPTIONS.ENABLE_RUNTIME_DEFAULTS) applyRuntimeDefaults(config);
+  applyGeodata(config);
+  applyDns(config);
+  applySniffer(config);
+
+  const groups = buildProxyGroups(proxies);
+  const finalPolicy = proxies.length ? OPTIONS.FINAL_POLICY : 'DIRECT';
+  if (OPTIONS.REBUILD_PROXY_GROUPS || !Array.isArray(config['proxy-groups'])) {
+    config['proxy-groups'] = groups;
+  }
+
+  if (OPTIONS.ENABLE_RULE_PROVIDERS) {
+    const providers = buildRuleProviders();
+    config['rule-providers'] = {
+      ...(isObject(config['rule-providers']) ? config['rule-providers'] : {}),
+      ...Object.fromEntries(
+        Object.entries(providers).filter(([name]) =>
+          OPTIONS.OVERWRITE_RULE_PROVIDERS || !config['rule-providers']?.[name]
+        )
+      )
+    };
+  }
+
+  if (OPTIONS.REBUILD_RULES || !Array.isArray(config.rules) || !config.rules.length) {
+    config.rules = buildRules(finalPolicy);
+  }
+
+  // Sub-Store 会把返回对象重新序列化为 YAML；不要在这里 JSON.stringify。
+  return config;
+}

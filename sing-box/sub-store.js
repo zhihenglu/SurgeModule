@@ -13,6 +13,13 @@ let proxies = await produceArtifact({
   produceType: 'internal',
 })
 
+// 修复链式代理等情况下国旗（Emoji）与节点名称之间丢失空格的问题
+proxies.forEach(p => {
+  if (p.tag) {
+    p.tag = p.tag.replace(/([\u{1F1E6}-\u{1F1FF}]{2})([^\s])/gu, '$1 $2');
+  }
+});
+
 config.outbounds.push(...proxies)
 
 // 提取所有有效节点的 Tag 集合

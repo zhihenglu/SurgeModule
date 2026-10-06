@@ -482,7 +482,6 @@
         "fdfe:dcba:9876::0/126"
       ],
       "auto_route": true,
-      "stack": "system",
       "platform": {
         "http_proxy": {
           "enabled": true,

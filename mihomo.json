@@ -78,7 +78,7 @@ function cleanProxies(input) {
     if (!item || typeof item !== 'object') continue;
     let name = String(item.name ?? '').trim();
     if (!name || OPTIONS.NODE_EXCLUDE.test(name)) continue;
-    // 台区国旗 🇹🇼 → 🇨🇳；修复国旗与名称之间丢失的空格
+    // 1. 替换台区国旗 🇹🇼 为 🇨🇳；2. 修复国旗与名称之间丢失的空格
     name = name.replace(/🇹🇼/g, '🇨🇳').replace(/([\u{1F1E6}-\u{1F1FF}]{2})([^\s])/gu, '$1 $2');
     if (reserved.has(name)) name = `${name} · 节点`;
     let final = name, i = 2;
@@ -160,8 +160,12 @@ function main(input) {
       ipv6: true,
       'enhanced-mode': 'fake-ip',
       'fake-ip-range': '198.18.0.1/16',
-      'fake-ip-filter-mode': 'blacklist',
-      'fake-ip-filter': ['rule-set:cn_domain', '+.lan', '+.local'],
+      'fake-ip-filter-mode': 'rule',
+      'fake-ip-filter': [
+        'RULE-SET,cn_domain,real-ip',
+        'DOMAIN-SUFFIX,lan',
+        'DOMAIN-SUFFIX,local'
+      ],
       'default-nameserver': ['223.5.5.5'],
       'proxy-server-nameserver': ['https://223.5.5.5/dns-query'],
       'direct-nameserver': ['https://223.5.5.5/dns-query'],

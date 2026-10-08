@@ -30,8 +30,8 @@ const REGIONS = ['hk', 'tw', 'jp', 'sg', 'us'];
 
 // 业务分组：[名称, 默认是否直连]
 const SERVICE_GROUPS = [
-  ['google', false], ['apple', true], ['telegram', false], ['bilibili', true],
-  ['netflix', false], ['bahamut', false], ['youtube', false], ['openai', false],
+  ['google', false], ['apple', true], ['telegram', false],
+  ['youtube', false], ['openai', false],
   ['cn', true], ['final', false],
 ];
 
@@ -39,14 +39,10 @@ const SERVICE_GROUPS = [
 const RULE_SETS = [
   ['apple_ip', 'ipcidr', 'geo-lite/geoip/apple'],
   ['apple_domain', 'domain', 'geo-lite/geosite/apple'],
-  ['bahamut_domain', 'domain', 'geo-lite/geosite/bahamut'],
-  ['bilibili_domain', 'domain', 'geo-lite/geosite/bilibili'],
   ['cn_ip', 'ipcidr', 'geo/geoip/cn'],
   ['cn_domain', 'domain', 'geo-lite/geosite/cn'],
   ['google_ip', 'ipcidr', 'geo-lite/geoip/google'],
   ['google_domain', 'domain', 'geo-lite/geosite/google'],
-  ['netflix_ip', 'ipcidr', 'geo-lite/geoip/netflix'],
-  ['netflix_domain', 'domain', 'geo-lite/geosite/netflix'],
   ['openai_domain', 'domain', 'geo/geosite/openai'],
   ['proxy_domain', 'domain', 'geo/geosite/geolocation-!cn'],
   ['telegram_ip', 'ipcidr', 'geo-lite/geoip/telegram'],
@@ -60,13 +56,9 @@ const RULES = [
   'IP-CIDR,192.168.0.0/16,DIRECT,no-resolve',
   'IP-CIDR,127.0.0.0/8,DIRECT,no-resolve',
   'IP-CIDR6,fc00::/7,DIRECT,no-resolve',
-  'RULE-SET,bilibili_domain,bilibili',
-  'RULE-SET,netflix_ip,netflix,no-resolve',
-  'RULE-SET,netflix_domain,netflix',
-  'RULE-SET,bahamut_domain,bahamut',
   'RULE-SET,youtube_domain,youtube',
   'RULE-SET,openai_domain,openai',
-  'AND,((RULE-SET,proxy_domain),(NOT,((OR,((RULE-SET,cn_domain),(RULE-SET,apple_domain),(RULE-SET,google_domain),(RULE-SET,telegram_domain),(RULE-SET,netflix_domain)))))),proxy',
+  'AND,((RULE-SET,proxy_domain),(NOT,((OR,((RULE-SET,cn_domain),(RULE-SET,apple_domain),(RULE-SET,google_domain),(RULE-SET,telegram_domain)))))),proxy',
   'RULE-SET,telegram_domain,telegram',
   'RULE-SET,telegram_ip,telegram',
   'RULE-SET,google_domain,google',

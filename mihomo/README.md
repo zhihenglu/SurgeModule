@@ -1,33 +1,30 @@
-# Mihomo 配置变更说明文档
+# Mihomo 配置维护与上游更新
 
-## 概述
-本配置文件适用于 **Mihomo (Clash Meta) 内核**，旨在提供高效、稳定且智能的分流体验。当前配置已针对最新版内核特性进行优化。
+> 核对日期：2026-10-11。`mihomo.json` 是 Sub-Store 脚本，生成完整 Mihomo 配置；订阅实际包含哪些节点取决于运行时输入。
 
-## 主要变更点
+## 上游版本
 
-### 1. 策略组逻辑优化 (2026-10-08)
-- **国旗归一化**：自动将所有台区国旗 (`🇹🇼`) 替换为中国国旗 (`🇨🇳`)，保持显示统一。
-- **排版修正**：增强了脚本的正则表达式，自动修复链式代理生成节点时 Emoji 国旗与后续节点名之间丢失空格的问题，排版更加美观。
-- **策略组扩展**：
-  - **日本组 (`jp`)**：新增韩国节点 (`🇰🇷`) 覆盖。
-  - **美国组 (`us`)**：新增德国 (`🇩🇪`)、澳大利亚 (`🇦🇺`) 及英国 (`🇬🇧`) 节点覆盖。
+- **最新稳定版：v1.19.32**，发布于 2026-09-30（UTC）。该版本加入负载均衡 `hash-key`（可按入站用户固定会话），并包含 TCP MSS、MIP 栈、OpenVPN、EasyTier 等修复和维护更新。
+- **相关前序版本：v1.19.31**，新增 EasyTier 出站、ZeroTier `identity-secret` 支持及 TUN `stack: mips` 配置支持。
+- 上述新功能不都适用于当前策略：本配置没有负载均衡组、EasyTier 或 ZeroTier 节点，因此不会为了“用上新功能”而加入无关选项。
 
-### 2. DNS 配置升级 (2026-10-08)
-- **模式切换**：将 `fake-ip-filter-mode` 从原有的 `blacklist` 升级为 **`rule` 模式**。
-- **优势**：
-  - 支持更灵活的过滤规则。
-  - 强制 `cn_domain` 解析为真实 IP，确保国内流量完全直连，减少内核负载并提高 DNS 解析成功率。
+## 本仓库配置更新
 
-### 3. 内核兼容性适配
-- **TUN 配置**：已适配最新版规范，确保在高性能自研 TUN 栈下工作稳定。
-- **规则集引用**：继续使用 `MetaCubeX/meta-rules-dat` 的 `mrs` 二进制格式，实现极速加载与低内存占用。
+- **修复 fake-IP 规则格式**：配置使用 `fake-ip-filter-mode: rule` 时，过滤规则必须显式指定 `fake-ip` 或 `real-ip` 动作。为 `lan` 与 `local` 后缀补上 `real-ip`；`cn_domain` 规则集原本已指定 `real-ip`。此修改修复了 v1.19.32 实际配置检查报出的 `invalid action` 错误。
+- **保留 `mixed` TUN 栈**：上游现已支持 MIPS 自研栈，但官方配置说明仍将 `mixed` 描述为无兼容问题时推荐的选项（TCP 使用 system，UDP 使用 gVisor）。因此本次保留既有 `mixed` 行为，不未经目标设备测试就切换到 `mips`。
+- **规则集**：继续采用 `MetaCubeX/meta-rules-dat` 的 `.mrs` 格式，并保留现有 DNS、分流、策略组和订阅节点筛选逻辑。
+- **策略组**：保留当前地区和服务组逻辑；脚本会依据订阅生成实际节点列表并处理空地区组。
 
----
+## 校验记录
 
-## 自动化维护状态
-该配置文件现在处于自动化维护队列中：
-- **检查频率**：每月 30 日定时触发。
-- **自动化操作**：自动检测官方更新 -> 适配语法 -> 同步并推送至 `zhihenglu/SurgeModule`。
+使用 Mihomo **v1.19.32** 和一个代表性测试节点生成配置并运行 `mihomo -t`。修正前，校验因 `DOMAIN-SUFFIX,lan` 缺少 rule action 失败；补齐 `real-ip` 后，生成配置校验通过。生产配置仍取决于订阅输入及目标平台，建议更新内核后在实际设备上验证 TUN 连通性。
 
----
-*若需查看完整脚本逻辑，请参考 GitHub 仓库中的 `mihomo.json` 文件。*
+## 上游来源
+
+- [Mihomo v1.19.32 发布说明](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32)
+- [Mihomo v1.19.31 发布说明](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.31)
+- [Mihomo 上游发布列表](https://github.com/MetaCubeX/mihomo/releases)
+- [Mihomo TUN 官方配置说明](https://wiki.metacubex.one/en/config/inbound/tun/)
+- [Mihomo DNS 官方配置说明](https://wiki.metacubex.one/en/config/dns/)
+
+> 本文只记录可从仓库文件、上游发布页或官方配置文档核实的状态，不再声称该目录已接入定时自动更新或自动推送。

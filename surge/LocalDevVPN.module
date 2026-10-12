@@ -1,0 +1,10 @@
+#!name=Local Device Loopback
+#!desc=Reflect 10.7.0.1 back to this device for on-device developer tools.（Surge 测试版 [IP Rewrite] 新特性示例模块，来源：https://t.me/NobyDa/1141）
+#!author=NobyDa
+
+[General]
+ipv6-vif = disabled
+tun-included-routes = %INSERT% 10.7.0.1/32
+
+[IP Rewrite]
+10.7.0.1 = reflect

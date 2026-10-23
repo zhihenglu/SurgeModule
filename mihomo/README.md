@@ -1,17 +1,17 @@
 # Mihomo 配置维护与上游更新
 
-> 核对日期：2026-10-19。`mihomo.json` 是 Sub-Store 配置生成脚本；生成的完整配置及节点列表取决于运行时订阅输入。
+> 核对日期：2026-10-23。`mihomo.json` 是 Sub-Store 配置生成脚本；生成的完整配置及节点列表取决于运行时订阅输入。
 
 ## 上游版本
 
-- **最新稳定版：v1.19.32**，发布于 2026-09-30（UTC）。该版本包含负载均衡 `hash-key`、MIP 栈、TCP MSS 等功能或维护变化；其中 TUN 栈默认值已调整为 `mips`。
+- **最新稳定版：v1.19.33**，发布于 2026-10-21（UTC）。本版主要包含 Shadowsocks 监听器关闭、DoH 连接堆积、`dialer-proxy` 环检测、TLS 安全修复、Fake-IP 重载状态及负载均衡测试等修复与维护更新。
 - **最新预发布通道：Prerelease-Alpha**（滚动预览，不是固定的语义化版本号）。官方发布说明显示 Alpha 分支同步时间为 2026-10-13 22:26:56（CST）；继续包含 DoH 查询连接管理、Fake-IP 重载分配状态及 Mieru 依赖更新。
 - 相比上次核查，Alpha 说明新增三项修复：嵌入式 Shadowsocks 监听器关闭后正确退出 accept 循环；避免亚毫秒 URL 测试被误报为失败；改善 `dialer-proxy` 环检测的时间及内存开销。均不要求本配置迁移字段。
 - 当前脚本显式设置 `tun.stack: mixed`，因此不受稳定版默认栈调整影响。本轮保留该配置，以避免未经目标设备测试而改变既有 TUN 行为。
 
 ## 本仓库配置更新结论
 
-- 稳定版及当前 Alpha 预览说明没有要求本配置迁移字段的变更；Alpha 的相关实现修复无须改写现有 DNS、策略组或 `dialer-proxy` 字段，也不以预发布内核替代稳定版作为验证基线。
+- 稳定版 v1.19.33 及当前 Alpha 预览说明没有要求本配置迁移字段的变更；相关修复无须改写现有 DNS、策略组或 `dialer-proxy` 字段，也不以预发布内核替代稳定版作为验证基线。
 - 保留 `fake-ip-filter-mode: rule` 下已显式注明 `real-ip` 的规则动作：`cn_domain` 规则集及 `lan`、`local` 后缀规则均已指定动作。
 - 继续采用 `MetaCubeX/meta-rules-dat` 的 `.mrs` 规则集，并保留现有 DNS、分流、策略组、订阅节点筛选及空地区组处理逻辑。本轮无需更改 `mihomo.json`。
 
@@ -27,9 +27,12 @@
 | 2026-10-11 10:16（CST） | Prerelease-Alpha（滚动预览） | 发布说明列出 DoH 连接管理、Fake-IP 重载状态及 Mieru 维护更新；未发现需要本配置迁移的字段。 |
 | 2026-10-13 22:26:56（CST） | Prerelease-Alpha（滚动预览） | 新增监听器关闭、亚毫秒 URL 测试及 `dialer-proxy` 环检测修复；不更改现有配置。 |
 | 2026-10-19（UTC） | 例行核查 | 稳定版仍为 v1.19.32；空订阅和示例节点生成配置均通过稳定版检查。 |
+| 2026-10-21（UTC） | v1.19.33（稳定） | 主要为修复与维护；未发现需要本配置迁移的字段，保留显式 `mixed` TUN 栈及现有 Fake-IP 规则。 |
+| 2026-10-23（UTC） | 手动核查 | 已确认 v1.19.33 为最新稳定版；本次不修改 `mihomo.json`，现有 v1.19.32 结构校验记录继续有效，建议在目标设备使用 v1.19.33 进行实际启动验证。 |
 
 ## 上游来源
 
+- [Mihomo v1.19.33 发布说明](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.33)
 - [Mihomo v1.19.32 发布说明](https://github.com/MetaCubeX/mihomo/releases/tag/v1.19.32)
 - [Mihomo Prerelease-Alpha 发布说明](https://github.com/MetaCubeX/mihomo/releases/tag/Prerelease-Alpha)
 - [Mihomo 上游发布列表](https://github.com/MetaCubeX/mihomo/releases)

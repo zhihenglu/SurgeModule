@@ -1,16 +1,23 @@
 # Surge 配置维护与上游更新
 
-> 核对日期：2026-10-12。`Surge.conf` 是可直接导入 Surge 5（iOS/macOS）的完整配置模板；节点与订阅地址需使用者自行填写，规则集引用上游公开仓库地址，不随本仓库分发。
+> 核对日期：2026-11-06。`Surge.conf` 是可直接导入 Surge 5 / Surge 6（iOS/macOS）的完整配置模板；节点与订阅地址需使用者自行填写，规则集引用上游公开仓库地址，不随本仓库分发。
 
 ## 上游版本
 
-- **Surge 5（iOS/macOS）**：配置按 Surge 5 语法编写；`[Rule]` 中大规则集使用了 `extended-matching`，需要 Surge 5.8.0 及以上版本。
+- **Surge iOS 稳定版：5.23.0**（2026-10-12 发布）。5.22 起的新特性：MASQUE 代理（基于 HTTP/3，自带 UDP 转发）、策略组级代理链（组级 `underlying-proxy`）、`event-script` 事件（`engine-started` / `profile-reloaded`）、Smart 组优先级编辑器、HTTP Controller 的 Prometheus `/metrics` 接口。
+- **Surge iOS 6（TestFlight 测试版）**：面向 iOS 26 重构，新增 MCP 服务端（`http-api` + `http-api-mcp = true`，让 AI 客户端控制 Surge，默认关闭）、配置版本历史（Profile History）、规则集条目上限取消、内置 SOCKS5 支持 UDP 转发、QUIC 自适应拦截（仅拦截能回落 TCP 的 App）。App Store 仍为 Surge 5。介绍页：https://nssurge.com/surge-ios-6
 - **Surge 测试版新特性 [IP Rewrite]**：在 VIF 的 IP 层按目标地址处理数据包（`reflect` / `reject` / `drop`），先于任何规则与策略生效。来源：NobyDa 频道 https://t.me/NobyDa/1141 ；本仓库 `surge/LocalDevVPN.module` 即该帖示例模块（本机开发回环），已接入 `Surge.conf` 的 `[Module]` 段。**该模块仅在含 [IP Rewrite] 的测试版上可用**，稳定版会忽略该段。
-- **规则集上游**（`blackmatrix7/ios_rule_script`，`raw.githubusercontent.com` 直引）：
+- **规则集上游**（`blackmatrix7/ios_rule_script`，`raw.githubusercontent.com` 直引，2026-11-06 复核全部有效）：
   - 国际：`rule/Surge/Global/Global.list` → 代理
   - 国内：`rule/Surge/China/China.list` → 直连
   - AI：`OpenAI` / `Claude` / `Anthropic` / `Gemini` / `Copilot` → 🤖 AI 助手策略组
 - **模块**：`[Module]` 段仅引用 `LocalDevVPN.module`（测试版特性示例），通过 `raw.githubusercontent.com/zhihenglu/SurgeModule/master/surge/` 直引，随本仓库更新自动生效；本仓库自有模块未接入本配置。
+
+## 本轮适配结论（2026-11-06）
+
+- 规则集地址、规则分类（AI / 国际 / 国内）与策略组结构均无上游破坏性变化，`[Rule]` 段保持不变。
+- 新版本能力以**注释示例**形式预置在配置中，默认不启用，需要时取消注释即可：`block-quic = all-proxy`（全局 QUIC 策略，5.14.6+）、`http-api` + `http-api-mcp`（Surge 6 MCP，密钥即全部权限、仅限可信网络）、MASQUE 代理行（5.22.0+）、`event-script` 事件脚本（5.22.0+）、组级 `underlying-proxy` 代理链说明（5.22.0+）。
+- `extended-matching` 仍需 Surge 5.8.0+；Surge 6 已取消规则集条目上限，本配置的规则量级不受影响。
 
 ## 本仓库配置与维护结论
 

@@ -1,11 +1,13 @@
 # Surge 配置维护与上游更新
 
-> 核对日期：2026-11-06。`Surge.conf` 是可直接导入 Surge 5 / Surge 6（iOS/macOS）的完整配置模板；节点与订阅地址需使用者自行填写，规则集引用上游公开仓库地址，不随本仓库分发。
+> 核对日期：2026-11-16。`Surge.conf` 是可直接导入 Surge 5 / Surge 6（iOS/macOS）的完整配置模板；节点与订阅地址需使用者自行填写，规则集引用上游公开仓库地址，不随本仓库分发。
 
 ## 上游版本
 
-- **Surge iOS 稳定版：5.23.0**（2026-10-12 发布）。5.22 起的新特性：MASQUE 代理（基于 HTTP/3，自带 UDP 转发）、策略组级代理链（组级 `underlying-proxy`）、`event-script` 事件（`engine-started` / `profile-reloaded`）、Smart 组优先级编辑器、HTTP Controller 的 Prometheus `/metrics` 接口。
+- **Surge iOS 稳定版：5.23.0**（2026-10-12 发布），仍为 App Store 最新版。5.22 起的新特性：MASQUE 代理（基于 HTTP/3，自带 UDP 转发）、策略组级代理链（组级 `underlying-proxy`）、`event-script` 事件（`engine-started` / `profile-reloaded`）、Smart 组优先级编辑器、HTTP Controller 的 Prometheus `/metrics` 接口。
 - **Surge iOS 6（TestFlight 测试版）**：面向 iOS 26 重构，新增 MCP 服务端（`http-api` + `http-api-mcp = true`，让 AI 客户端控制 Surge，默认关闭）、配置版本历史（Profile History）、规则集条目上限取消、内置 SOCKS5 支持 UDP 转发、QUIC 自适应拦截（仅拦截能回落 TCP 的 App）。App Store 仍为 Surge 5。介绍页：https://nssurge.com/surge-ios-6
+- **Surge Mac 6.11.0 正式版**（2026-11-10 发布，与 Surge iOS 6 共享引擎）：新增 `[MITM] server-certificates`（用自有证书解密指定域名，适合证书锁定 / 不信任用户 CA 的 App）、`[General] log-file-size-limit`（日志文件大小上限，单位 MB，未设置时 iOS 默认 50 MB、Mac 默认 200 MB）、`socks5-listen` 支持 `username:password@` 认证。
+- **Surge 6.12.0 Beta**（2026-11-15 发布，Surge iOS 6 测试版同引擎）：新增 **`vless` 代理协议**——RAW / WebSocket / gRPC / XHTTP 传输，TLS / REALITY / VLESS Encryption（`encryption`，ML-KEM-768 + X25519）加密，支持 `xtls-rprx-vision` 流与 `vless://` 分享链接导入；另新增 `ws-http-upgrade=true`（VMess / Trojan / VLESS 切 HTTPUpgrade 传输）、TrustTunnel `client-random-auth-key`、加密 DNS 跟随 `dns-follow-interface`、DNS 查询 1 / 2 / 4 秒重发、5 秒无应答即失败。手册：https://manual.nssurge.com/policies/vless.html 。**稳定版 5.23.0 暂不支持 VLESS**，需 Surge iOS 6 测试版或 Mac 6.12.0+。
 - **Surge 测试版新特性 [IP Rewrite]**：在 VIF 的 IP 层按目标地址处理数据包（`reflect` / `reject` / `drop`），先于任何规则与策略生效。来源：NobyDa 频道 https://t.me/NobyDa/1141 ；本仓库 `surge/LocalDevVPN.module` 即该帖示例模块（本机开发回环），已接入 `Surge.conf` 的 `[Module]` 段。**该模块仅在含 [IP Rewrite] 的测试版上可用**，稳定版会忽略该段。
 - **规则集上游**（`blackmatrix7/ios_rule_script`，`raw.githubusercontent.com` 直引，2026-11-06 复核全部有效）：
   - 国际：`rule/Surge/Global/Global.list` → 代理
@@ -13,10 +15,10 @@
   - AI：`OpenAI` / `Claude` / `Anthropic` / `Gemini` / `Copilot` → 🤖 AI 助手策略组
 - **模块**：`[Module]` 段仅引用 `LocalDevVPN.module`（测试版特性示例），通过 `raw.githubusercontent.com/zhihenglu/SurgeModule/master/surge/` 直引，随本仓库更新自动生效；本仓库自有模块未接入本配置。
 
-## 本轮适配结论（2026-11-06）
+## 本轮适配结论（2026-11-16）
 
 - 规则集地址、规则分类（AI / 国际 / 国内）与策略组结构均无上游破坏性变化，`[Rule]` 段保持不变。
-- 新版本能力以**注释示例**形式预置在配置中，默认不启用，需要时取消注释即可：`block-quic = all-proxy`（全局 QUIC 策略，5.14.6+）、`http-api` + `http-api-mcp`（Surge 6 MCP，密钥即全部权限、仅限可信网络）、MASQUE 代理行（5.22.0+）、`event-script` 事件脚本（5.22.0+）、组级 `underlying-proxy` 代理链说明（5.22.0+）。
+- 新版本能力以**注释示例**形式预置在配置中，默认不启用，需要时取消注释即可：`block-quic = all-proxy`（全局 QUIC 策略，5.14.6+）、`http-api` + `http-api-mcp`（Surge 6 MCP，密钥即全部权限、仅限可信网络）、MASQUE 代理行（5.22.0+）、`event-script` 事件脚本（5.22.0+）、组级 `underlying-proxy` 代理链说明（5.22.0+）；本轮新增：VLESS 代理示例三行（RAW + REALITY + Vision、WebSocket + TLS、XHTTP + REALITY，另附 `encryption` 与 `ws-http-upgrade` 说明，仅 Surge iOS 6 测试版 / Mac 6.12.0+ 可用）、`[MITM] server-certificates`（6.11.0+）、`[General] log-file-size-limit`（6.11.0+）。
 - `extended-matching` 仍需 Surge 5.8.0+；Surge 6 已取消规则集条目上限，本配置的规则量级不受影响。
 
 ## 本仓库配置与维护结论
